@@ -23,4 +23,9 @@ public class CategoryserviceImpl implements CategoryService{
     public Category dlete(Category category) {
         return null;
     }
+
+    @Override
+    public List<Category> getAll() {
+        return null;
+    }
 }
