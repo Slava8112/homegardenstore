@@ -1,7 +1,6 @@
 package telran.org.scotlandyard.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,12 +21,17 @@ public class Cartitems {
 
     private int quantity;
 
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    @JsonBackReference
+    @ToString.Exclude
+    private Cart cart;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "cartitem_id")
     private Set<Cart> carts = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "cartitem_id")
-    private Product product;
-
+    private Set<Product> products = new HashSet<>();
 }

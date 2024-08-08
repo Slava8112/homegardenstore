@@ -1,10 +1,8 @@
 package telran.org.scotlandyard.service;
 
-import telran.org.scotlandyard.entity.Category;
 import telran.org.scotlandyard.entity.Product;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ProductService {
 
