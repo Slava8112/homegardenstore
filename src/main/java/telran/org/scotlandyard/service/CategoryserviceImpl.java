@@ -1,12 +1,14 @@
 package telran.org.scotlandyard.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import telran.org.scotlandyard.entity.Category;
 
 import java.util.List;
 
 @Service
-public class CategoryserviceImpl implements CategoryService{
+@RequiredArgsConstructor
+public class CategoryserviceImpl implements CategoryService {
 
 
     @Override
@@ -26,6 +28,7 @@ public class CategoryserviceImpl implements CategoryService{
 
     @Override
     public List<Category> getAll() {
-        return null;
+
+        return List.of();
     }
 }

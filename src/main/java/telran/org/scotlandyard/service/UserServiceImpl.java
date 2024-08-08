@@ -1,19 +1,22 @@
 package telran.org.scotlandyard.service;
 
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import telran.org.scotlandyard.entity.User_out;
-import telran.org.scotlandyard.entity.User_out;
-import telran.org.scotlandyard.repository.UserReposit;
 import telran.org.scotlandyard.repository.UserReposit;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-   @Autowired
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+    @Autowired
    public UserReposit userReposit;
 
 
@@ -25,6 +28,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User_out getById(Long id) {
         User_out user_out = userReposit.findById(id).get();
+        UserServiceImpl.log.debug("User with id {}, was created , User {}", user_out.getId(), user_out);
         return user_out;
     }
 

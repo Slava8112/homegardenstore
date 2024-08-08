@@ -4,7 +4,7 @@ import telran.org.scotlandyard.entity.Cart;
 
 public interface CartService {
 
-    Cart add(Cart cart, Long cart_id);
+    Cart create(Cart cart);
 
-
+    void delete(Long cart_id);
 }

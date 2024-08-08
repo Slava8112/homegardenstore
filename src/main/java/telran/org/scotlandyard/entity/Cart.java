@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "carts")
 @Setter
@@ -25,4 +28,7 @@ public class Cart {
     @JsonBackReference
     private User_out user_out;
 
+    @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<Cartitems> cartitems = new HashSet<>();
 }
