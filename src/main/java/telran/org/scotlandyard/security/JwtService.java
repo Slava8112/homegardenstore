@@ -24,6 +24,7 @@ public class JwtService {
 
     public JwtService(@Value("ZHNmc2Rmc2Rmc2RmZHNmIGVyIHdyZSB0ZXdydHJ0IGV3cnQgZXJ0IGVyZ3RnIHRnZHNkZmRzZiBzZGFkIGZhc2RmNHR0NSBzcmdzIGZnNDU2IDNxNHF0NHQgZzM1eSBnd2VyZyA") String jwttokenSigningKey){
         this.secretSigningKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwttokenSigningKey));
+
     }
     // Генерация токена
     public String generateToken(UserDetails userDetails) {
