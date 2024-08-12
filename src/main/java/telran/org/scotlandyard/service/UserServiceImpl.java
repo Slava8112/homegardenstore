@@ -9,7 +9,6 @@ import telran.org.scotlandyard.entity.User_out;
 import telran.org.scotlandyard.repository.UserReposit;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,27 +31,26 @@ public class UserServiceImpl implements UserService {
         return user_out;
     }
 
-//    @Override
-//    public User_out findById(Long id) {
-//        User_out user_out = findById(id);
-// //.orElseThrow(() -> new CustomNotFoundException("No Custom with id " + id));
-//        return user_out;
-//    }
-
-    @Override
-    public void deleteById(long id) {
-        User_out unit = getById(id);
-        userReposit.delete(unit);
-    }
-
     @Override
     public User_out create(User_out user_out) {
         User_out unit= userReposit.save(user_out);
+        //log.debug("Order was sacsessfully added   {}", user_out);
+
         return unit;
     }
 
     @Override
-    public Optional<User_out> findByEmail(String email) {
-        return Optional.empty();
+    public User_out findByEmail(String email) {
+      //  log.debug("Find user with email {}", email);
+        User_out unit = userReposit.findByEmail(email).get();
+        return unit;
     }
+
+    @Override
+    public void deleteByEmail(String email){
+        User_out unit = userReposit.findByEmail(email).get();
+      //  log.debug("Deleted user with email {}", email);
+        userReposit.delete(unit);
+    }
+
 }
