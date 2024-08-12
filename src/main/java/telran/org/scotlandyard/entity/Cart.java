@@ -28,7 +28,11 @@ public class Cart {
     @JsonBackReference
     private User_out user_out;
 
-    @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private Set<Cartitems> cartitems = new HashSet<>();
+//    @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    private Set<Cartitems> cartitems = new HashSet<>();
+@OneToMany(cascade = CascadeType.ALL)
+@JoinColumn(name = "cart_id")
+private Set<Cartitems> cartItems = new HashSet<>();
+
 }

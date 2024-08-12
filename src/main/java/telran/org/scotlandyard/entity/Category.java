@@ -1,11 +1,9 @@
 package telran.org.scotlandyard.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,13 +18,12 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     private String name;
 
-    @OneToMany(mappedBy = "category",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "category",  cascade = CascadeType.ALL)
     @JsonManagedReference
-    private Set<Product> products = new HashSet<>();
-
+    private Set<Product> product = new HashSet<>();
     }
 

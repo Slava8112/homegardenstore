@@ -19,9 +19,15 @@ public class Favorite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "favorite_id")
-    private Set<Product> products = new HashSet<>();
+//    @OneToMany(cascade = CascadeType.PERSIST)
+//    @JoinColumn(name = "favorite_id")
+//    private Set<Product> products = new HashSet<>();
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @JsonBackReference
+    @ToString.Exclude
+    private Product product;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_out_id", referencedColumnName = "id")
