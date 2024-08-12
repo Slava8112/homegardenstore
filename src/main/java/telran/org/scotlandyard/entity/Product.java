@@ -1,10 +1,13 @@
 package telran.org.scotlandyard.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -25,22 +28,18 @@ public class Product {
 
     private double price;
 
-    private String category;
-
-    //private Date receipt_Data = new Date();
-
     private String image;
 
     private double discountprice;
 
     private Date createdAt = new Date();
-
+//Verify  createdAt  on null
     private Date updatedAt = new Date();
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "Product_id", referencedColumnName = "id")
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
     @JsonBackReference
     @ToString.Exclude
-    private Product product;
+    private Category category;
 
 }

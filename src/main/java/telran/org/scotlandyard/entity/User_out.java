@@ -1,11 +1,9 @@
 package telran.org.scotlandyard.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import telran.org.scotlandyard.model.Role;
 
 import java.util.HashSet;
@@ -36,13 +34,19 @@ public class User_out {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "user_out")
-    @JsonManagedReference
-    private Cart cart;
+//    @OneToOne(mappedBy = "user_out")
+//    @JsonManagedReference
+//    private Cart cart;
 
-    @OneToMany(mappedBy = "user_out",cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private Set<Order> order = new HashSet<>();
+//    @OneToMany(mappedBy = "user_out",cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    private Set<Order> order = new HashSet<>();
+
+//    @ManyToOne(cascade = CascadeType.PERSIST)
+//    @JoinColumn(name = "favorite_id", referencedColumnName = "id")
+//    @JsonBackReference
+//    @ToString.Exclude
+//    private Favorite favorite;
 
     @OneToMany(mappedBy = "user_out",cascade = CascadeType.ALL)
     @JsonManagedReference

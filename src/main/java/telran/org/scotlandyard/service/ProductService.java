@@ -6,15 +6,21 @@ import java.util.List;
 
 public interface ProductService {
 
-    Product addProduct(Product product);
+    Product addProduct(Long categoryId, Product product);
 
     Product updateProduct(Product product);
 
     Product delete(Product product);
 
     List<Product> getAllProduct();
+    List<Product> findByCategoryId(Long categoryId);
 
-//получение списка по запросу `category`, `minPrice`,
+
+
+//    Product ge(Long id);
+
+
+    //получение списка по запросу `category`, `minPrice`,
 // `maxPrice`, `discount`, `sort`
 
     //    Product getProductByCategory(Category category);
@@ -23,8 +29,7 @@ public interface ProductService {
 //
 //    Product getmaxPrice();
 
-     //получение детальной инфы
-     Product getById(long id);
+
 
 
 }

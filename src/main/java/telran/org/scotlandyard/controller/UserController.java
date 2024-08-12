@@ -2,13 +2,13 @@ package telran.org.scotlandyard.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import telran.org.scotlandyard.entity.User_out;
-import telran.org.scotlandyard.security.AuthenticationService;
-import telran.org.scotlandyard.security.modele.JwtAuthenticationResponse;
-import telran.org.scotlandyard.security.modele.SignInRequest;
+//import telran.org.scotlandyard.security.AuthenticationService;
+//import telran.org.scotlandyard.security.modele.JwtAuthenticationResponse;
+//import telran.org.scotlandyard.security.modele.SignInRequest;
 import telran.org.scotlandyard.service.UserService;
 
 import java.util.List;
@@ -22,11 +22,11 @@ public class UserController {
     @Autowired
     public UserService userService;
 
-    @Autowired
-    private AuthenticationService authenticationService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private AuthenticationService authenticationService;
+//
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
 //    @Autowired
 //    private Converter<User_out, UserDto, UserCreateDto> converter;
@@ -69,8 +69,8 @@ public class UserController {
         userService.deleteByEmail(email);
     }
 
-    @PostMapping("/login")
-    public JwtAuthenticationResponse login(@RequestBody SignInRequest request) {
-        return authenticationService.authenticate(request);
-    }
+//    @PostMapping("/login")
+//    public JwtAuthenticationResponse login(@RequestBody SignInRequest request) {
+//        return authenticationService.authenticate(request);
+//    }
 }

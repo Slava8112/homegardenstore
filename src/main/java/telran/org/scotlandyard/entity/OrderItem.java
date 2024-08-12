@@ -29,7 +29,9 @@ public class OrderItem {
     @ToString.Exclude
     private Order order;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "orderitems_id")
-    private Set<Product> products = new HashSet<>();
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @JsonBackReference
+    @ToString.Exclude
+    private Product product;
 }

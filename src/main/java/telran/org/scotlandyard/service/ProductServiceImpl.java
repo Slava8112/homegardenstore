@@ -5,7 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import telran.org.scotlandyard.entity.Category;
 import telran.org.scotlandyard.entity.Product;
+import telran.org.scotlandyard.exception.ProductNotFoundException;
+import telran.org.scotlandyard.repository.CategoryReposit;
 import telran.org.scotlandyard.repository.ProductReposit;
 
 import java.util.List;
@@ -14,11 +17,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService{
     private static final Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
-@Autowired
-public ProductReposit reposit;
+
+public final ProductReposit reposit;
+public final CategoryService categoryService;
 
     @Override
-    public Product addProduct(Product product) {
+    public Product addProduct(Long categoryId, Product product) {
+
+        Category category = categoryService.findById(categoryId);
+        product.setCategory(category);
         Product unit = reposit.save(product);
         log.debug("The product with id {} was edded prouct {}",product.getId(), product);
             return unit;
@@ -34,14 +41,19 @@ public ProductReposit reposit;
         return null;
     }
 
-    @Override
     public List<Product> getAllProduct() {
-        return List.of();
+        return reposit.findAll();
     }
 
     @Override
-    public Product getById(long id) {
-        return null;
+    public List<Product> findByCategoryId(Long categoryId) {
+        return (List<Product>) reposit.findByCategoryId(categoryId);
     }
 
+//    @Override
+//    public Product getById(Long id) {
+//    Product product = reposit.findById(id)
+//            .orElseThrow(() -> new ProductNotFoundException("The Product with id  not exist " + id));
+//return product;
+//}
 }
