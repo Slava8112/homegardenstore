@@ -10,12 +10,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "user_out")
+@Table(name = "userEntity")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User_out {
+public class UserEntity {
 
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,6 @@ public class User_out {
 
     private String name;
 
-    @Column(unique = true)
     private String email;
 
     private String phone;
@@ -34,11 +33,11 @@ public class User_out {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-//    @OneToOne(mappedBy = "user_out")
+//    @OneToOne(mappedBy = "userEntity")
 //    @JsonManagedReference
 //    private Cart cart;
 
-//    @OneToMany(mappedBy = "user_out",cascade = CascadeType.ALL)
+//    @OneToMany(mappedBy = "userEntity",cascade = CascadeType.ALL)
 //    @JsonManagedReference
 //    private Set<Order> order = new HashSet<>();
 
@@ -48,7 +47,7 @@ public class User_out {
 //    @ToString.Exclude
 //    private Favorite favorite;
 
-    @OneToMany(mappedBy = "user_out",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity",cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<Favorite> favorites = new HashSet<>();
 }

@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import telran.org.scotlandyard.entity.Order;
-import telran.org.scotlandyard.repository.OrderReposit;
+import telran.org.scotlandyard.repository.OrderRepository;
 
 import java.util.List;
 
@@ -16,25 +16,25 @@ public class OrderServiceImpl implements OrderSevice{
 
     private static final Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
     @Autowired
-    public OrderReposit orderReposit;
+    public OrderRepository orderRepository;
 
     @Override
     public List<Order> getAll(){
-     return orderReposit.findAll();
+     return orderRepository.findAll();
     }
 
 //    @Override
-//    public Order getById(Long orderId) {
+//    public Order findById(Long orderId) {
 //             //   .orElseThrow(() -> new OrderNotFoundException("No Order with id " + id));;
-//        Order order = (Order) orderReposit.getById(orderId);
-//        log.debug("Order with id {}, Order {}", order.getId(), order);
-//        return order;
+//        Order unit = orderRepositoryfindById(orderId).get();
+//        //log.debug("Order with id {}, Order {}", order.getId(), order);
+//        return unit;
 //    }
 
     @Override
     public Order create(Order order) {
         log.debug("Order was sacsessfully added  Order {}", order);
-        return (Order) orderReposit.save(order);
+        return (Order) orderRepository.save(order);
     }
 
 }

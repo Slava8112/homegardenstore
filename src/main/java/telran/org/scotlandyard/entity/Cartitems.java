@@ -18,15 +18,11 @@ public class Cartitems {
 
     private int quantity;
 
+
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @JsonBackReference
     @ToString.Exclude
     private Product product;
-
-
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "cartitem_id")
-//    private Set<Product> products = new HashSet<>();
 
 }

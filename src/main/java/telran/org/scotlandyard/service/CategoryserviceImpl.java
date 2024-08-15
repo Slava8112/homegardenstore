@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import telran.org.scotlandyard.entity.Category;
 import telran.org.scotlandyard.exception.CategoryNotFoundException;
-import telran.org.scotlandyard.repository.CategoryReposit;
+import telran.org.scotlandyard.repository.CategoryRepository;
 
 import java.util.List;
 
@@ -16,12 +16,12 @@ import java.util.List;
 public class CategoryserviceImpl implements CategoryService {
 
     private static final Logger log = LoggerFactory.getLogger(CategoryserviceImpl.class);
-    @Autowired
-    private CategoryReposit categoryReposit;
+
+    private final CategoryRepository categoryRepository;
 
     @Override
     public Category createCategory(Category category) {
-        Category unit = categoryReposit.save(category);
+        Category unit = categoryRepository.save(category);
         log.debug("New category was created {}", unit );
         return unit;
     }
@@ -32,12 +32,12 @@ public class CategoryserviceImpl implements CategoryService {
 
     @Override
     public List<Category> getAll() {
-        return categoryReposit.findAll();
+        return categoryRepository.findAll();
     }
 
     @Override
     public Category findById(Long id){
-        Category category = categoryReposit.findById(id)
+        Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException("No category with id " + id));
         log.debug("Found category with id {}" , category);
     return category;
@@ -46,7 +46,7 @@ public class CategoryserviceImpl implements CategoryService {
     @Override
     public void delete(Long id){
         Category unit = findById(id);
-        categoryReposit.delete(unit);
+        categoryRepository.delete(unit);
 
     }
 }

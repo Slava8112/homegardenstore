@@ -16,13 +16,14 @@ public class FavoriteController {
     private final FavoriteService favoriteService;
 
 @PostMapping
-    public Favorite create(@RequestParam Long user_out_id, @RequestBody Favorite favorite){
-    return favoriteService.createFavorite(user_out_id,favorite);
+    public Favorite create(@RequestParam Long userEntityId, @RequestBody Favorite favorite){
+    return favoriteService.createFavorite(userEntityId,favorite);
 }
 @GetMapping("/{id}")
-    public Favorite getById(@PathVariable Long user_out_id){
-    return favoriteService.findById(user_out_id);
+    public Favorite getById(@PathVariable Long userEntityId){
+    return favoriteService.findById(userEntityId);
     }
+
     @GetMapping
     public List<Favorite> getAll(){
     return favoriteService.getAllFavorites();

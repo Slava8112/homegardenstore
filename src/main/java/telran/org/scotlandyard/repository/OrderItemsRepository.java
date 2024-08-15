@@ -2,8 +2,8 @@ package telran.org.scotlandyard.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import telran.org.scotlandyard.entity.Category;
+import telran.org.scotlandyard.entity.OrderItem;
 
 @Repository
-public interface CategoryReposit extends JpaRepository<Category, Long> {
+public interface OrderItemsRepository extends JpaRepository<OrderItem, Long> {
 }

@@ -4,24 +4,30 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import telran.org.scotlandyard.entity.Cart;
-import telran.org.scotlandyard.repository.CartReposit;
+import telran.org.scotlandyard.repository.CartRepository;
 
 @Service
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
 
-@Autowired
-    private CartReposit cartReposit;
+
+    private final CartRepository cartRepository;
+    private final UserService userService;
+
+//    @Override
+//    public Cart create(Long userEntityId) {
+//        return cartRepository.save(userEntityId);
+//    }
 
     @Override
-    public Cart create(Cart cart) {
-      Cart unit = (Cart) cartReposit.save(cart);
-        return unit;
+    public Cart getById(Long cartId) {
+        return cartRepository.findById(cartId).get();
     }
 
     @Override
     public void delete(Long cart_id) {
-        Cart unit = cartReposit.getById(cart_id);
-        cartReposit.delete(unit);
+        Cart unit = cartRepository.getById(cart_id);
+        cartRepository.delete(unit);
     }
+
 }

@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import telran.org.scotlandyard.entity.User_out;
-import telran.org.scotlandyard.repository.UserReposit;
+import telran.org.scotlandyard.entity.UserEntity;
+import telran.org.scotlandyard.repository.UserRepository;
 
 import java.util.List;
 
@@ -15,42 +15,42 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
-    @Autowired
-   public UserReposit userReposit;
+
+   private final UserRepository userRepository;
 
 
     @Override
-    public List<User_out> getAll() {
-        return userReposit.findAll();
+    public List<UserEntity> getAll() {
+        return userRepository.findAll();
     }
 
     @Override
-    public User_out getById(Long id) {
-        User_out user_out = userReposit.findById(id).get();
+    public UserEntity getById(Long id) {
+        UserEntity user_out = userRepository.findById(id).get();
         UserServiceImpl.log.debug("User with id {}, was created , User {}", user_out.getId(), user_out);
         return user_out;
     }
 
     @Override
-    public User_out create(User_out user_out) {
-        User_out unit= userReposit.save(user_out);
+    public UserEntity create(UserEntity user_out) {
+        UserEntity unit= userRepository.save(user_out);
         //log.debug("Order was sacsessfully added   {}", user_out);
 
         return unit;
     }
 
     @Override
-    public User_out findByEmail(String email) {
+    public UserEntity findByEmail(String email) {
       //  log.debug("Find user with email {}", email);
-        User_out unit = userReposit.findByEmail(email).get();
+        UserEntity unit = userRepository.findByEmail(email).get();
         return unit;
     }
 
     @Override
     public void deleteByEmail(String email){
-        User_out unit = userReposit.findByEmail(email).get();
+        UserEntity unit = userRepository.findByEmail(email).get();
       //  log.debug("Deleted user with email {}", email);
-        userReposit.delete(unit);
+        userRepository.delete(unit);
     }
 
 }

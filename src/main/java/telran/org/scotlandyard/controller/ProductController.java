@@ -3,6 +3,7 @@ package telran.org.scotlandyard.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import telran.org.scotlandyard.entity.Product;
+import telran.org.scotlandyard.service.CategoryService;
 import telran.org.scotlandyard.service.ProductService;
 
 
@@ -12,7 +13,9 @@ import java.util.List;
 @RequestMapping("products")
 @RequiredArgsConstructor
 public class ProductController {
+
     private final ProductService productService;
+//private final CategoryService categoryService;
 
     @PostMapping
     public Product add(@RequestParam Long category_id, @RequestBody Product product){
@@ -22,13 +25,15 @@ public class ProductController {
     public List<Product> getAll(){
         return productService.getAllProduct();
 }
-@GetMapping("/{id}")
-    public List<Product> list(@RequestParam Long id){
-        return productService.findByCategoryId(id);
+@GetMapping
+
+public List<Product> findByCategory(@RequestParam Long categoryId){
+
+        return (List<Product>) productService.findByCategory(categoryId);
 }
 
 //@GetMapping("/{id}")
-//    public  Product getById(@PathVariable Long id){
-//        return productService.getById(id);
+//    public  Product getById(@PathVariable Long productid){
+//        return productService.getById(productid);
 //}
 }

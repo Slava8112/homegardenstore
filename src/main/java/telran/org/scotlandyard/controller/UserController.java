@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.access.prepost.PreAuthorize;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import telran.org.scotlandyard.entity.User_out;
+import telran.org.scotlandyard.entity.UserEntity;
 //import telran.org.scotlandyard.security.AuthenticationService;
 //import telran.org.scotlandyard.security.modele.JwtAuthenticationResponse;
 //import telran.org.scotlandyard.security.modele.SignInRequest;
@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/user_out")
+@RequestMapping("/userEntity")
 @RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    public UserService userService;
+
+    public final UserService userService;
 
 //    @Autowired
 //    private AuthenticationService authenticationService;
@@ -29,12 +29,12 @@ public class UserController {
 //    private PasswordEncoder passwordEncoder;
 
 //    @Autowired
-//    private Converter<User_out, UserDto, UserCreateDto> converter;
+//    private Converter<UserEntity, UserDto, UserCreateDto> converter;
 
 //    @GetMapping
     //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
     //@PreAuthorize("hasRole('ROLE_ADMIN')")
-//    public List<User_out> getAll() {
+//    public List<UserEntity> getAll() {
 //     public List<UserDto> getAll() {
 //        return userService.getAll();
 //                .stream()
@@ -42,25 +42,25 @@ public class UserController {
 //                .collect(Collectors.toList());
 //    }
 
-    @PostMapping
-    public User_out create(@RequestBody User_out user_out) {
-
-        return userService.create(user_out);
-    }
-
     @GetMapping
-    public List<User_out> getAll() {
+    public List<UserEntity> getAll() {
         return userService.getAll();
     }
 
     @GetMapping("/{id}")
-    public User_out getById(@PathVariable Long id) {
+    public UserEntity getById(@PathVariable Long id) {
 
         return userService.getById(id);
     }
 
+    @PostMapping
+    public UserEntity create(@RequestBody UserEntity userEntity) {
+
+        return userService.create(userEntity);
+    }
+
     @GetMapping("/search")
-    public User_out findByEmail(@RequestParam String email) {
+    public UserEntity findByEmail(@RequestParam String email) {
         return userService.findByEmail(email);
     }
 
