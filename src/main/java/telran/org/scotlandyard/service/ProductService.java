@@ -10,16 +10,16 @@ public interface ProductService {
 
 //    Product updateProduct(Product product);
 
-    void delete(Product product);
+    void deleteById(Long productId);
 
     List<Product> getAllProduct();
 
-    Product getById(Long productsId);
+    Product getById(Long productId);
 
     //получение списка по запросу `category`, `minPrice`,
 // `maxPrice`, `discount`, `sort`
 
-        Product findByCategory(Long categoryId);
+        Product findByCategoryId(Long categoryId);
 //
 //    Product getPoductByminPrice();
 //

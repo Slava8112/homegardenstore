@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import telran.org.scotlandyard.entity.Cart;
 import telran.org.scotlandyard.entity.Cartitems;
 import telran.org.scotlandyard.entity.Product;
+import telran.org.scotlandyard.entity.UserEntity;
 import telran.org.scotlandyard.repository.CartItemsRepository;
 
 import java.util.List;
@@ -16,13 +17,10 @@ public class CartItemsServiceImpl implements CartItemsService{
     private final ProductService productService;
     private final CartService cartService;
 
-
     @Override
     public List<Cartitems> getAll() {
         return cartItemsRepository.findAll();
     }
-
-
 
     @Override
     public Cartitems add(Long productsId, Cartitems cartitems) {
@@ -32,8 +30,8 @@ public class CartItemsServiceImpl implements CartItemsService{
     }
 
     @Override
-    public Cartitems remove(Cartitems cartitems) {
-        return null;
+    public void deleteById(Long cartitemsId) {
+                        cartItemsRepository.deleteById(cartitemsId);
     }
 
     @Override

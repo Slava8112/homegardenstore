@@ -10,4 +10,6 @@ import telran.org.scotlandyard.service.CategoryService;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
    Product findByCategoryId(Long categoryId);
+
 }
+

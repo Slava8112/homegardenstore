@@ -33,20 +33,6 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-//    @OneToOne(mappedBy = "userEntity")
-//    @JsonManagedReference
-//    private Cart cart;
-
-//    @OneToMany(mappedBy = "userEntity",cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    private Set<Order> order = new HashSet<>();
-
-//    @ManyToOne(cascade = CascadeType.PERSIST)
-//    @JoinColumn(name = "favorite_id", referencedColumnName = "id")
-//    @JsonBackReference
-//    @ToString.Exclude
-//    private Favorite favorite;
-
     @OneToMany(mappedBy = "userEntity",cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<Favorite> favorites = new HashSet<>();

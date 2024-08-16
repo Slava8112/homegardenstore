@@ -21,7 +21,6 @@ public final CategoryService categoryService;
 
     @Override
     public Product addProduct(Long categoryId, Product product) {
-
         Category category = categoryService.findById(categoryId);
         product.setCategory(category);
         Product unit = repository.save(product);
@@ -35,8 +34,8 @@ public final CategoryService categoryService;
 //    }
 
     @Override
-  public void delete(Product product) {
-        repository.delete(product);
+  public void deleteById(Long productId) {
+        repository.deleteById(productId);
     }
 
     public List<Product> getAllProduct() {
@@ -50,7 +49,7 @@ public final CategoryService categoryService;
     }
 
     @Override
-    public Product findByCategory(Long categoryId) {
+    public Product findByCategoryId(Long categoryId) {
         return repository.findByCategoryId(categoryId);
     }
 

@@ -25,15 +25,17 @@ public class ProductController {
     public List<Product> getAll(){
         return productService.getAllProduct();
 }
-@GetMapping
-
+@GetMapping("/categoryId")
 public List<Product> findByCategory(@RequestParam Long categoryId){
-
-        return (List<Product>) productService.findByCategory(categoryId);
+        return (List<Product>) productService
+                .findByCategoryId(categoryId);
 }
-
-//@GetMapping("/{id}")
-//    public  Product getById(@PathVariable Long productid){
-//        return productService.getById(productid);
-//}
+@DeleteMapping
+    public void deleteById(@RequestBody Long productId) {
+        productService.deleteById(productId);
+    }
+    @GetMapping("/{id}")
+    public  Product getById(@PathVariable Long productid){
+        return productService.getById(productid);
+}
 }

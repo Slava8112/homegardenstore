@@ -10,7 +10,7 @@ public interface CartItemsService {
 
     Cartitems add(Long productsId, Cartitems cartitems);
 
-    Cartitems remove(Cartitems cartitems);
+    void deleteById(Long id);
 
     Cartitems update(Cartitems cartitems);
 

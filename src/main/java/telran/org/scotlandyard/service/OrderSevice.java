@@ -6,9 +6,12 @@ import java.util.List;
 
 public interface OrderSevice {
 
-    List<Order> getAll();
 
-//    Order findById(Long id);
+    List<Order> getAllOrders();
+
+    Order findById(Long id);
 
     Order create(Order order);
+
+    void deleteById(Long id);
 }
