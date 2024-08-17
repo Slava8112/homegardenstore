@@ -3,6 +3,7 @@ package telran.org.scotlandyard.service;
 import telran.org.scotlandyard.entity.UserEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
 
@@ -12,9 +13,7 @@ public interface UserService {
 
     void deleteByEmail(String email);
 
-    UserEntity create(UserEntity user_out);
+    UserEntity create(UserEntity userEntity);
 
-    UserEntity findByEmail(String email);
-
-
+    Optional<UserEntity> findByEmail(String email); // Изменено для возвращения Optional
 }

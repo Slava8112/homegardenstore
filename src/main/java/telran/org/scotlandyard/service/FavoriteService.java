@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface FavoriteService {
 
-    Favorite createFavorite(Long user_out_id, Favorite favorite);
+    Favorite createFavorite(Long UserEntity_id, Favorite favorite);
 
     Favorite UpdateFavorite(Favorite favorite);
 

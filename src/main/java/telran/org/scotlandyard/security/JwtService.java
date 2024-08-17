@@ -4,7 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.Value;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import telran.org.scotlandyard.entity.UserEntity;
@@ -22,18 +22,16 @@ public class JwtService {
     //Читаем ключ для подписи из файла проперти jwttoken.signing.key кодированного в Base64
     //это должна быть любая комбинация символов(но не короткая), кодированная в Base64
 
-    public JwtService(@Value("ZHNmc2Rmc2Rmc2RmZHNmIGVyIHdyZSB0ZXdydHJ0IGV3cnQgZXJ0IGVyZ3RnIHRnZHNkZmRzZiBzZGFkIGZhc2RmNHR0NSBzcmdzIGZnNDU2IDNxNHF0NHQgZzM1eSBnd2VyZyA") String jwttokenSigningKey) {
+    public JwtService(@Value("${jwttoken.signing.key}") String jwttokenSigningKey) {
         this.secretSigningKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwttokenSigningKey));
-
     }
 
     // Генерация токена
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        // заполняем данные о пользователе
         if (userDetails instanceof UserEntity userEntity) {
-            claims.put("userId", userEntity);
-            claims.put("login", userEntity.getEmail());
+            claims.put("userId", userEntity.getId());  // Assuming `getId()` exists
+            claims.put("login", userEntity.getEmail());  // Assuming `getEmail()` exists
             claims.put("role", "ROLE_USER");
         }
         return generateToken(claims, userDetails);
@@ -42,13 +40,11 @@ public class JwtService {
     // Метод непосредственно генерирует токен на основании набора данных о пользователе
     private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder()
-                .claims()
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 100000 * 60 * 24))
-                .subject(userDetails.getUsername())
-                .add(extraClaims)
-                .and()
-                .signWith(secretSigningKey) // resume JwtBuilder calls
+                .setClaims(extraClaims)
+                .setSubject(userDetails.getUsername())  // Assuming `getUsername()` exists
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))  // 10 часов
+                .signWith(secretSigningKey)
                 .compact();
     }
 

@@ -8,6 +8,7 @@ import telran.org.scotlandyard.entity.UserEntity;
 import telran.org.scotlandyard.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +18,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-
     @Override
     public List<UserEntity> getAll() {
         return userRepository.findAll();
@@ -25,30 +25,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity getById(Long id) {
-        UserEntity userEntity = userRepository.findById(id).get();
-        UserServiceImpl.log.debug("User with id {}, was created , User {}", userEntity.getId(), userEntity);
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        log.debug("User with id {}, was retrieved, User {}", userEntity.getId(), userEntity);
         return userEntity;
     }
 
     @Override
     public UserEntity create(UserEntity userEntity) {
         UserEntity unit = userRepository.save(userEntity);
-        //log.debug("Order was sacsessfully added   {}", userEntity);
+        // log.debug("User was successfully added   {}", userEntity);
         return unit;
     }
 
     @Override
-    public UserEntity findByEmail(String email) {
-        //  log.debug("Find user with email {}", email);
-        UserEntity unit = userRepository.findByEmail(email).get();
-        return unit;
+    public Optional<UserEntity> findByEmail(String email) {  // Изменено на Optional<UserEntity>
+        // log.debug("Find user with email {}", email);
+        return userRepository.findByEmail(email);
     }
 
     @Override
     public void deleteByEmail(String email) {
-        UserEntity unit = userRepository.findByEmail(email).get();
-        //  log.debug("Deleted user with email {}", email);
-        userRepository.delete(unit);
+        Optional<UserEntity> unit = userRepository.findByEmail(email);
+        unit.ifPresent(userRepository::delete);
+        // log.debug("Deleted user with email {}", email);
     }
-
 }
