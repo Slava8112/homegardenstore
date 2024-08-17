@@ -17,6 +17,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Product {
     @Id
     @GeneratedValue(strategy = IDENTITY)

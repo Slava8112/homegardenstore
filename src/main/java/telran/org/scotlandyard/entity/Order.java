@@ -37,8 +37,8 @@ public class Order {
     private Set<OrderItem> orderItems = new HashSet<>();
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "user_out_id", referencedColumnName = "id")
+    @JoinColumn(name = "userEntityId", referencedColumnName = "id")
     @JsonBackReference
     @ToString.Exclude
-    private User_out user_out;
+    private UserEntity userEntity;
 }

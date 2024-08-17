@@ -8,22 +8,18 @@ public interface ProductService {
 
     Product addProduct(Long categoryId, Product product);
 
-    Product updateProduct(Product product);
+//    Product updateProduct(Product product);
 
-    Product delete(Product product);
+    void deleteById(Long productId);
 
     List<Product> getAllProduct();
-    List<Product> findByCategoryId(Long categoryId);
 
-
-
-//    Product ge(Long id);
-
+    Product getById(Long productId);
 
     //получение списка по запросу `category`, `minPrice`,
 // `maxPrice`, `discount`, `sort`
 
-    //    Product getProductByCategory(Category category);
+        Product findByCategoryId(Long categoryId);
 //
 //    Product getPoductByminPrice();
 //

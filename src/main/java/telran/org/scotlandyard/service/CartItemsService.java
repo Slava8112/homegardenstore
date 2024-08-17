@@ -8,9 +8,11 @@ public interface CartItemsService {
 
     List<Cartitems> getAll();
 
-    Cartitems add(Cartitems cartitems);
+    Cartitems add(Long productsId, Cartitems cartitems);
 
-    Cartitems remove(Cartitems cartitems);
+    void deleteById(Long id);
 
     Cartitems update(Cartitems cartitems);
+
+
 }

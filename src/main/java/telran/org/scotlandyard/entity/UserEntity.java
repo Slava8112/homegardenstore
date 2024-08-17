@@ -10,12 +10,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "user_out")
+@Table(name = "userEntity")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User_out {
+public class UserEntity {
 
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,21 +23,17 @@ public class User_out {
 
     private String name;
 
-    @Column(unique = true)
     private String email;
 
     private String phone;
 
+    // HASH kode
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user_out",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "userEntity",cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<Favorite> favorites = new HashSet<>();
-
-    public User_out(Object o, String name, String email, String phone, String password) {
-
-    }
 }

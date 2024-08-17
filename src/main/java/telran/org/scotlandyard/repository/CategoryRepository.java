@@ -2,8 +2,8 @@ package telran.org.scotlandyard.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import telran.org.scotlandyard.entity.Favorite;
+import telran.org.scotlandyard.entity.Category;
 
 @Repository
-public interface FavoriteReposit extends JpaRepository<Favorite, Long> {
+public interface CategoryRepository extends JpaRepository<Category, Long> {
 }

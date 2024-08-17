@@ -1,4 +1,4 @@
-package telran.org.scotlandyard.dto;
+package telran.org.scotlandyard.service.converter;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,23 +1,20 @@
 package telran.org.scotlandyard.service;
 
-import telran.org.scotlandyard.dto.UserCreateDto;
-import telran.org.scotlandyard.model.UserDto;
+import telran.org.scotlandyard.entity.UserEntity;
 
 import java.util.List;
 
 public interface UserService {
-    List<UserDto> getAll();
 
-    UserDto getById(Long id);
+    List<UserEntity> getAll();
+
+    UserEntity getById(Long id);
 
     void deleteByEmail(String email);
 
-    UserDto create(UserCreateDto userCreateDto);
+    UserEntity create(UserEntity user_out);
 
-    UserDto findByEmail(String email);
+    UserEntity findByEmail(String email);
 
-    UserDto updateUser(Long id, UserCreateDto userCreateDto);
 
-    void deleteUser(Long id);
 }
-

@@ -7,7 +7,9 @@ import telran.org.scotlandyard.entity.Product;
 import telran.org.scotlandyard.service.CategoryService;
 
 @Repository
-public interface ProductReposit extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
 
    Product findByCategoryId(Long categoryId);
+
 }
+
