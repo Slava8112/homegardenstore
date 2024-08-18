@@ -18,7 +18,7 @@ import telran.org.scotlandyard.security.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity // Enables @PreAuthorize and other method-level security annotations
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Autowired
@@ -44,7 +44,8 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/users/register", "/v1/users/login").permitAll() // Открываем доступ
+                        .requestMatchers(HttpMethod.POST, "/v1/users/register", "/v1/users/login").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/v1/users").hasAuthority("ROLE_ADMIN") // Проверка роли ADMIN для GET /v1/users
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

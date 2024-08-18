@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import telran.org.scotlandyard.entity.UserEntity;
+import telran.org.scotlandyard.model.Role;
 import telran.org.scotlandyard.repository.UserRepository;
 
 import java.util.List;
@@ -32,14 +33,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity create(UserEntity userEntity) {
+        // Проверяем, есть ли у пользователя назначена роль. Если нет, назначаем роль по умолчанию.
+        if (userEntity.getRole() == null) {
+            userEntity.setRole(Role.ROLE_CLIENT); // Назначаем роль по умолчанию
+        }
+
         UserEntity unit = userRepository.save(userEntity);
-        // log.debug("User was successfully added   {}", userEntity);
+        log.debug("User was successfully added   {}", userEntity);
         return unit;
     }
 
     @Override
-    public Optional<UserEntity> findByEmail(String email) {  // Изменено на Optional<UserEntity>
-        // log.debug("Find user with email {}", email);
+    public Optional<UserEntity> findByEmail(String email) {
+        log.debug("Find user with email {}", email);
         return userRepository.findByEmail(email);
     }
 
@@ -47,6 +53,6 @@ public class UserServiceImpl implements UserService {
     public void deleteByEmail(String email) {
         Optional<UserEntity> unit = userRepository.findByEmail(email);
         unit.ifPresent(userRepository::delete);
-        // log.debug("Deleted user with email {}", email);
+        log.debug("Deleted user with email {}", email);
     }
 }
