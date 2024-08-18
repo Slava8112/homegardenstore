@@ -1,6 +1,9 @@
 package telran.org.scotlandyard.controller;
 
 import lombok.RequiredArgsConstructor;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,6 +27,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserController {
 
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
+
     private final UserService userService;
     private final AuthenticationService authenticationService;
     private final PasswordEncoder passwordEncoder;
@@ -31,6 +36,7 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+
     public List<UserDto> getAll() {
         return userService.getAll().stream()
                 .map(converter::toDto)
@@ -38,6 +44,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+
     public UserEntity getById(@PathVariable Long id) {
         return userService.getById(id);
     }

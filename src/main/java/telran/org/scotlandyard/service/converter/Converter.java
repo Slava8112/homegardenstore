@@ -1,6 +1,8 @@
 package telran.org.scotlandyard.service.converter;
 
-    public interface Converter<Entity, Dto, CreateDto> {
+import org.springframework.stereotype.Component;
+
+public interface Converter<Entity, Dto, CreateDto> {
 
         Entity toEntity(CreateDto dto);
 

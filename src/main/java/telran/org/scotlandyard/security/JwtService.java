@@ -24,14 +24,15 @@ public class JwtService {
 
     public JwtService(@Value("${jwttoken.signing.key}") String jwttokenSigningKey) {
         this.secretSigningKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwttokenSigningKey));
+
     }
 
     // Генерация токена
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         if (userDetails instanceof UserEntity userEntity) {
-            claims.put("userId", userEntity.getId());  // Assuming `getId()` exists
-            claims.put("login", userEntity.getEmail());  // Assuming `getEmail()` exists
+            claims.put("userId", userEntity.getId());  // Assuming getId() exists
+            claims.put("login", userEntity.getEmail());  // Assuming getEmail() exists
             claims.put("role", "ROLE_USER");
         }
         return generateToken(claims, userDetails);
@@ -41,12 +42,13 @@ public class JwtService {
     private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder()
                 .setClaims(extraClaims)
-                .setSubject(userDetails.getUsername())  // Assuming `getUsername()` exists
+                .setSubject(userDetails.getUsername())  // Assuming getUsername() exists
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))  // 10 часов
                 .signWith(secretSigningKey)
                 .compact();
     }
+
 
     //Извлечение имени пользователя из токена
     public String extractUserName(String token) {
@@ -81,5 +83,29 @@ public class JwtService {
         return Jwts.parser()
                 .setSigningKey(secretSigningKey)
                 .build().parseSignedClaims(token).getPayload();
+    }
+
+    // Генерация токена
+    public String generateToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        // заполняем данные о пользователе
+        if (userDetails instanceof UserEntity userEntity) {
+            claims.put("userId", userEntity);
+            claims.put("login", userEntity.getEmail());
+            claims.put("role", "ROLE_USER");
+        }
+        return generateToken(claims, userDetails);
+    }
+  // Метод непосредственно генерирует токен на основании набора данных о пользователе
+    private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+        return Jwts.builder()
+                .claims()
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + 100000 * 60 * 24))
+                .subject(userDetails.getUsername())
+                .add(extraClaims)
+                .and()
+                .signWith(secretSigningKey) // resume JwtBuilder calls
+                .compact();
     }
 }
