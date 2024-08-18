@@ -15,12 +15,13 @@ import java.util.List;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity user = userService.findByEmail(username);
+        UserEntity userEntity = userService.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User with login " + username + " not found"));
+
 
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
                 user.getPassword(),

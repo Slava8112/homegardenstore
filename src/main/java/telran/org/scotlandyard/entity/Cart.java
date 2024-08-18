@@ -26,14 +26,9 @@ public class Cart {
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "userEntity", referencedColumnName = "id")
     @JsonBackReference
-    //?????
-    //@Column(unique = true)
-    //?????
+
     private UserEntity userEntity;
 
-//    @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    private Set<Cartitems> cartitems = new HashSet<>();
 @OneToMany(cascade = CascadeType.ALL)
 @JoinColumn(name = "cart_id")
 private Set<Cartitems> cartItems = new HashSet<>();

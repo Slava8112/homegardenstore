@@ -6,10 +6,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import telran.org.scotlandyard.entity.UserEntity;
+
 import telran.org.scotlandyard.exception.UserNotFoundException;
+
+import telran.org.scotlandyard.model.Role;
+
 import telran.org.scotlandyard.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,29 +31,40 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity getById(Long id) {
-//        UserEntity userEntity = userRepository.findById(id).get();
-//        UserServiceImpl.log.debug("User with id {}, was created , User {}", userEntity.getId(), userEntity);
-        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("No user with id " + id));
+
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        log.debug("User with id {}, was retrieved, User {}", userEntity.getId(), userEntity);
+        return userEntity;
+
     }
 
     @Override
     public UserEntity create(UserEntity userEntity) {
+        // Проверяем, есть ли у пользователя назначена роль. Если нет, назначаем роль по умолчанию.
+        if (userEntity.getRole() == null) {
+            userEntity.setRole(Role.ROLE_CLIENT); // Назначаем роль по умолчанию
+        }
+
         UserEntity unit = userRepository.save(userEntity);
-        //log.debug("Order was sacsessfully added   {}", userEntity);
+        log.debug("User was successfully added   {}", userEntity);
         return unit;
     }
 
     @Override
-    public UserEntity findByEmail(String email) throws UsernameNotFoundException {
-        //  log.debug("Find user with email {}", email);
+
+     public Optional<UserEntity> findByEmail(String email) throws UsernameNotFoundException {
+        log.debug("Find user with email {}", email);
         UserEntity unit = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User with login " + email + " not found"));
         return unit;
+
     }
 
     @Override
     public void deleteByEmail(String email) {
-        UserEntity unit = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("No user with email " + email));
-        //  log.debug("Deleted user with email {}", email);
+
+        Optional<UserEntity> unit = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("No user with email " + email));
+        log.debug("Deleted user with email {}", email);
         userRepository.delete(unit);
+
     }
 }

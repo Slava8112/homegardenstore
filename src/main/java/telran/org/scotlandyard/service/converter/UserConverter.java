@@ -10,14 +10,14 @@ import telran.org.scotlandyard.entity.UserEntity;
 public class UserConverter implements Converter<UserEntity, UserDto, UserCreateDto> {
 
     @Override
-    public UserEntity toEntity(UserCreateDto userDto) {
-        return new UserEntity(userDto.getName(), userDto.getEmail(),
-                userDto.getPhone(), userDto.getPassword());
+
+    public UserEntity toEntity(UserCreateDto dto) {
+        return new UserEntity(null, dto.getName(), dto.getEmail(), dto.getPhone(), dto.getPassword(), null, null);
     }
 
     @Override
-    public UserDto toDto(UserEntity user) {
-        return new UserDto(user.getId(), user.getName(),user.getEmail(), user.getPhone());
+    public UserDto toDto(UserEntity entity) {
+        return new UserDto(entity.getId(), entity.getName(), entity.getEmail(), entity.getPhone());
 
     }
 }

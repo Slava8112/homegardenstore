@@ -24,7 +24,31 @@ public class JwtService {
 
     public JwtService(@Value("${jwttoken.signing.key}") String jwttokenSigningKey) {
         this.secretSigningKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwttokenSigningKey));
-   }
+
+    }
+
+    // Генерация токена
+    public String generateToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+        if (userDetails instanceof UserEntity userEntity) {
+            claims.put("userId", userEntity.getId());  // Assuming getId() exists
+            claims.put("login", userEntity.getEmail());  // Assuming getEmail() exists
+            claims.put("role", "ROLE_USER");
+        }
+        return generateToken(claims, userDetails);
+    }
+
+    // Метод непосредственно генерирует токен на основании набора данных о пользователе
+    private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+        return Jwts.builder()
+                .setClaims(extraClaims)
+                .setSubject(userDetails.getUsername())  // Assuming getUsername() exists
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))  // 10 часов
+                .signWith(secretSigningKey)
+                .compact();
+    }
+
 
     //Извлечение имени пользователя из токена
     public String extractUserName(String token) {
@@ -72,8 +96,7 @@ public class JwtService {
         }
         return generateToken(claims, userDetails);
     }
-
-    // Метод непосредственно генерирует токен на основании набора данных о пользователе
+  // Метод непосредственно генерирует токен на основании набора данных о пользователе
     private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder()
                 .claims()

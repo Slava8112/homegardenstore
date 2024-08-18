@@ -16,8 +16,8 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService{
     private static final Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
 
-public final ProductRepository repository;
-public final CategoryService categoryService;
+    public final ProductRepository repository;
+    public final CategoryService categoryService;
 
     @Override
     public Product addProduct(Long categoryId, Product product) {
@@ -25,7 +25,7 @@ public final CategoryService categoryService;
         product.setCategory(category);
         Product unit = repository.save(product);
         log.debug("The product with id {} was edded prouct {}",product.getId(), product);
-            return unit;
+        return unit;
     }
 
 //    @Override
@@ -34,7 +34,7 @@ public final CategoryService categoryService;
 //    }
 
     @Override
-  public void deleteById(Long productId) {
+    public void deleteById(Long productId) {
         repository.deleteById(productId);
     }
 

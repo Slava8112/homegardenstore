@@ -2,7 +2,15 @@ package telran.org.scotlandyard.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
 import lombok.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import telran.org.scotlandyard.model.Role;
+
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +33,6 @@ public class UserEntity {
 
     private String phone;
 
-    // HASH kode
     private String password;
 
    // @Enumerated(EnumType.STRING)
@@ -36,6 +43,7 @@ public class UserEntity {
     @JsonManagedReference
     private Set<Favorite> favorites = new HashSet<>();
 
-    public UserEntity(String name, String email, String phone, String password) {
+
+    public UserEntity(Object o, String name, String email, String phone, String password) {
     }
 }

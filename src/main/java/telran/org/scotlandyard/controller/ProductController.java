@@ -13,7 +13,6 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
-//private final CategoryService categoryService;
 
     @PostMapping
     public Product add(@RequestParam Long category_id, @RequestBody Product product) {

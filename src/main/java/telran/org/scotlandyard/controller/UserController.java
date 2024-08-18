@@ -1,9 +1,13 @@
 package telran.org.scotlandyard.controller;
 
 import lombok.RequiredArgsConstructor;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import telran.org.scotlandyard.dto.UserCreateDto;
@@ -19,52 +23,51 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/userEntity")
+@RequestMapping("/v1/users")
 @RequiredArgsConstructor
 public class UserController {
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
-    public final UserService userService;
 
-
+    private final UserService userService;
     private final AuthenticationService authenticationService;
-
-
     private final PasswordEncoder passwordEncoder;
-
     private final Converter<UserEntity, UserDto, UserCreateDto> converter;
 
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public List<Object> getAll() {
-        return userService.getAll()
-                .stream()
-                .map(userEntity -> converter.toDto(userEntity))
+
+    public List<UserDto> getAll() {
+        return userService.getAll().stream()
+                .map(converter::toDto)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public UserDto getById(@PathVariable Long id) {
-        return converter.toDto(userService.getById(id));
+
+    public UserEntity getById(@PathVariable Long id) {
+        return userService.getById(id);
     }
 
-    @PostMapping
-//    public UserDto create(@RequestBody UserCreateDto userDto) {
-//        UserEntity userEntity = converter.toEntity(userDto);
-//        log.debug("UserEntity: {}", userEntity);
-//        userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-//        return converter.toDto(userService.create(userEntity));
-//    }
+    @PostMapping("/register") // Добавляем '/register' для регистрации
+    public ResponseEntity<UserDto> create(@RequestBody UserCreateDto userDto) {
+        UserEntity userEntity = converter.toEntity(userDto);
+        userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+        UserDto createdUser = converter.toDto(userService.create(userEntity));
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+    }
 
     @GetMapping("/search")
-    public UserDto findByEmail(@RequestParam String email) {
-        return converter.toDto(userService.findByEmail(email));
+    public UserEntity findByEmail(@RequestParam String email) {
+        return userService.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found"));
     }
 
-//    @DeleteMapping
-//    public void delete(@RequestParam String email) {
-//        userService.deleteByEmail(email);
-//    }
+    @DeleteMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public void delete(@RequestParam String email) {
+        userService.deleteByEmail(email);
+    }
 
     @PostMapping("/login")
     public JwtAuthenticationResponse login(@RequestBody SignInRequest request) {
