@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "carts")
 @Setter
@@ -21,8 +24,13 @@ public class Cart {
     private Long id;
 
     @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "userEntity", referencedColumnName = "id")
     @JsonBackReference
-    private User_out user_out;
+
+    private UserEntity userEntity;
+
+@OneToMany(cascade = CascadeType.ALL)
+@JoinColumn(name = "cart_id")
+private Set<Cartitems> cartItems = new HashSet<>();
 
 }

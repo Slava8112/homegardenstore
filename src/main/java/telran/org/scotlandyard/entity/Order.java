@@ -1,10 +1,9 @@
 package telran.org.scotlandyard.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import telran.org.scotlandyard.model.Status;
 
 import java.util.Date;
@@ -24,7 +23,6 @@ public class Order {
     private Long id;
 
     private Date createdAT = new Date();
-
     private String DeliveryAddress;
     private String ContactPhone;
     private String DeliveryMethod;
@@ -34,7 +32,13 @@ public class Order {
 
     private Date updatedAT = new Date();
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "orders_id")
-    private Set<Product> products = new HashSet<>();
+    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<OrderItem> orderItems = new HashSet<>();
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "userEntityId", referencedColumnName = "id")
+    @JsonBackReference
+    @ToString.Exclude
+    private UserEntity userEntity;
 }

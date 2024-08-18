@@ -1,19 +1,19 @@
 package telran.org.scotlandyard.service;
 
-import telran.org.scotlandyard.entity.User_out;
+import telran.org.scotlandyard.entity.UserEntity;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
 
-    List<User_out> getAll();
+    List<UserEntity> getAll();
 
-    User_out getById(Long id);
+    UserEntity getById(Long id);
 
-    void deleteById(long id);
+    void deleteByEmail(String email);
 
-    User_out create(User_out user_out);
+    UserEntity create(UserEntity userEntity);
 
-    Optional<User_out> findByEmail(String email);
+    Optional<UserEntity> findByEmail(String email); // Изменено для возвращения Optional
 }

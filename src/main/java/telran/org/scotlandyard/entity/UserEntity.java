@@ -7,15 +7,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import telran.org.scotlandyard.model.Role;
-import telran.org.scotlandyard.model.Status;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "userEntity")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User_out {
+public class UserEntity {
 
     @Id()
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +34,10 @@ public class User_out {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "user")
+    @OneToMany(mappedBy = "userEntity",cascade = CascadeType.ALL)
     @JsonManagedReference
-    private Cart cart;
+    private Set<Favorite> favorites = new HashSet<>();
+
+    public UserEntity(Object o, String name, String email, String phone, String password) {
+    }
 }

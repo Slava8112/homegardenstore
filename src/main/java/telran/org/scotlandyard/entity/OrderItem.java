@@ -1,7 +1,6 @@
 package telran.org.scotlandyard.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,11 +23,15 @@ public class OrderItem {
 
     private double pricePurshause;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "orderitems_id")
-    private Set<Order> order = new HashSet<>();
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @JsonBackReference
+    @ToString.Exclude
+    private Order order;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "orderitems_id")
-    private Set<Product> products = new HashSet<>();
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @JsonBackReference
+    @ToString.Exclude
+    private Product product;
 }

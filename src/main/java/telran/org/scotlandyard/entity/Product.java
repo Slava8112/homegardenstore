@@ -1,10 +1,9 @@
 package telran.org.scotlandyard.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -18,6 +17,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Product {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -29,20 +29,18 @@ public class Product {
 
     private double price;
 
-    private String category;
-
-    //private Date receipt_Data = new Date();
-
     private String image;
 
     private double discountprice;
 
     private Date createdAt = new Date();
-
+//Verify  createdAt  on null
     private Date updatedAt = new Date();
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "products_id")
-    private Set<Product> products =new HashSet<>();
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @JsonBackReference
+    @ToString.Exclude
+    private Category category;
 
 }
