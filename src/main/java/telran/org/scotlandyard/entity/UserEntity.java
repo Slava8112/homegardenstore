@@ -1,10 +1,8 @@
 package telran.org.scotlandyard.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
-import telran.org.scotlandyard.model.Role;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,10 +28,14 @@ public class UserEntity {
     // HASH kode
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+   // @Enumerated(EnumType.STRING)
+    private String role = "ROLE_USER";
 
     @OneToMany(mappedBy = "userEntity",cascade = CascadeType.ALL)
+
     @JsonManagedReference
     private Set<Favorite> favorites = new HashSet<>();
+
+    public UserEntity(String name, String email, String phone, String password) {
+    }
 }

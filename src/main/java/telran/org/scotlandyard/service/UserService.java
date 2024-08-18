@@ -10,11 +10,13 @@ public interface UserService {
 
     UserEntity getById(Long id);
 
+    UserEntity findByEmail(String email);
+
     void deleteByEmail(String email);
 
-    UserEntity create(UserEntity user_out);
+    UserEntity create(UserEntity userEntity);
 
-    UserEntity findByEmail(String email);
+
 
 
 }

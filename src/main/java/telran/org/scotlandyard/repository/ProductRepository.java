@@ -6,10 +6,14 @@ import telran.org.scotlandyard.entity.Category;
 import telran.org.scotlandyard.entity.Product;
 import telran.org.scotlandyard.service.CategoryService;
 
+import java.util.List;
+
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-   Product findByCategoryId(Long categoryId);
+   List<Product> findAllByCategoryId(Long categoryId);
 
+   Product findByCategoryId(Long categoryId);
 }
+
 

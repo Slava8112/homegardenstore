@@ -41,16 +41,18 @@ public class SecurityConfig {
     @Bean
      SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
             http
-                    .csrf(AbstractHttpConfigurer::disable)
-                    .authorizeHttpRequests(request -> request
-                            .requestMatchers(HttpMethod.POST, "/userEntity").permitAll()
-                            .anyRequest().authenticated())
-                            //authenticated())
-                    .httpBasic(Customizer.withDefaults())
-                    .sessionManagement(session -> session
-                            .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                    .addFilterBefore(jwtAuthenticationFilter,
-                            UsernamePasswordAuthenticationFilter.class);
+                    .csrf(csrf -> csrf.disable())
+                    .authorizeHttpRequests(authorize -> authorize
+                            .requestMatchers(
+                                    "/v3/api-docs/**",
+                                    "/swagger-ui/**",
+                                    "/swagger-ui.html"
+                            ).permitAll()
+                            .requestMatchers(HttpMethod.POST, "/v1/users/register",
+                                    "/v1/users/login").permitAll() // Открываем доступ
+                            .anyRequest().authenticated()).sessionManagement(session -> session
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                   .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
             return http.build();
         }
