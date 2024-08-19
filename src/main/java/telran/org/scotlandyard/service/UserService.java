@@ -16,6 +16,4 @@ public interface UserService {
     void deleteByEmail(String email);
 
     UserEntity create(UserEntity userEntity);
-
-    Optional<UserEntity> findByEmail(String email); // Изменено для возвращения Optional
 }

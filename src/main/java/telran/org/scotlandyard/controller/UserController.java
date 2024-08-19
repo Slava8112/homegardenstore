@@ -1,7 +1,6 @@
 package telran.org.scotlandyard.controller;
 
 import lombok.RequiredArgsConstructor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -59,8 +58,7 @@ public class UserController {
 
     @GetMapping("/search")
     public UserEntity findByEmail(@RequestParam String email) {
-        return userService.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found"));
+        return userService.findByEmail(email);
     }
 
     @DeleteMapping
