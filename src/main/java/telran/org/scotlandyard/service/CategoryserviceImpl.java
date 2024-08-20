@@ -3,7 +3,6 @@ package telran.org.scotlandyard.service;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import telran.org.scotlandyard.entity.Category;
 import telran.org.scotlandyard.exception.CategoryNotFoundException;

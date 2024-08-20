@@ -20,8 +20,7 @@ public class FavoriteServiceImpl implements FavoriteService{
     @Override
     public Favorite createFavorite(Long userEntityId, Favorite favorite) {
         log.debug("Favorite is created {}", favorite);
-        Favorite unit = favoriteRepository.save(favorite);
-        return unit;
+        return favoriteRepository.save(favorite);
     }
 
     @Override
@@ -31,9 +30,8 @@ public class FavoriteServiceImpl implements FavoriteService{
 
     @Override
     public Favorite findById(Long id) {
-        Favorite unit = favoriteRepository.findById(id)
+        return favoriteRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException("No category with id " + id));
-        return unit;
     }
 
     @Override

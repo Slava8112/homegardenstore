@@ -1,14 +1,9 @@
 package telran.org.scotlandyard.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity

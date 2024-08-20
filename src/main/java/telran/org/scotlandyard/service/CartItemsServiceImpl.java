@@ -2,10 +2,8 @@ package telran.org.scotlandyard.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import telran.org.scotlandyard.entity.Cart;
 import telran.org.scotlandyard.entity.Cartitems;
 import telran.org.scotlandyard.entity.Product;
-import telran.org.scotlandyard.entity.UserEntity;
 import telran.org.scotlandyard.repository.CartItemsRepository;
 
 import java.util.List;

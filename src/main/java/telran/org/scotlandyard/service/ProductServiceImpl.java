@@ -28,11 +28,6 @@ public class ProductServiceImpl implements ProductService{
         return unit;
     }
 
-//    @Override
-//    public Product updateProduct(Product product) {
-//        return null;
-//    }
-
     @Override
     public void deleteById(Long productId) {
         repository.deleteById(productId);
@@ -53,19 +48,4 @@ public class ProductServiceImpl implements ProductService{
         return repository.findByCategoryId(categoryId);
     }
 
-//    @Override
-//    public List<Product> findByCategoryId(Long categoryId) {
-//         List<Product> productsOfcategory = Arrays.asList(repository.findByCategoryId(categoryId));
-//
-//         log.debug("Variable categoryId {}", categoryId);
-//
-//         return  productsOfcategory;
-//    }
-
-//    @Override
-//    public Product getById(Long productId) {
-//    Product product = repository.findById(productId)
-//            .orElseThrow(() -> new ProductNotFoundException("The Product with id  not exist " + productId));
-//return product;
-//}
 }

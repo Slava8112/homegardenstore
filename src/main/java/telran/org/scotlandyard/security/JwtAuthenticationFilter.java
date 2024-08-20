@@ -34,7 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        String jwt = header.substring(7); // "Bearer " is 7 characters
+        String jwt = header.substring(7);
         String userName = jwtService.extractUserName(jwt);
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
