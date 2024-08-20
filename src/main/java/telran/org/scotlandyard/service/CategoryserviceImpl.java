@@ -25,8 +25,12 @@ public class CategoryserviceImpl implements CategoryService {
         return unit;
     }
     @Override
-    public Category UpdateCategory(Category category) {
-        return null;
+    public Category UpdateCategory(Long id, Category category) {
+        Category existingCategory = findById(id);
+        existingCategory.setName(category.getName());
+        Category updatedCategory = categoryRepository.save(existingCategory);
+        log.debug("Category with id {} was updated", id);
+        return updatedCategory;
     }
 
     @Override

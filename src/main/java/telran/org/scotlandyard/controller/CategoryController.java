@@ -50,4 +50,13 @@ public class CategoryController {
     public List<Category> getAll(){
        return categoryService.getAll();
    }
+    @Operation(summary = "Редактирование категории по ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Категория успешно обновлена"),
+            @ApiResponse(responseCode = "404", description = "Категория не найдена")
+    })
+    @PutMapping("/{id}")
+    public Category update(@PathVariable Long id, @RequestBody Category category) {
+        return categoryService.UpdateCategory(id, category); // Изменено: использование UpdateCategory
+    }
 }
