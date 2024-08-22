@@ -12,7 +12,6 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Product {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -26,10 +25,11 @@ public class Product {
 
     private String image;
 
-    private double discountprice;
+    @Column(name = "discountPrice", nullable = true)
+    private Double discountPrice = 0.0;
 
     private Date createdAt = new Date();
-//Verify  createdAt  on null
+
     private Date updatedAt = new Date();
 
     @ManyToOne(cascade = CascadeType.PERSIST)
@@ -37,5 +37,4 @@ public class Product {
     @JsonBackReference
     @ToString.Exclude
     private Category category;
-
 }

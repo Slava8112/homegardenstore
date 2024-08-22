@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
 
-    private final OrderService orderSevice;
+    private final OrderService orderService;
 
     @Operation(summary = "Получить список всех заказов")
     @ApiResponses(value = {
@@ -23,7 +23,7 @@ public class OrderController {
     })
     @GetMapping("/OrderAll")
     public List<Order> list() {
-        return orderSevice.getAllOrders();
+        return orderService.getAllOrders();
     }
 
     @Operation(summary = "Получить заказ по ID")
@@ -33,7 +33,7 @@ public class OrderController {
     })
     @GetMapping("/OrderById/{id}")
     public Order getById(@PathVariable Long id) {
-        return orderSevice.findById(id);
+        return orderService.findById(id);
     }
 
     @Operation(summary = "Создать новый заказ")
@@ -43,7 +43,7 @@ public class OrderController {
     })
     @PostMapping("/OrderCreate")
     public Order create(@RequestBody Order order) {
-        return orderSevice.create(order);
+        return orderService.create(order);
     }
 
     @Operation(summary = "Удалить заказ по ID")
@@ -53,6 +53,6 @@ public class OrderController {
     })
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
-        orderSevice.deleteById(id);
+        orderService.deleteById(id);
     }
 }
