@@ -8,7 +8,7 @@ import telran.org.scotlandyard.service.ProductService;
 import java.util.List;
 
 @RestController
-@RequestMapping("products")
+@RequestMapping("/v1/products")
 @RequiredArgsConstructor
 public class ProductController {
 

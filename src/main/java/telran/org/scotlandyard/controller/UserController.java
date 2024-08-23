@@ -34,7 +34,7 @@ public class UserController {
     private final Converter<UserEntity, UserDto, UserCreateDto> converter;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+   // @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 
     public List<UserDto> getAll() {
         return userService.getAll().stream()
@@ -62,7 +62,7 @@ public class UserController {
     }
 
     @DeleteMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public void delete(@RequestParam String email) {
         userService.deleteByEmail(email);
     }

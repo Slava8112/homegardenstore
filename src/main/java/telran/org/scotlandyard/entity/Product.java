@@ -1,7 +1,7 @@
 package telran.org.scotlandyard.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,7 +17,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-
+@ToString
 public class Product {
     @Id
     @GeneratedValue(strategy = IDENTITY)

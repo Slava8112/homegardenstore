@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import telran.org.scotlandyard.service.CartService;
 
 @RestController
-@RequestMapping("carts")
+@RequestMapping("/v1/carts")
 @RequiredArgsConstructor
 public class CartController {
 

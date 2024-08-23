@@ -18,6 +18,8 @@ public class Cartitems {
 
     private int quantity;
 
+    private double pricePurshause;
+
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "product_id", referencedColumnName = "id")

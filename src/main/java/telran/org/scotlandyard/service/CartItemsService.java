@@ -12,7 +12,7 @@ public interface CartItemsService {
 
     void deleteById(Long id);
 
-    Cartitems update(Cartitems cartitems);
+
 
 
 }

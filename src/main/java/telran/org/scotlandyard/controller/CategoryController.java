@@ -9,7 +9,7 @@ import telran.org.scotlandyard.service.CategoryService;
 import java.util.List;
 
 @RestController
-@RequestMapping("categories")
+@RequestMapping("/v1/categories")
 @RequiredArgsConstructor
 public class CategoryController {
 

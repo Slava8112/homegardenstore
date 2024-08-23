@@ -9,7 +9,7 @@ import telran.org.scotlandyard.service.FavoriteService;
 import java.util.List;
 
 @RestController
-@RequestMapping("favorits")
+@RequestMapping("/v1/favorits")
 @RequiredArgsConstructor
 public class FavoriteController {
 

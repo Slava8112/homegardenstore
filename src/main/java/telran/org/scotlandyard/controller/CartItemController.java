@@ -11,7 +11,7 @@ import telran.org.scotlandyard.service.ProductService;
 import java.util.List;
 
 @RestController
-@RequestMapping("cartItems")
+@RequestMapping("/1v/cartItems")
 @RequiredArgsConstructor
 public class CartItemController {
 
