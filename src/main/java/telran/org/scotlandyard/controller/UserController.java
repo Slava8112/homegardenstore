@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import telran.org.scotlandyard.dto.UserCreateDto;
 import telran.org.scotlandyard.dto.UserDto;
 import telran.org.scotlandyard.entity.UserEntity;
+import telran.org.scotlandyard.model.Role;
 import telran.org.scotlandyard.security.AuthenticationService;
 import telran.org.scotlandyard.security.modele.JwtAuthenticationResponse;
 import telran.org.scotlandyard.security.modele.SignInRequest;
@@ -20,6 +21,7 @@ import telran.org.scotlandyard.service.converter.Converter;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/v1/users")
@@ -49,10 +51,10 @@ public class UserController {
     }
 
     @PostMapping("/register") // Добавляем '/register' для регистрации
-    public ResponseEntity<UserDto> create(@RequestBody UserCreateDto userDto) {
+    public ResponseEntity<UserDto> create(@RequestBody UserCreateDto userDto, @RequestParam Role role) {
         UserEntity userEntity = converter.toEntity(userDto);
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-        UserDto createdUser = converter.toDto(userService.create(userEntity));
+        UserDto createdUser = converter.toDto(userService.create(userEntity, role));
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 

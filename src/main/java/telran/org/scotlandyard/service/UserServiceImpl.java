@@ -33,10 +33,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity create(UserEntity userEntity) {
+    public UserEntity create(UserEntity userEntity, Role role) {
         // Проверяем, есть ли у пользователя назначена роль. Если нет, назначаем роль по умолчанию.
         if (userEntity.getRole() == null) {
-            userEntity.setRole(Role.ROLE_CLIENT.name()); // Назначаем роль по умолчанию
+            userEntity.setRole(Role.ROLE_ADMIN);
+             // Назначаем роль по умолчанию
         }
 
         UserEntity unit = userRepository.save(userEntity);

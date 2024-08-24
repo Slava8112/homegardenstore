@@ -2,6 +2,7 @@ package telran.org.scotlandyard.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import telran.org.scotlandyard.model.Role;
 
 @Data
 @NoArgsConstructor
@@ -14,11 +15,13 @@ public class UserCreateDto {
     private String phone;
 
     private String password;
+    private Role role;
 
-    public UserCreateDto(String name, String email, String phone, String password) {
+    public UserCreateDto(String name, String email, String phone, String password, Role role) {
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.password = password;
+        this.role = role;
     }
 }

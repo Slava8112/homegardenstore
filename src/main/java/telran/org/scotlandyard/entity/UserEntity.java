@@ -36,8 +36,8 @@ public class UserEntity {
 
     private String password;
 
-   // @Enumerated(EnumType.STRING)
-    private String role = "ROLE_USER";
+   @Enumerated(EnumType.STRING)
+    private Role role = Role.ROLE_CLIENT;
 
     @OneToMany(mappedBy = "userEntity",cascade = CascadeType.ALL)
 
