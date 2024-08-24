@@ -20,18 +20,17 @@ public class ProductServiceImpl implements ProductService{
     public final CategoryService categoryService;
 
     @Override
-    public Product addProduct(Long categoryId, Product product) {
-        Category category = categoryService.findById(categoryId);
-        product.setCategory(category);
+    public Product addProduct(Product product) {
         Product unit = repository.save(product);
-        log.debug("The product with id {} was edded prouct {}",product.getId(), product);
+        log.debug("The product  was edded {}", product);
         return unit;
     }
 
-//    @Override
-//    public Product updateProduct(Product product) {
-//        return null;
-//    }
+    @Override
+    public Product updateProduct(Long productId, Product product) {
+        Product unit = repository.save(product);
+        return unit;
+    }
 
     @Override
     public void deleteById(Long productId) {
@@ -44,8 +43,8 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public Product getById(Long productId) {
-        Optional<Product> product = repository.findById(productId);
-        return null;
+        Product product = repository.findById(productId).get();
+        return product;
     }
 
     @Override

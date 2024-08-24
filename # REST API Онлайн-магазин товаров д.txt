@@ -6,7 +6,8 @@
 
 - **Базовый URL**: `https://api.example.com/v1`
 - **Формат данных**: JSON
-- **Аутентификация**: JWT токен в заголовке запроса `Authorization: Bearer <token>`
+- **Аутентификация**: JWT токен в заголовке запроса
+`Authorization: Bearer <token>`
 
 ### Эндпоинты
 

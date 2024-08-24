@@ -1,8 +1,8 @@
 package telran.org.scotlandyard.service.converter;
 
 import org.springframework.stereotype.Component;
-import telran.org.scotlandyard.dto.UserCreateDto;
-import telran.org.scotlandyard.dto.UserDto;
+import telran.org.scotlandyard.dto.user.UserCreateDto;
+import telran.org.scotlandyard.dto.user.UserDto;
 import telran.org.scotlandyard.entity.UserEntity;
 
 
@@ -10,7 +10,6 @@ import telran.org.scotlandyard.entity.UserEntity;
 public class UserConverter implements Converter<UserEntity, UserDto, UserCreateDto> {
 
     @Override
-
     public UserEntity toEntity(UserCreateDto dto) {
         return new UserEntity(null, dto.getName(), dto.getEmail(), dto.getPhone(), dto.getPassword(), null, null);
     }

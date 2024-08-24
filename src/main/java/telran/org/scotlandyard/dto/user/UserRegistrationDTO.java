@@ -1,4 +1,4 @@
-package telran.org.scotlandyard.dto;
+package telran.org.scotlandyard.dto.user;
 
 import lombok.Getter;
 import lombok.Setter;
