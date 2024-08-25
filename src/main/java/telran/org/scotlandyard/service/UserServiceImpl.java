@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import telran.org.scotlandyard.entity.UserEntity;
+import telran.org.scotlandyard.exception.NoUniqueUserEmailException;
 import telran.org.scotlandyard.model.Role;
 import telran.org.scotlandyard.repository.UserRepository;
 
@@ -32,17 +33,40 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    @Override
-    public UserEntity create(UserEntity userEntity) {
-        // Проверяем, есть ли у пользователя назначена роль. Если нет, назначаем роль по умолчанию.
-        if (userEntity.getRole() == null) {
-            userEntity.setRole(Role.ROLE_CLIENT.name()); // Назначаем роль по умолчанию
-        }
-
-        UserEntity unit = userRepository.save(userEntity);
-        log.debug("User was successfully added   {}", userEntity);
-        return unit;
+//    @Override
+//    public UserEntity create(UserEntity userEntity) {
+//        // Проверяем, есть ли у пользователя назначена роль. Если нет, назначаем роль по умолчанию.
+//        if (userEntity.getRole() == null) {
+//            userEntity.setRole(Role.ROLE_CLIENT.name()); // Назначаем роль по умолчанию
+//        }
+//
+//        UserEntity unit = userRepository.save(userEntity);
+//        log.debug("User was successfully added   {}", userEntity);
+//        return unit;
+//    }
+@Override
+public UserEntity create(UserEntity userEntity) {
+    // Проверка на уникальность email
+    if (userRepository.findByEmail(userEntity.getEmail()).isPresent()) {
+        log.error("User with email {} already exists", userEntity.getEmail());
+        throw new NoUniqueUserEmailException("User with email " + userEntity.getEmail() + " already exists");
     }
+
+    // Назначение роли ADMIN, если email совпадает с указанным
+    if (userEntity.getEmail().equalsIgnoreCase("admin1@example.com")) {
+        userEntity.setRole("ROLE_ADMIN");
+    } else {
+        // Назначение роли по умолчанию
+        userEntity.setRole("ROLE_CLIENT");
+    }
+
+    // Шифрование пароля перед сохранением (если нужно)
+//    userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+
+    UserEntity savedUser = userRepository.save(userEntity);
+    log.debug("User was successfully added: {}", savedUser);
+    return savedUser;
+}
 
     @Override
     public UserEntity findByEmail(String email) throws UsernameNotFoundException {

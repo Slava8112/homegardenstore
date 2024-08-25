@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class OrderServiceImpl implements OrderSevice{
+public class OrderServiceImpl implements OrderService {
 
     private static final Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
 
@@ -26,7 +26,7 @@ public class OrderServiceImpl implements OrderSevice{
     public Order findById(Long id) {
              //   .orElseThrow(() -> new OrderNotFoundException("No Order with id " + id));;
         return orderRepository.findById(id).get();
-        //log.debug("Order with id {}, Order {}", order.getId(), order);
+
     }
 
     @Override

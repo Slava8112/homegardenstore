@@ -48,6 +48,7 @@ public class SecurityConfig {
                         ).permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/users/register", "/v1/users/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/v1/users").hasAuthority("ROLE_ADMIN") // Проверка роли ADMIN для GET /v1/users
+                        .requestMatchers(HttpMethod.DELETE, "/v1/users/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().permitAll()
                 )
                 .httpBasic(Customizer.withDefaults())

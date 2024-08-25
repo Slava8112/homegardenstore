@@ -3,7 +3,6 @@ package telran.org.scotlandyard.service;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import telran.org.scotlandyard.entity.Category;
 import telran.org.scotlandyard.exception.CategoryNotFoundException;
@@ -26,8 +25,12 @@ public class CategoryserviceImpl implements CategoryService {
         return unit;
     }
     @Override
-    public Category UpdateCategory(Category category) {
-        return null;
+    public Category UpdateCategory(Long id, Category category) {
+        Category existingCategory = findById(id);
+        existingCategory.setName(category.getName());
+        Category updatedCategory = categoryRepository.save(existingCategory);
+        log.debug("Category with id {} was updated", id);
+        return updatedCategory;
     }
 
     @Override

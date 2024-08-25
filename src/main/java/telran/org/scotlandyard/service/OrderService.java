@@ -4,7 +4,7 @@ import telran.org.scotlandyard.entity.Order;
 
 import java.util.List;
 
-public interface OrderSevice {
+public interface OrderService {
 
 
     List<Order> getAllOrders();
