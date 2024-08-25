@@ -87,6 +87,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "Пользователь не найден")
     })
     @DeleteMapping
+
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public void delete(@RequestParam String email) {
         userService.deleteByEmail(email);
