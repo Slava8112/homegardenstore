@@ -9,11 +9,11 @@ import telran.org.scotlandyard.service.CategoryService;
 import java.util.List;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, String> {
 
-   List<Product> findAllByCategoryId(Long categoryId);
+   List<Product> findAllByCategoryId(String categoryId);
 
-   Product findByCategoryId(Long categoryId);
+   //Product findByCategoryId(String categoryId);
 }
 
 

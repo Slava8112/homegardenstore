@@ -8,7 +8,7 @@ public interface CartItemsService {
 
     List<Cartitems> getAll();
 
-    Cartitems add(Long productsId, Cartitems cartitems);
+    Cartitems add(String productsId, Cartitems cartitems);
 
     void deleteById(Long id);
 

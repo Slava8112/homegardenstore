@@ -9,7 +9,7 @@ import telran.org.scotlandyard.entity.Product;
 public class ProductConverter implements Converter<Product, ProductDto, ProductCreateDto> {
 
     public Product toEntity(ProductCreateDto dto) {
-        return null;
+        return new Product();
     }
 
     @Override

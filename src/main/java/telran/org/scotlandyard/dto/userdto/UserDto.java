@@ -1,4 +1,4 @@
-package telran.org.scotlandyard.dto.user;
+package telran.org.scotlandyard.dto.userdto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

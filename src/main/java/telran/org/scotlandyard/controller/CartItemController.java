@@ -26,7 +26,7 @@ public class CartItemController {
     }
 
     @PostMapping("/id")
-    public Cartitems add(@RequestParam Long productsId,
+    public Cartitems add(@RequestParam String productsId,
                          @RequestBody Cartitems cartitems) {
         return cartItemsService.add(productsId, cartitems);
     }

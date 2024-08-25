@@ -8,11 +8,12 @@ public interface CategoryService {
 
     Category createCategory(Category category);
 
-    Category UpdateCategory(Category category);
-
-    Category findById(Long id);
+    Category findById(String categeryId);
 
     List<Category> getAll();
 
-    void delete(Long id);
+    void delete(String id);
+
+    Category updateCategory(String categoryId, Category category);
 }
+

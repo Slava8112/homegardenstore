@@ -28,9 +28,9 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long productid, @RequestBody ProductCreateDto productDto) {
+    public Product updateProduct(@PathVariable String productId, @RequestBody ProductCreateDto productDto) {
 
-        Product modifiProduct = productService.getById(productid);
+        Product modifiProduct = productService.getById(productId);
 
         Product newProduct = converter.toEntity(productDto);
 
@@ -40,10 +40,9 @@ public class ProductController {
         newProduct.setCategory(modifiProduct.getCategory());
         newProduct.setImage(modifiProduct.getImage());
 log.debug("Modified product {}", newProduct);
-       // Product product = productService.save(newProduct);
+        Product product = productService.updateProduct(productId, newProduct);
 
-
-        return newProduct;
+        return product;
     }
 
     @GetMapping
@@ -52,30 +51,18 @@ log.debug("Modified product {}", newProduct);
     }
 
     @GetMapping("/categoryId")
-    public List<Product> findByCategory(@RequestParam Long categoryId) {
-        return (List<Product>) productService.findByCategoryId(categoryId);
+    public List<Product> findAllByCategoryId(@RequestParam String categoryId) {
+        return (List<Product>) productService.findAllByCategoryId(categoryId);
     }
 
     @DeleteMapping
-    public void deleteById(@RequestBody Long productId) {
+    public void deleteById(@RequestBody String productId) {
         productService.deleteById(productId);
     }
 
     @GetMapping("/{id}")
-    public Product getById(@PathVariable Long productid) {
+    public Product getById(@PathVariable String productid) {
         return productService.getById(productid);
     }
 
 }
-//@PutMapping("{id}")
-//    public ResponseEntity<Employee> updateEmployee(@PathVariable long id,@RequestBody Employee employeeDetails) {
-//        Employee updateEmployee = employeeRepository.findById(id)
-//                .orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id: " + id));
-//
-//        updateEmployee.setFirstName(employeeDetails.getFirstName());
-//        updateEmployee.setLastName(employeeDetails.getLastName());
-//        updateEmployee.setEmailId(employeeDetails.getEmailId());
-//
-//        employeeRepository.save(updateEmployee);
-//
-//        return ResponseEntity.ok(updateEmployee);

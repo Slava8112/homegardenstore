@@ -27,13 +27,13 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product updateProduct(Long productId, Product product) {
+    public Product updateProduct(String productId, Product product) {
         Product unit = repository.save(product);
         return unit;
     }
 
     @Override
-    public void deleteById(Long productId) {
+    public void deleteById(String productId) {
         repository.deleteById(productId);
     }
 
@@ -42,29 +42,15 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product getById(Long productId) {
+    public Product getById(String productId) {
         Product product = repository.findById(productId).get();
         return product;
     }
 
     @Override
-    public Product findByCategoryId(Long categoryId) {
-        return repository.findByCategoryId(categoryId);
+    public List<Product> findAllByCategoryId(String categoryId) {
+        return repository.findAllByCategoryId(categoryId);
     }
 
-//    @Override
-//    public List<Product> findByCategoryId(Long categoryId) {
-//         List<Product> productsOfcategory = Arrays.asList(repository.findByCategoryId(categoryId));
-//
-//         log.debug("Variable categoryId {}", categoryId);
-//
-//         return  productsOfcategory;
-//    }
 
-//    @Override
-//    public Product getById(Long productId) {
-//    Product product = repository.findById(productId)
-//            .orElseThrow(() -> new ProductNotFoundException("The Product with id  not exist " + productId));
-//return product;
-//}
 }

@@ -1,8 +1,8 @@
 package telran.org.scotlandyard.service.converter;
 
 import org.springframework.stereotype.Component;
-import telran.org.scotlandyard.dto.user.UserCreateDto;
-import telran.org.scotlandyard.dto.user.UserDto;
+import telran.org.scotlandyard.dto.userdto.UserCreateDto;
+import telran.org.scotlandyard.dto.userdto.UserDto;
 import telran.org.scotlandyard.entity.UserEntity;
 
 

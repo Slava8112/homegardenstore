@@ -1,4 +1,4 @@
-package telran.org.scotlandyard.dto.productdto;
+package telran.org.scotlandyard.dto.categorydto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -9,16 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
+public class CategoryCreateDto {
 
-public class ProductCreateDto {
-
- private String name;
-
- private String description;
-
- private double price;
-
- private String category;
-
- private String image;
+    private String categoryId;
+    private String name;
 }

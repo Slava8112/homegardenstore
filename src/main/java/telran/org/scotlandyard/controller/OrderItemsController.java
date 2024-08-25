@@ -25,7 +25,7 @@ public class OrderItemsController {
     }
 
     @PostMapping("/id")
-    public OrderItem add(@RequestParam Long productsId,
+    public OrderItem add(@RequestParam String productsId,
                          @RequestBody OrderItem orderItem) {
         return orderItemService.addOrderItem(productsId, orderItem);
     }
