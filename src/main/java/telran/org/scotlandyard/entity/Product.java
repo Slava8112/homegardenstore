@@ -19,7 +19,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 public class Product {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private Long id;
+    private String id;
 
     private String name;
 

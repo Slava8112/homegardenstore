@@ -2,6 +2,8 @@ package telran.org.scotlandyard.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import telran.org.scotlandyard.dto.productdto.ProductCreateDto;
 import telran.org.scotlandyard.dto.productdto.ProductDto;
@@ -20,11 +22,15 @@ public class ProductController {
     private final ProductService productService;
     private final Converter<Product, ProductDto, ProductCreateDto> converter;
 
-    @PostMapping
-    public Product add(@RequestParam @RequestBody ProductCreateDto productDto) {
+    @PostMapping("/add")
+    public ResponseEntity<ProductDto> add(@RequestBody ProductCreateDto productDto) {
         Product product = converter.toEntity(productDto);
-        ProductDto newProduct = converter.toDto(productService.addProduct(product));
-        return productService.addProduct(product);
+        log.debug("Product added: {}", product);
+        productService.addProduct(product);
+       // ProductDto newProduct = converter.toDto(productService.addProduct(product));
+        log.debug("Product added: {}", productDto);
+        return null;
+                //ResponseEntity.status(HttpStatus.CREATED).body(newProduct);
     }
 
     @PutMapping("/{id}")
@@ -39,7 +45,7 @@ public class ProductController {
         newProduct.setPrice(modifiProduct.getPrice());
         newProduct.setCategory(modifiProduct.getCategory());
         newProduct.setImage(modifiProduct.getImage());
-log.debug("Modified product {}", newProduct);
+        log.debug("Modified product {}", newProduct);
         Product product = productService.updateProduct(productId, newProduct);
 
         return product;
@@ -54,7 +60,6 @@ log.debug("Modified product {}", newProduct);
     public List<Product> findAllByCategoryId(@RequestParam String categoryId) {
         return (List<Product>) productService.findAllByCategoryId(categoryId);
     }
-
     @DeleteMapping
     public void deleteById(@RequestBody String productId) {
         productService.deleteById(productId);
@@ -65,4 +70,15 @@ log.debug("Modified product {}", newProduct);
         return productService.getById(productid);
     }
 
+//    @GetMapping
+//    public List<Product> getAllDiscountprice() {
+//        return getAll().stream().filter(entity -> entity.getDiscountprice() > 0)
+//                .collect(Collectors.toList());
+//    }
+
+//    @GetMapping
+//    public List<Product> getMinPrice {
+//        return getAll().stream().filter(entity -> entity.getPrice() > 0)
+//                .collect(Collectors.toList());
+//    }
 }

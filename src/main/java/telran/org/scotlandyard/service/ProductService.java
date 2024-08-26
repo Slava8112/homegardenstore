@@ -20,6 +20,7 @@ public interface ProductService {
 // `maxPrice`, `discount`, `sort`
 
         List<Product> findAllByCategoryId(String categoryId);
+ //       List<Product> getAllDiscountprice();
 //
 //    Product getPoductByminPrice();
 //

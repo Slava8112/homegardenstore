@@ -51,6 +51,10 @@ public class ProductServiceImpl implements ProductService{
     public List<Product> findAllByCategoryId(String categoryId) {
         return repository.findAllByCategoryId(categoryId);
     }
+//@Override
+//public List<Product> getAllDiscountprice(){
+//        return repository.getAllDiscountprice();
+//}
 
 
 }

@@ -15,6 +15,7 @@ public class UserCreateDto {
     private String phone;
 
     private String password;
+
     private Role role;
 
     public UserCreateDto(String name, String email, String phone, String password, Role role) {

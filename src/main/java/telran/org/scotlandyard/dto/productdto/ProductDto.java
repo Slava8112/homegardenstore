@@ -1,6 +1,7 @@
 package telran.org.scotlandyard.dto.productdto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,9 +11,29 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductDto {
+
+    private String id;
     private String name;
+
     private String description;
+
     private double price;
+
     private String category;
+
     private String image;
+
+    @Column(nullable = true)
+    private double discountprice;
+
+
+
+//    public ProductDto(String name, String description, double price, String category, String image, double discountprice){
+//        this.name = name;
+//        this.description=description;
+//        this.price = price;
+//        this.category = category;
+//        this.image = image;
+//        this.discountprice = discountprice;
+//    }
 }

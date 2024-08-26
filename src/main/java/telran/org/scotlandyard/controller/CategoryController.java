@@ -37,7 +37,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public Category updateProduct(@PathVariable String categoryId, @RequestBody CategoryCreateDto categoryDto) {
+    public Category updateCategory(@PathVariable String categoryId, @RequestBody CategoryCreateDto categoryDto) {
 log.debug(" Id of modified category: {}", categoryId);
         Category modifiCategory = categoryService.findById(categoryId);
 

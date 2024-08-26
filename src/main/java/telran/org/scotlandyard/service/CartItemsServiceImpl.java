@@ -12,7 +12,7 @@ import java.util.List;
 public class CartItemsServiceImpl implements CartItemsService{
     private final CartItemsRepository cartItemsRepository;
     private final ProductService productService;
-    private final CartService cartItemService;
+    //private final CartService cartItemService;
 
     @Override
     public List<Cartitems> getAll() {

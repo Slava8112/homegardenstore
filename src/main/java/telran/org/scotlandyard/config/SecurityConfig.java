@@ -46,7 +46,9 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/users/register", "/v1/users/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/users/register", "/v1/users/login", "/v1/products/add", "/v1/categories/add").permitAll()
+                        .requestMatchers(HttpMethod.PUT,"/v1/products").permitAll()
+
                         //.requestMatchers(HttpMethod.GET, "/v1/users").hasAuthority("ROLE_ADMIN") // Проверка роли ADMIN для GET /v1/users
                         .anyRequest().permitAll()
                 )

@@ -16,8 +16,8 @@ import java.util.List;
 public class CartItemController {
 
     private final CartItemsService cartItemsService;
-    private final ProductService productService;
-    private final CartService cartService;
+//    private final ProductService productService;
+//    private final CartService cartService;
     private final CartItemsRepository cartItemsRepository;
 
     @GetMapping
