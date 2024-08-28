@@ -25,15 +25,13 @@ public class ProductController {
     private final Converter<Product, ProductDto, ProductCreateDto> converter;
 
     @PostMapping("/add")
-    public ProductDto add(@RequestBody ProductCreateDto Dto) {
+    public ProductDto add(@PathVariable Long categoryId, @RequestBody ProductCreateDto Dto) {
         log.debug("ProductCreateDto : {}", Dto);
             Product product = converter.toEntity(Dto);
-            return converter.toDto(productService.addProduct(product));
-
+            return converter.toDto(productService.addProduct(categoryId, product));
     }
-
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long productId, @RequestBody ProductCreateDto Dto) {
+    public Product updateProduct(@PathVariable Long productId, @RequestParam Long categoriId, @RequestBody ProductCreateDto Dto) {
 
         Product modifiProduct = productService.getById(productId);
         log.debug("Intro Dto : {}", Dto);
@@ -41,11 +39,11 @@ public class ProductController {
         log.debug("Intro newProduct : {}", newProduct);
         modifiProduct.setName(newProduct.getName());
         modifiProduct.setDescription(newProduct.getDescription());
-        newProduct.setCategoryId(modifiProduct.getCategoryId());
+//        newProduct.setCategoryId(modifiProduct.getCategoryId());
         modifiProduct.setPrice(newProduct.getPrice());
         modifiProduct.setImage(newProduct.getImage());
         log.debug("Modified product {}", newProduct);
-        Product product = productService.updateProduct(productId, newProduct);
+        Product product = productService.updateProduct(productId, categoriId, newProduct);
 log.debug("Product Added in SQL  : {} ", product);
         return product;
     }
@@ -69,11 +67,11 @@ log.debug("Product Added in SQL  : {} ", product);
         return productService.getById(productid);
     }
 
-    @GetMapping
-    public List<Product> getAllDiscountprice() {
-        return getAll().stream().filter(entity -> entity.getDiscountprice() > 0)
-                .collect(Collectors.toList());
-    }
+//    @GetMapping
+//    public List<Product> getAllDiscountprice() {
+//        return getAll().stream().filter(entity -> entity.getDiscountprice() > 0)
+//                .collect(Collectors.toList());
+//    }
 
 //    @GetMapping
 //    public List<Product> getMinPrice {

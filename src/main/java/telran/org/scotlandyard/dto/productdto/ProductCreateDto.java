@@ -15,14 +15,14 @@ public class ProductCreateDto {
 
     private double price;
 
-    private Long categoryId;
+//    private Long categoryId;
 
     private String image;
 
     public ProductCreateDto(String name,
                             String description,
                             double price,
-                            Long categoryId,
+                            //Long categoryId,
                             String image) {
         this.name = name;
 
@@ -30,7 +30,7 @@ public class ProductCreateDto {
 
         this.price = price;
 
-        this.categoryId = categoryId;
+//        this.categoryId = categoryId;
 
         this.image = image;
     }

@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,7 +18,7 @@ public class ProductDto {
 
     private String description;
 
-    private Long categoryId;
+    //private Long categoryId;
 
     private double price;
 
@@ -32,7 +30,6 @@ public class ProductDto {
     public ProductDto(String name,
                       String description,
                       double price,
-                      Long categoryId,
                       String image) {
 
         this.name = name;
@@ -41,7 +38,7 @@ public class ProductDto {
 
         this.price = price;
 
-        this.categoryId = categoryId;
+        //this.categoryId = categoryId;
 
         this.image = image;
 

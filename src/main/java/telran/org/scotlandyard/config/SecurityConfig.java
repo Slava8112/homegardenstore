@@ -48,7 +48,7 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/v1/users/register", "/v1/users/login", "/v1/products/add", "/v1/categories/add").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/v1/users/register", "/v1/users/login", "/v1/products/addproduct", "/v1/categories/addcategory").permitAll()
                         .requestMatchers(HttpMethod.PUT,"/v1/products").permitAll()
                         .requestMatchers(HttpMethod.DELETE,"/v1/products/delete").permitAll()
                         //.requestMatchers(HttpMethod.GET, "/v1/users").hasAuthority("ROLE_ADMIN") // Проверка роли ADMIN для GET /v1/users
@@ -56,8 +56,8 @@ public class SecurityConfig {
                 )
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                //.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
         return http.build();
     }

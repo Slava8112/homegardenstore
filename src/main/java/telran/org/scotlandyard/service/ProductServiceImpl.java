@@ -20,14 +20,15 @@ public class ProductServiceImpl implements ProductService{
     public final CategoryService categoryService;
 
     @Override
-    public Product addProduct(final Product product) {
+    public Product addProduct(
+            Long categoryId, Product product) {
         final Product unit = this.repository.save(product);
         ProductServiceImpl.log.debug("The product  was edded {}", product);
         return unit;
     }
 
     @Override
-    public Product updateProduct(final Long productId, final Product product) {
+    public Product updateProduct(Long productId, Long categoryId, Product product) {
        Product unit = this.repository.save(product);
         return unit;
     }

@@ -22,8 +22,8 @@ public class Product {
 
     private String description;
 
-    @Column(insertable=false, updatable=false)
-    private Long categoryId;
+//    @Column(insertable=false, updatable=false)
+//    private Long categoryId;
 
     private double price;
 
@@ -41,10 +41,10 @@ public class Product {
     @ToString.Exclude
     Category category;
 
-    public Product(String name, String description, double price, Long categoryId, String image) {
+    public Product(String name, String description, double price, String image) {
     this.name=name;
     this.description=description;
-    this.categoryId=categoryId;
+    //this.categoryId=categoryId;
     this.price=price;
     this.image=image;
     }
