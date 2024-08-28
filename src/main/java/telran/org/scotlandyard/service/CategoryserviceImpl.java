@@ -31,7 +31,7 @@ public class CategoryserviceImpl implements CategoryService {
     }
 
     @Override
-    public Category findById(String categeryId) {
+    public Category findById(Long categeryId) {
         Category category = categoryRepository.findById(categeryId)
                 .orElseThrow(() -> new CategoryNotFoundException("No category with id " + categeryId));
         log.debug("Found category with id {}", category);
@@ -39,14 +39,14 @@ public class CategoryserviceImpl implements CategoryService {
     }
 
     @Override
-    public void delete(String categeryId) {
+    public void delete(Long categeryId) {
         Category unit = findById(categeryId);
         categoryRepository.delete(unit);
 
     }
 
     @Override
-    public Category updateCategory(String categoryId, Category category) {
+    public Category updateCategory(Long categoryId, Category category) {
         return category;
     }
 }

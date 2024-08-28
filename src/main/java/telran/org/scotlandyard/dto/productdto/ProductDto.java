@@ -6,34 +6,44 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductDto {
 
-    private String id;
+    private Long id;
+
     private String name;
 
     private String description;
 
-    private double price;
+    private Long categoryId;
 
-    private String category;
+    private double price;
 
     private String image;
 
     @Column(nullable = true)
     private double discountprice;
 
+    public ProductDto(String name,
+                      String description,
+                      double price,
+                      Long categoryId,
+                      String image) {
 
+        this.name = name;
 
-//    public ProductDto(String name, String description, double price, String category, String image, double discountprice){
-//        this.name = name;
-//        this.description=description;
-//        this.price = price;
-//        this.category = category;
-//        this.image = image;
-//        this.discountprice = discountprice;
-//    }
+        this.description = description;
+
+        this.price = price;
+
+        this.categoryId = categoryId;
+
+        this.image = image;
+
+    }
 }

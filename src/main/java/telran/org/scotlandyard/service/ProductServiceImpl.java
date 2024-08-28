@@ -20,36 +20,36 @@ public class ProductServiceImpl implements ProductService{
     public final CategoryService categoryService;
 
     @Override
-    public Product addProduct(Product product) {
-        Product unit = repository.save(product);
-        log.debug("The product  was edded {}", product);
+    public Product addProduct(final Product product) {
+        final Product unit = this.repository.save(product);
+        ProductServiceImpl.log.debug("The product  was edded {}", product);
         return unit;
     }
 
     @Override
-    public Product updateProduct(String productId, Product product) {
-        Product unit = repository.save(product);
+    public Product updateProduct(final Long productId, final Product product) {
+       Product unit = this.repository.save(product);
         return unit;
     }
 
     @Override
-    public void deleteById(String productId) {
-        repository.deleteById(productId);
+    public void deleteById(final Long productId) {
+        this.repository.deleteById(productId);
     }
 
     public List<Product> getAllProduct() {
-        return repository.findAll();
+        return this.repository.findAll();
     }
 
     @Override
-    public Product getById(String productId) {
-        Product product = repository.findById(productId).get();
+    public Product getById(final Long id) {
+        final Product product = (Product) repository.getById(id);
         return product;
     }
 
     @Override
-    public List<Product> findAllByCategoryId(String categoryId) {
-        return repository.findAllByCategoryId(categoryId);
+    public List<Product> findAllByCategoryId(final Long categoryId) {
+        return this.repository.findAllByCategoryId(categoryId);
     }
 //@Override
 //public List<Product> getAllDiscountprice(){

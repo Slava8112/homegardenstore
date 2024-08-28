@@ -1,5 +1,6 @@
 package telran.org.scotlandyard.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,7 @@ import telran.org.scotlandyard.security.JwtAuthenticationFilter;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     @Autowired
@@ -48,7 +50,7 @@ public class SecurityConfig {
                         ).permitAll()
                         .requestMatchers(HttpMethod.POST, "/v1/users/register", "/v1/users/login", "/v1/products/add", "/v1/categories/add").permitAll()
                         .requestMatchers(HttpMethod.PUT,"/v1/products").permitAll()
-
+                        .requestMatchers(HttpMethod.DELETE,"/v1/products/delete").permitAll()
                         //.requestMatchers(HttpMethod.GET, "/v1/users").hasAuthority("ROLE_ADMIN") // Проверка роли ADMIN для GET /v1/users
                         .anyRequest().permitAll()
                 )

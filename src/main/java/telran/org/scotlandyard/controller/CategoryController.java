@@ -27,7 +27,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable String categoryId) {
+    public void delete(@PathVariable Long categoryId) {
         categoryService.delete(categoryId);
     }
 
@@ -37,7 +37,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public Category updateCategory(@PathVariable String categoryId, @RequestBody CategoryCreateDto categoryDto) {
+    public Category updateCategory(@PathVariable Long categoryId, @RequestBody CategoryCreateDto categoryDto) {
 log.debug(" Id of modified category: {}", categoryId);
         Category modifiCategory = categoryService.findById(categoryId);
 

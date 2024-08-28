@@ -25,7 +25,7 @@ public class OrderItemServiceImpl implements OrderItemService{
     }
 
     @Override
-    public OrderItem addOrderItem(String productsId, OrderItem orderItem) {
+    public OrderItem addOrderItem(Long productsId, OrderItem orderItem) {
                 Product product = productService.getById(productsId);
         orderItem.setProduct(product);
         return repository.save(orderItem);

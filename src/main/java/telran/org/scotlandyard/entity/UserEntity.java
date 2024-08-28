@@ -44,4 +44,7 @@ public class UserEntity {
     @JsonManagedReference
     private Set<Favorite> favorites = new HashSet<>();
 
+    public UserEntity(String name, String email, String phone, String password) {
+    }
+
 }

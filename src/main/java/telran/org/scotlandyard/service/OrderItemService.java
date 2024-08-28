@@ -10,7 +10,7 @@ public interface OrderItemService {
 
     OrderItem getById(Long orderItemId);
 
-    OrderItem addOrderItem(String productsId, OrderItem orderItem);
+    OrderItem addOrderItem(Long productsId, OrderItem orderItem);
 
     void deleteById(Long orderItemId);
 }

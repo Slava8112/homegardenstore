@@ -6,12 +6,12 @@ import lombok.Setter;
 @Setter
 @Getter
 public class CartItemDTO {
-    private String productId;
+    private Long productId;
     private int quantity;
 
     public CartItemDTO() {}
 
-    public CartItemDTO(String productId, int quantity) {
+    public CartItemDTO(Long productId, int quantity) {
         this.productId = productId;
         this.quantity = quantity;
     }
