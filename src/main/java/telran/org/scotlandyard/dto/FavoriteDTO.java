@@ -6,11 +6,11 @@ import lombok.Setter;
 @Setter
 @Getter
 public class FavoriteDTO {
-    private String productId;
+    private Long productId;
 
     public FavoriteDTO() {}
 
-    public FavoriteDTO(String productId) {
+    public FavoriteDTO(Long productId) {
         this.productId = productId;
     }
 

@@ -8,7 +8,7 @@ public interface CategoryService {
 
     Category createCategory(Category category);
 
-    Category UpdateCategory(Long id, Category category);
+    Category UpdateCategory(Category category);
 
     Category findById(Long id);
 

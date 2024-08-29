@@ -5,20 +5,26 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import telran.org.scotlandyard.dto.categorydto.CategoryCreateDto;
+import telran.org.scotlandyard.dto.categorydto.CategoryDto;
 import telran.org.scotlandyard.entity.Category;
+import telran.org.scotlandyard.entity.Product;
 import telran.org.scotlandyard.service.CategoryService;
+import telran.org.scotlandyard.service.converter.Converter;
 
 import java.util.List;
 
 @ApiResponses
+@Slf4j
 @RestController
 @RequestMapping("v1/categories")
 @RequiredArgsConstructor
 public class CategoryController {
 
     public final CategoryService categoryService;
+    public final Converter<Category, CategoryDto, CategoryCreateDto> converter;
 
     @Operation(summary = "Создание новой категории")
     @ApiResponses(value = {

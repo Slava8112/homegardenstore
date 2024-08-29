@@ -17,7 +17,7 @@ public class Favorite {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @JoinColumn(name = "productId", referencedColumnName = "id")
     @JsonBackReference
     @ToString.Exclude
     private Product product;

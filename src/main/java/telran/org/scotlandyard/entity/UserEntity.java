@@ -15,6 +15,7 @@ import java.util.Set;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class UserEntity {
 
     @Id()
@@ -29,14 +30,14 @@ public class UserEntity {
 
     private String password;
 
-    private String role = "ROLE_USER";
+   @Enumerated(EnumType.STRING)
+    private Role role = Role.ROLE_CLIENT;
 
     @OneToMany(mappedBy = "userEntity",cascade = CascadeType.ALL)
 
     @JsonManagedReference
     private Set<Favorite> favorites = new HashSet<>();
 
-
-    public UserEntity(Object o, String name, String email, String phone, String password) {
+    public UserEntity(String name, String email, String phone, String password) {
     }
 }

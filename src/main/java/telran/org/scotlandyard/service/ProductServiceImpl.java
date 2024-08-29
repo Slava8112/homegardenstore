@@ -1,4 +1,3 @@
-
 package telran.org.scotlandyard.service;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +28,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Product updateProduct(Long productId, Long categoryId, Product product) {
+       Product unit = this.repository.save(product);
+        return unit;
+    }
+
+    @Override
     public void deleteById(Long productId) {
         if (!repository.existsById(productId)) {
             log.error("Product with id {} not found, cannot delete", productId);
@@ -54,8 +59,24 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findByCategoryId(Long categoryId) {
         log.debug("Fetching products for category with id {}", categoryId);
         return repository.findAllByCategoryId(categoryId);
+
+        public List<Product> findAllByCategoryId(final Long categoryId) {
+        return this.repository.findAllByCategoryId(categoryId);
     }
+
+//    @Override
+//    public List<Product> findByCategoryId(Long categoryId) {
+//         List<Product> productsOfcategory = Arrays.asList(repository.findByCategoryId(categoryId));
+//
+//         log.debug("Variable categoryId {}", categoryId);
+//
+//         return  productsOfcategory;
+//    }
+
+//    @Override
+//    public Product getById(Long productId) {
+//    Product product = repository.findById(productId)
+//            .orElseThrow(() -> new ProductNotFoundException("The Product with id  not exist " + productId));
+//return product;
+//}
 }
-
-
-

@@ -10,6 +10,7 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class OrderItem {
 
     @Id()
@@ -21,13 +22,13 @@ public class OrderItem {
     private double pricePurshause;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @JoinColumn(name = "orderId", referencedColumnName = "id")
     @JsonBackReference
     @ToString.Exclude
     private Order order;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @JoinColumn(name = "productId", referencedColumnName = "id")
     @JsonBackReference
     @ToString.Exclude
     private Product product;
