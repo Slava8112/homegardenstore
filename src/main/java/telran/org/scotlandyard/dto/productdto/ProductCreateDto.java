@@ -15,7 +15,7 @@ public class ProductCreateDto {
 
     private double price;
 
-//    private Long categoryId;
+   private Long categoryId;
 
     private String image;
 

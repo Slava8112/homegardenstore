@@ -22,63 +22,35 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserEntity> getAll() {
-        return userRepository.findAll();
+        log.debug("Retrieving all users");
+        List<UserEntity> users = userRepository.findAll();
+        log.debug("Retrieved {} users", users.size());
+        return users;
     }
 
     @Override
     public UserEntity getById(Long id) {
-        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-        log.debug("User with id {}, was retrieved, User {}", userEntity.getId(), userEntity);
-        return userEntity;
-
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
-
-//    @Override
-//    public UserEntity create(UserEntity userEntity) {
-//        // Проверяем, есть ли у пользователя назначена роль. Если нет, назначаем роль по умолчанию.
-//        if (userEntity.getRole() == null) {
-//            userEntity.setRole(Role.ROLE_CLIENT.name()); // Назначаем роль по умолчанию
-//        }
-//
-//        UserEntity unit = userRepository.save(userEntity);
-//        log.debug("User was successfully added   {}", userEntity);
-//        return unit;
-//    }
-@Override
-public UserEntity create(UserEntity userEntity) {
-    // Проверка на уникальность email
-    if (userRepository.findByEmail(userEntity.getEmail()).isPresent()) {
-        log.error("User with email {} already exists", userEntity.getEmail());
-        throw new NoUniqueUserEmailException("User with email " + userEntity.getEmail() + " already exists");
-    }
-
-    // Назначение роли ADMIN, если email совпадает с указанным
-    if (userEntity.getEmail().equalsIgnoreCase("admin1@example.com")) {
-        userEntity.setRole("ROLE_ADMIN");
-    } else {
-        // Назначение роли по умолчанию
-        userEntity.setRole("ROLE_CLIENT");
-    }
-
-    // Шифрование пароля перед сохранением (если нужно)
-//    userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-
-    UserEntity savedUser = userRepository.save(userEntity);
-    log.debug("User was successfully added: {}", savedUser);
-    return savedUser;
-}
 
     @Override
-    public UserEntity findByEmail(String email) throws UsernameNotFoundException {
-        log.debug("Find user with email {}", email);
+    public UserEntity create(UserEntity userEntity, Role role) {
+        if (userEntity.getRole() == null) {
+            userEntity.setRole(Role.ROLE_CLIENT);
+        }
+        return userRepository.save(userEntity);
+    }
+
+    @Override
+    public UserEntity findByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User with login " + email + " not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found"));
     }
 
     @Override
     public void deleteByEmail(String email) {
-        UserEntity unit = findByEmail(email);
-        log.debug("Deleted user with email {}", email);
-        userRepository.delete(unit);
+        UserEntity userEntity = findByEmail(email);
+        userRepository.delete(userEntity);
     }
 }

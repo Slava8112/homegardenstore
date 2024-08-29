@@ -1,10 +1,5 @@
 package telran.org.scotlandyard.service;
-
-import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import telran.org.scotlandyard.entity.Category;
 import telran.org.scotlandyard.entity.Product;
 import telran.org.scotlandyard.exception.ProductNotFoundException;
 import telran.org.scotlandyard.repository.ProductRepository;
@@ -18,6 +13,11 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository repository;
     private final CategoryService categoryService;
+    private final ProductRepository productRepository;
+
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Override
     public Product addProduct(Long categoryId, Product product) {
@@ -25,12 +25,18 @@ public class ProductServiceImpl implements ProductService {
         product.setCategory(category);
         log.debug("Adding product: {}", product);
         return repository.save(product);
+    public Product addProduct(Product product) {
+        return productRepository.save(product);
     }
 
     @Override
     public Product updateProduct(Long productId, Long categoryId, Product product) {
        Product unit = this.repository.save(product);
         return unit;
+    public Product updateProduct(Long productId, Product product) {
+        Product existingProduct = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product with ID " + productId + " not found"));
+        return productRepository.save(product);
     }
 
     @Override
@@ -41,18 +47,26 @@ public class ProductServiceImpl implements ProductService {
         }
         repository.deleteById(productId);
         log.debug("Deleted product with id {}", productId);
+    public void deleteById(Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product with ID " + productId + " not found"));
+        productRepository.delete(product);
     }
 
     @Override
     public List<Product> getAllProduct() {
         log.debug("Fetching all products");
         return repository.findAll();
+        return productRepository.findAll();
     }
 
     @Override
     public Product getById(Long productId) {
         return repository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException("Product not found with id " + productId));
+    public Product getById(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product with ID " + productId + " not found"));
     }
 
     @Override
@@ -62,6 +76,9 @@ public class ProductServiceImpl implements ProductService {
 
         public List<Product> findAllByCategoryId(final Long categoryId) {
         return this.repository.findAllByCategoryId(categoryId);
+    public List<Product> findAllByCategoryId(Long categoryId) {
+        // Логика поиска по категории
+        return productRepository.findByCategoryId(Long.valueOf(String.valueOf(categoryId)));
     }
 
 //    @Override
@@ -72,6 +89,7 @@ public class ProductServiceImpl implements ProductService {
 //
 //         return  productsOfcategory;
 //    }
+}
 
 //    @Override
 //    public Product getById(Long productId) {

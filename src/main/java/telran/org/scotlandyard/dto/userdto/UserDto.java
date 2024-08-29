@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import telran.org.scotlandyard.model.Role;
 
 @Data
 @NoArgsConstructor
@@ -18,4 +19,8 @@ public class UserDto {
     private String email;
 
     private String phone;
+
+    public UserDto(Long id, String name, String email, String phone, Role role) {
+
+    }
 }
