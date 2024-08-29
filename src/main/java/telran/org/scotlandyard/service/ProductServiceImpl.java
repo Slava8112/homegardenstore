@@ -1,56 +1,53 @@
 package telran.org.scotlandyard.service;
-
-import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import telran.org.scotlandyard.entity.Category;
 import telran.org.scotlandyard.entity.Product;
+import telran.org.scotlandyard.exception.ProductNotFoundException;
 import telran.org.scotlandyard.repository.ProductRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
-public class ProductServiceImpl implements ProductService{
-    private static final Logger log = LoggerFactory.getLogger(ProductServiceImpl.class);
+public class ProductServiceImpl implements ProductService {
 
-    public final ProductRepository repository;
-    public final CategoryService categoryService;
+    private final ProductRepository productRepository;
+
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Override
     public Product addProduct(Product product) {
-        Product unit = repository.save(product);
-        log.debug("The product  was edded {}", product);
-        return unit;
+        return productRepository.save(product);
     }
 
     @Override
-    public Product updateProduct(String productId, Product product) {
-        Product unit = repository.save(product);
-        return unit;
+    public Product updateProduct(Long productId, Product product) {
+        Product existingProduct = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product with ID " + productId + " not found"));
+        return productRepository.save(product);
     }
 
     @Override
-    public void deleteById(String productId) {
-        repository.deleteById(productId);
+    public void deleteById(Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product with ID " + productId + " not found"));
+        productRepository.delete(product);
     }
 
+    @Override
     public List<Product> getAllProduct() {
-        return repository.findAll();
+        return productRepository.findAll();
     }
 
     @Override
-    public Product getById(String productId) {
-        Product product = repository.findById(productId).get();
-        return product;
+    public Product getById(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("Product with ID " + productId + " not found"));
     }
 
     @Override
-    public List<Product> findAllByCategoryId(String categoryId) {
-        return repository.findAllByCategoryId(categoryId);
+    public List<Product> findAllByCategoryId(Long categoryId) {
+        // Логика поиска по категории
+        return productRepository.findByCategoryId(Long.valueOf(String.valueOf(categoryId)));
     }
-
-
 }

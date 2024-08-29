@@ -8,6 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CategoryDto {
-    private String categoryId;
-    private String category;
+    private Long categoryId;
+    private String name;
 }

@@ -22,7 +22,7 @@ public class CartItemsServiceImpl implements CartItemsService{
 
     @Override
     public Cartitems add(String productsId, Cartitems cartitems) {
-        Product product = productService.getById(productsId);
+        Product product = productService.getById(Long.valueOf(productsId));
         cartitems.setProduct(product);
         return cartItemsRepository.save(cartitems);
     }

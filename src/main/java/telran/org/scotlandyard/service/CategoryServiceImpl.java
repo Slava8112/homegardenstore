@@ -12,9 +12,9 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryserviceImpl implements CategoryService {
+public class CategoryServiceImpl implements CategoryService {
 
-    private static final Logger log = LoggerFactory.getLogger(CategoryserviceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
     private final CategoryRepository categoryRepository;
 
@@ -31,22 +31,26 @@ public class CategoryserviceImpl implements CategoryService {
     }
 
     @Override
-    public Category findById(String categeryId) {
-        Category category = categoryRepository.findById(categeryId)
-                .orElseThrow(() -> new CategoryNotFoundException("No category with id " + categeryId));
+    public Category findById(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CategoryNotFoundException("No category with id " + categoryId));
         log.debug("Found category with id {}", category);
         return category;
     }
 
     @Override
-    public void delete(String categeryId) {
-        Category unit = findById(categeryId);
+    public void delete(Long categoryId) {
+        Category unit = findById(categoryId);
         categoryRepository.delete(unit);
 
     }
-
     @Override
-    public Category updateCategory(String categoryId, Category category) {
-        return category;
+    public Category updateCategory(Long categoryId, Category category) {
+        Category existingCategory = findById(categoryId);
+        existingCategory.setName(category.getName());
+        Category updatedCategory = categoryRepository.save(existingCategory);
+        log.debug("Updated category with id {}: {}", categoryId, updatedCategory);
+
+        return updatedCategory;
     }
 }

@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CategoryCreateDto {
 
-    private String categoryId;
+//    private Long categoryId;
     private String name;
 }
