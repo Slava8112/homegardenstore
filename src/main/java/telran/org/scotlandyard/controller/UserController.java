@@ -1,5 +1,11 @@
+
 package telran.org.scotlandyard.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +26,6 @@ import telran.org.scotlandyard.service.converter.Converter;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @RestController
 @RequestMapping("/v1/users")
 @RequiredArgsConstructor
@@ -33,22 +38,36 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
     private final Converter<UserEntity, UserDto, UserCreateDto> converter;
 
+    @Operation(summary = "Получение списка всех пользователей")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Успешное получение списка пользователей"),
+            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера")
+    })
     @GetMapping
-   // @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-
     public List<UserDto> getAll() {
+        log.debug("Получение всех пользователей");
         return userService.getAll().stream()
                 .map(converter::toDto)
                 .collect(Collectors.toList());
     }
 
+    @Operation(summary = "Получение пользователя по ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Успешное получение пользователя"),
+            @ApiResponse(responseCode = "404", description = "Пользователь не найден")
+    })
     @GetMapping("/{id}")
-
-    public UserEntity getById(@PathVariable Long id) {
-        return userService.getById(id);
+    public ResponseEntity<UserDto> getById(@PathVariable Long id) {
+        UserEntity userEntity = userService.getById(id);
+        return ResponseEntity.ok(converter.toDto(userEntity));
     }
 
-    @PostMapping("/register") // Добавляем '/register' для регистрации
+    @Operation(summary = "Регистрация нового пользователя")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Пользователь успешно зарегистрирован"),
+            @ApiResponse(responseCode = "400", description = "Некорректный запрос")
+    })
+    @PostMapping("/register")
     public ResponseEntity<UserDto> create(@RequestBody UserCreateDto userDto, @RequestParam Role role) {
         UserEntity userEntity = converter.toEntity(userDto);
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
@@ -56,19 +75,37 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
+    @Operation(summary = "Поиск пользователя по email")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Пользователь найден"),
+            @ApiResponse(responseCode = "404", description = "Пользователь не найден")
+    })
     @GetMapping("/search")
-    public UserEntity findByEmail(@RequestParam String email) {
-        return userService.findByEmail(email);
+    public ResponseEntity<UserDto> findByEmail(@RequestParam String email) {
+        UserEntity userEntity = userService.findByEmail(email);
+        return ResponseEntity.ok(converter.toDto(userEntity));
     }
 
+    @Operation(summary = "Удаление пользователя по email")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Пользователь успешно удален"),
+            @ApiResponse(responseCode = "404", description = "Пользователь не найден")
+    })
     @DeleteMapping
-    //@PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public void delete(@RequestParam String email) {
+    public ResponseEntity<Void> delete(@RequestParam String email) {
         userService.deleteByEmail(email);
+        return ResponseEntity.ok().build();
     }
 
+    @Operation(summary = "Аутентификация пользователя")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Успешная аутентификация",
+                    content = @Content(schema = @Schema(implementation = JwtAuthenticationResponse.class))),
+            @ApiResponse(responseCode = "401", description = "Неверный логин или пароль")
+    })
     @PostMapping("/login")
-    public JwtAuthenticationResponse login(@RequestBody SignInRequest request) {
-        return authenticationService.authenticate(request);
+    public ResponseEntity<JwtAuthenticationResponse> login(@RequestBody SignInRequest request) {
+        JwtAuthenticationResponse response = authenticationService.authenticate(request);
+        return ResponseEntity.ok(response);
     }
 }
