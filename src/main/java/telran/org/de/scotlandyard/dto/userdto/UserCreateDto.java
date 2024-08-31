@@ -16,13 +16,10 @@ public class UserCreateDto {
 
     private String password;
 
-    private Role role;
-
-    public UserCreateDto(String name, String email, String phone, String password, Role role) {
+    public UserCreateDto(String name, String email, String phone, String password) {
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.password = password;
-        this.role = role;
     }
 }

@@ -71,10 +71,10 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "Некорректный запрос")
     })
     @PostMapping("/register")
-    public ResponseEntity<UserDto> create(@RequestBody UserCreateDto userDto, @RequestParam Role role) {
+    public ResponseEntity<UserDto> create(@RequestBody UserCreateDto userDto) {
         UserEntity userEntity = userConverter.toEntity(userDto);
         userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-        UserDto createdUser = userConverter.toDto(userService.create(userEntity, role));
+        UserDto createdUser = userConverter.toDto(userService.create(userEntity));
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 

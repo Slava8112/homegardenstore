@@ -21,9 +21,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product addProduct(Product product) {
-        Category category = categoryService.findById(product.getCategory().getId());
-        product.setCategory(category);
-        log.debug("Adding product: {}", product);
+//        Category category = categoryService.findById(product.getCategory().getId());
+//        product.setCategory(category);
+//        log.debug("Adding product: {}", product);
         return repository.save(product);
     }
 

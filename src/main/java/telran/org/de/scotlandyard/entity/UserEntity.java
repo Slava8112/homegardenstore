@@ -38,5 +38,9 @@ public class UserEntity {
     private Set<Favorite> favorites = new HashSet<>();
 
     public UserEntity(String name, String email, String phone, String password) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
     }
 }

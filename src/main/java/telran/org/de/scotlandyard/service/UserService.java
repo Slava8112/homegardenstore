@@ -15,5 +15,5 @@ public interface UserService {
 
     void deleteByEmail(String email);
 
-    UserEntity create(UserEntity userEntity, Role role);
+    UserEntity create(UserEntity userEntity);
 }

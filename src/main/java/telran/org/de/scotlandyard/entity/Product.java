@@ -36,11 +36,13 @@ public class Product {
 
     private Date updatedAt = new Date();
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "categoryId", referencedColumnName = "id")
-    @JsonBackReference
+//    @ManyToOne(cascade = CascadeType.PERSIST)
+//    @JoinColumn(name = "category_id", referencedColumnName = "id")
+//    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     @ToString.Exclude
-    Category category;
+    private Category category;
 
     public Product(String name, String description, double price, String image) {
     this.name=name;

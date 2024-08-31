@@ -34,10 +34,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity create(UserEntity userEntity, Role role) {
-        if (userEntity.getRole() == null) {
-            userEntity.setRole(Role.ROLE_CLIENT);
-        }
+    public UserEntity create(UserEntity userEntity) {
         return userRepository.save(userEntity);
     }
 
