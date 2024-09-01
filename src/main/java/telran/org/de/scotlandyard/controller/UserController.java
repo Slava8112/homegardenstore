@@ -47,11 +47,12 @@ public class UserController {
     })
     @GetMapping
 //    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public List<UserDto> getAll() {
+    public ResponseEntity<List<UserDto>> getAll(){
         log.debug("Получение всех пользователей");
-        return userService.getAll().stream()
+        List<UserDto> users = userService.getAll().stream()
                 .map(userConverter::toDto)
                 .collect(Collectors.toList());
+        return ResponseEntity.ok(users);
     }
 
     @Operation(summary = "Получение пользователя по ID")
