@@ -16,7 +16,7 @@ public class UserConverter implements Converter<UserEntity, UserDto, UserCreateD
 
     @Override
     public UserDto toDto(UserEntity entity) {
-        return new UserDto(entity.getId(), entity.getName(), entity.getEmail(), entity.getPhone(), null);
+        return new UserDto(entity.getId(), entity.getName(), entity.getEmail(), entity.getPhone());
 
     }
 }
