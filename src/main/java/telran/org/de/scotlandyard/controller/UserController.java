@@ -46,7 +46,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера")
     })
     @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<UserDto> getAll() {
         log.debug("Получение всех пользователей");
         return userService.getAll().stream()
@@ -95,7 +95,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "Пользователь не найден")
     })
     @DeleteMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> delete(@RequestParam String email) {
         userService.deleteByEmail(email);
         return ResponseEntity.ok().build();

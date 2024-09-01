@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import telran.org.de.scotlandyard.entity.UserEntity;
+import telran.org.de.scotlandyard.exception.NoUniqueUserEmailException;
 import telran.org.de.scotlandyard.model.Role;
 import telran.org.de.scotlandyard.repository.UserRepository;
 
@@ -35,6 +36,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity create(UserEntity userEntity) {
+        // Проверка на существование пользователя с таким же email
+        if (userRepository.findByEmail(userEntity.getEmail()).isPresent()) {
+            throw new NoUniqueUserEmailException("Пользователь с таким email уже существует: " + userEntity.getEmail());
+        }
         return userRepository.save(userEntity);
     }
 
