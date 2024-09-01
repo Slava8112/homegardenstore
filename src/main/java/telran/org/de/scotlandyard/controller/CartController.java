@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import telran.org.de.scotlandyard.entity.Cart;
 import telran.org.de.scotlandyard.service.CartService;
 
 @RestController
@@ -26,4 +27,6 @@ public class CartController {
     public void deleteById(@PathVariable long id) {
         cartService.delete(id);
     }
+
+
 }
