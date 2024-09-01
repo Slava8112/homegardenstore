@@ -2,6 +2,7 @@ package telran.org.de.scotlandyard.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import telran.org.de.scotlandyard.dto.cartitemdto.CartItemDTO;
 
 import java.util.List;
 @Setter

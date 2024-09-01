@@ -19,8 +19,8 @@ import java.util.List;
 public class CartItemController {
 
     private final CartItemsService cartItemsService;
-    private final ProductService productService;
-    private final CartService cartService;
+//    private final ProductService productService;
+//    private final CartService cartService;
     private final CartItemsRepository cartItemsRepository;
 
     @Operation(summary = "Получить список всех элементов корзины")
@@ -40,6 +40,7 @@ public class CartItemController {
     @PostMapping("/id")
     public CartItems add(@RequestParam Long productsId,
                          @RequestBody CartItems cartitems) {
+
         return cartItemsService.add(productsId, cartitems);
     }
 

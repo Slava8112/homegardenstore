@@ -41,9 +41,7 @@ public class CategoryConverter implements Converter<Category, CategoryDto, Categ
 
     @Override
     public CategoryDto toDto(Category category) {
-        CategoryDto dto = new CategoryDto();
-        dto.setCategoryId(category.getId());
-        dto.setCategory(category.getName());
-        return dto;
+        CategoryDto dto = new CategoryDto(category.getId(), category.getName());
+       return dto;
     }
 }
