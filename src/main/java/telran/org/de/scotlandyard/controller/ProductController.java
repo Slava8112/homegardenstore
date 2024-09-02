@@ -5,16 +5,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import telran.org.de.scotlandyard.exception.ProductNotFoundException;
 import telran.org.de.scotlandyard.service.ProductService;
-import telran.org.de.scotlandyard.converter.Converter;
+import telran.org.de.scotlandyard.converter.ProductConverter;
 import telran.org.de.scotlandyard.dto.productdto.ProductCreateDto;
 import telran.org.de.scotlandyard.dto.productdto.ProductDto;
 import telran.org.de.scotlandyard.entity.Product;
-import telran.org.de.scotlandyard.service.CategoryService;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -23,8 +24,7 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
-    private final CategoryService categoryService; // для работы с категориями
-    private final Converter<Product, ProductDto, ProductCreateDto> converter;
+    private final ProductConverter converter;
 
     @Operation(summary = "Добавление нового продукта в категорию")
     @ApiResponses(value = {
@@ -32,22 +32,22 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Некорректный запрос")
     })
     @PostMapping
-    public Product add(@RequestBody ProductCreateDto productDto) {
-        // Поиск категории по идентификатору из DTO
-//        Category category = categoryService.findById(Long.valueOf(productDto.getCategory()));
-//        // Создание и настройка сущности Product
+    public ResponseEntity<ProductDto> add(@RequestBody ProductCreateDto productDto) {
+        Product product = converter.toEntity(productDto);
+        log.debug("Created Product: {}", product);
+        Product savedProduct = productService.addProduct(product);
+        ProductDto responseDto = converter.toDto(savedProduct);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+    }
+    //        Category category = categoryService.findById(Long.valueOf(productDto.getCategory()));
+        // Создание и настройка сущности Product
 //        Product product = new Product();
 //        product.setName(productDto.getName());
 //        product.setDescription(productDto.getDescription());
 //        product.setPrice(productDto.getPrice());
 //        product.setCategory(category);
 //        product.setImage(productDto.getImage());
-        Product product = converter.toEntity(productDto);
-        log.debug("Created Product: {}", product);
-
-        // Сохранение продукта в базе данных
-        return productService.addProduct(product);
-    }
+    // Сохранение продукта в базе данных
 
     @Operation(summary = "Получение списка всех продуктов")
     @ApiResponses(value = {
@@ -55,8 +55,12 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Продукты не найдены")
     })
     @GetMapping
-    public List<Product> getAll() {
-        return productService.getAllProduct();
+    public ResponseEntity<List<ProductDto>> getAll() {
+        List<Product> products = productService.getAllProduct();
+        List<ProductDto> productDtos = products.stream()
+                .map(converter::toDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(productDtos);
     }
 
     @Operation(summary = "Изменение продукта")
@@ -66,10 +70,15 @@ public class ProductController {
             @ApiResponse(responseCode = "400", description = "Некорректный запрос")
     })
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody ProductCreateDto productDto) {
-//        // Получение существующего продукта по ID
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductCreateDto productDto) {
+        Product product = converter.toEntity(productDto);
+        Product updatedProduct = productService.updateProduct(id, product);
+        ProductDto responseDto = converter.toDto(updatedProduct);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+    }
+    //        // Получение существующего продукта по ID
 //        Product modifiProduct = productService.getById(id);
-//        // Обновление данных продукта на основе входящих данных
+        // Обновление данных продукта на основе входящих данных
 //        modifiProduct.setName(productDto.getName());
 //        modifiProduct.setDescription(productDto.getDescription());
 //        modifiProduct.setPrice(productDto.getPrice());
@@ -78,10 +87,6 @@ public class ProductController {
 //        modifiProduct.setCategory(category);
 //        modifiProduct.setImage(productDto.getImage());
 //        log.debug("Modified product {}", modifiProduct);
-        // Сохранение обновленного продукта в базе данных
-        Product product = converter.toEntity(productDto);
-        return productService.updateProduct(id, product);
-    }
 
     @Operation(summary = "Поиск продуктов по ID категории")
     @ApiResponses(value = {
@@ -89,9 +94,15 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Продукты не найдены для указанной категории")
     })
     @GetMapping("/category")
-    public ResponseEntity<List<Product>> findByCategory(@RequestParam Long categoryId) {
+    public ResponseEntity<List<ProductDto>> findByCategory(@RequestParam Long categoryId) {
         List<Product> products = productService.findByCategoryId(categoryId);
-        return ResponseEntity.ok(products);
+        if (products.isEmpty()) {
+            throw new ProductNotFoundException("Продукты для категории с ID " + categoryId + " не найдены");
+        }
+        List<ProductDto> productDtos = products.stream()
+                .map(converter::toDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(productDtos);
     }
 
     @Operation(summary = "Удаление продукта по ID")
@@ -100,8 +111,9 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Продукт не найден")
     })
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         productService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
     @Operation(summary = "Получение продукта по ID")
@@ -110,8 +122,10 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "Продукт не найден")
     })
     @GetMapping("/{id}")
-    public Product getById(@PathVariable Long id) {
-
-        return productService.getById(id);
+    public ResponseEntity<ProductDto> getById(@PathVariable Long id) {
+        Product product = productService.getById(id);
+        ProductDto responseDto = converter.toDto(product);
+        return ResponseEntity.ok(responseDto);
     }
 }
+
