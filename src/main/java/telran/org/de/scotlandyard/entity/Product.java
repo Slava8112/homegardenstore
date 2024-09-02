@@ -1,6 +1,5 @@
 package telran.org.de.scotlandyard.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Date;
@@ -22,9 +21,6 @@ public class Product {
 
     private String description;
 
-//    @Column(insertable=false, updatable=false)
-//    private Long categoryId;
-
     private double price;
 
     private String image;
@@ -36,19 +32,22 @@ public class Product {
 
     private Date updatedAt = new Date();
 
-//    @ManyToOne(cascade = CascadeType.PERSIST)
-//    @JoinColumn(name = "category_id", referencedColumnName = "id")
-//    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "category_id")
     @ToString.Exclude
     private Category category;
 
-    public Product(String name, String description, double price, String image) {
-    this.name=name;
-    this.description=description;
-    //this.categoryId=categoryId;
-    this.price=price;
-    this.image=image;
+    public Product(String name, String description, double price, Category category, String image) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+        this.image = image;
     }
+//    @Column(name = "category_id", nullable = false)
+//    @Column(insertable=false, updatable=false)
+//    private Long categoryId;
+//    @ManyToOne(cascade = CascadeType.PERSIST)
+//    @JoinColumn(name = "category_id", referencedColumnName = "id")
+//    @JsonBackReference
 }
