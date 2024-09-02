@@ -3,11 +3,13 @@ package telran.org.de.scotlandyard.service;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import telran.org.de.scotlandyard.entity.UserEntity;
 import telran.org.de.scotlandyard.exception.NoUniqueUserEmailException;
-import telran.org.de.scotlandyard.model.Role;
 import telran.org.de.scotlandyard.repository.UserRepository;
 
 import java.util.List;
@@ -54,4 +56,22 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = findByEmail(email);
         userRepository.delete(userEntity);
     }
+
+    @Override
+    public UserEntity getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new SecurityException("User is not authenticated");
+        }
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            UserEntity user = findByEmail(username);
+            return user;
+        } else {
+            throw new IllegalArgumentException("The primary authentication object cannot be used to obtain the ID");
+        }
+
+    }
+
 }

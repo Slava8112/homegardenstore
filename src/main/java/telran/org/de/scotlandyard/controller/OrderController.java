@@ -23,6 +23,7 @@ public class OrderController {
 
     private final OrderService orderService;
     private final OrderConverter orderConverter;
+    private final OrderItemsController orderItemsController;
 
     @Operation(summary = "Получить список всех заказов")
     @ApiResponses(value = {
@@ -69,4 +70,20 @@ public class OrderController {
         orderService.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
+    @Operation(summary = "Получить список заказов пользователя по Id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Заказы успешно найдены"),
+            @ApiResponse(responseCode = "404", description = "Заказы не найдены")
+    })
+    @GetMapping("/order_by_current_user")
+    public ResponseEntity<List<OrderDTO>> listByCurrientUser() {
+
+       List<OrderDTO> orders = orderService.getAllByCurrentUser().stream()
+                .map(orderConverter::toDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(orders);
+    }
+
 }
