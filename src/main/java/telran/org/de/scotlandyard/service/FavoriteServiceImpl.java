@@ -5,16 +5,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import telran.org.de.scotlandyard.entity.Favorite;
+import telran.org.de.scotlandyard.entity.UserEntity;
 import telran.org.de.scotlandyard.exception.CategoryNotFoundException;
 import telran.org.de.scotlandyard.repository.FavoriteRepository;
 
 import java.util.List;
+
 @Service
 @RequiredArgsConstructor
-public class FavoriteServiceImpl implements FavoriteService{
+public class FavoriteServiceImpl implements FavoriteService {
 
     private static final Logger log = LoggerFactory.getLogger(FavoriteServiceImpl.class);
-
+    private final UserService userService;
     private final FavoriteRepository favoriteRepository;
 
     @Override
@@ -37,6 +39,13 @@ public class FavoriteServiceImpl implements FavoriteService{
     @Override
     public List<Favorite> getAllFavorites() {
         return favoriteRepository.findAll();
+    }
+
+    @Override
+    public List<Favorite> getFavoritesByCurrentUser() {
+String userEmail = null;
+        UserEntity userEntity = userService.findByEmail(userEmail);
+        return List.of();
     }
 
     @Override

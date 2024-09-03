@@ -23,7 +23,7 @@ public class OrderController {
 
     private final OrderService orderService;
     private final OrderConverter orderConverter;
-    private final OrderItemsController orderItemsController;
+    //private final OrderItemsController orderItemsController;
 
     @Operation(summary = "Получить список всех заказов")
     @ApiResponses(value = {

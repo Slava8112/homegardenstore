@@ -57,4 +57,17 @@ public class FavoriteController {
         return favoriteService.getAllFavorites().stream()
                 .map(converter::toDto).collect(Collectors.toList());
     }
+
+    @Operation(summary = "Получить список избранных товаров текущего пользователя")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Список избранных товаров успешно получен")
+    })
+    @GetMapping("/favorite_by_current_user")
+    public ResponseEntity<List<FavoriteDto>> listFavoritesByCurrentUser(){
+
+        List<FavoriteDto> favorites = favoriteService.getFavoritesByCurrentUser()
+                .stream().map(converter::toDto).collect(Collectors.toList());
+
+        return ResponseEntity.ok(favorites);
+    }
 }
