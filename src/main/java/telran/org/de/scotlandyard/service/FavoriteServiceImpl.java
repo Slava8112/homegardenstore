@@ -43,7 +43,7 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     @Override
     public List<Favorite> getFavoritesByCurrentUser() {
-String userEmail = null;
+        String userEmail = null;
         UserEntity userEntity = userService.findByEmail(userEmail);
         return List.of();
     }

@@ -13,7 +13,6 @@ import java.util.List;
 public class OrderItemsController {
 
 
-    //private final ProductService productService;
     private final OrderItemService orderItemService;
 
 

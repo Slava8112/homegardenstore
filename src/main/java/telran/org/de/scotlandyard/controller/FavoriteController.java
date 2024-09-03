@@ -60,7 +60,8 @@ public class FavoriteController {
 
     @Operation(summary = "Получить список избранных товаров текущего пользователя")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Список избранных товаров успешно получен")
+            @ApiResponse(responseCode = "200", description = "Список избранных товаров успешно получен"),
+            @ApiResponse(responseCode = "401", description = "Неверный логин или пароль")
     })
     @GetMapping("/favorite_by_current_user")
     public ResponseEntity<List<FavoriteDto>> listFavoritesByCurrentUser(){
