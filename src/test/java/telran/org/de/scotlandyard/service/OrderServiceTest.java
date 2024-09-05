@@ -1,23 +1,24 @@
 package telran.org.de.scotlandyard.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import telran.org.de.scotlandyard.entity.Order;
-import telran.org.de.scotlandyard.entity.UserEntity;
-import telran.org.de.scotlandyard.repository.OrderRepository;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import telran.org.de.scotlandyard.entity.Order;
+import telran.org.de.scotlandyard.entity.UserEntity;
+import telran.org.de.scotlandyard.repository.OrderRepository;
+
 import java.util.List;
 import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class OrderServiceTest {
 
     @Mock
@@ -28,11 +29,6 @@ class OrderServiceTest {
 
     @InjectMocks
     private OrderServiceImpl orderService;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     void testGetAllOrders() {
@@ -88,7 +84,7 @@ class OrderServiceTest {
         UserEntity mockUser = new UserEntity();
         when(userService.findByEmail("testuser@example.com")).thenReturn(mockUser);
         List<Order> mockOrders = List.of(new Order(), new Order());
-        when(orderRepository.findAllByUserEntity(mockUser)).thenReturn(mockOrders);
+        when(orderRepository.findAllByUserEntity(any())).thenReturn(mockOrders);
 
         List<Order> orders = orderService.getAllByCurrentUser();
 

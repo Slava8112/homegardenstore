@@ -2,18 +2,14 @@ package telran.org.de.scotlandyard.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Sort;
 import telran.org.de.scotlandyard.entity.Category;
 import telran.org.de.scotlandyard.entity.Product;
-import telran.org.de.scotlandyard.exception.ProductNotFoundException;
 import telran.org.de.scotlandyard.repository.ProductRepository;
-import org.springframework.data.domain.Sort;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 class ProductServiceImplTest {
 
@@ -120,10 +115,10 @@ class ProductServiceImplTest {
 
     @Test
     void findByCategoryId() {
-when(repository.findAllByCategoryId(1L)).thenReturn(Collections.singletonList(product));
-List<Product> productsOfCategory = productService.findByCategoryId(category.getId());
+        when(repository.findAllByCategoryId(1L)).thenReturn(Collections.singletonList(product));
+        List<Product> productsOfCategory = productService.findByCategoryId(category.getId());
 
-assertEquals(product.getName(), productsOfCategory.get(0).getName());
-verify(repository).findAllByCategoryId(1L);
+        assertEquals(product.getName(), productsOfCategory.get(0).getName());
+        verify(repository).findAllByCategoryId(1L);
     }
 }

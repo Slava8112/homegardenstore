@@ -2,9 +2,11 @@ package telran.org.de.scotlandyard.service;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import telran.org.de.scotlandyard.entity.OrderItem;
 import telran.org.de.scotlandyard.entity.Product;
 import telran.org.de.scotlandyard.repository.OrderItemsRepository;
@@ -14,6 +16,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class OrderItemServiceTest {
 
     @Mock
@@ -29,7 +32,7 @@ class OrderItemServiceTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+      //  MockitoAnnotations.openMocks(this);
 
         mockOrderItem = new OrderItem();
         mockOrderItem.setId(1L);

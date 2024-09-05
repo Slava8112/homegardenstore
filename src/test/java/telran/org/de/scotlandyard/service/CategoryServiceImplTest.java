@@ -31,11 +31,6 @@ class CategoryServiceImplTest {
     @Mock
     private CategoryServiceImpl categoryService;
 
-//    @BeforeEach
-//    void setUp() {
-//        createCategory();
-//    }
-
     @Test
     void createCategory_Test() {
         Category category = new Category();
