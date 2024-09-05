@@ -55,7 +55,8 @@ class ProductServiceImplTest {
         product.setName("Name");
         product.setDescription("Description");
         product.setPrice(1000);
-        product.setCategoryId(1L);
+        product.setCategory(category);
+//        product.setCategoryId(1L);
 
     }
 

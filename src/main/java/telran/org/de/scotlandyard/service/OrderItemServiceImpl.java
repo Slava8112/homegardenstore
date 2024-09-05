@@ -21,9 +21,9 @@ public class OrderItemServiceImpl implements OrderItemService{
 
     @Override
     public OrderItem getById(Long orderItemId) {
-        return repository.getById(orderItemId);
+        return repository.findById(orderItemId)
+                .orElseThrow(() -> new IllegalArgumentException("OrderItem not found with id: " + orderItemId));
     }
-
     @Override
     public OrderItem addOrderItem(Long productsId, OrderItem orderItem) {
                 Product product = productService.getById(productsId);
