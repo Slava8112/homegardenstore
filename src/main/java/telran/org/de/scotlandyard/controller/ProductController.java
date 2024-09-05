@@ -72,7 +72,7 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductCreateDto productDto) {
         Product product = converter.toEntity(productDto);
-        Product updatedProduct = productService.updateProduct(id, product);
+        Product updatedProduct = productService.updateProduct(product);
         ProductDto responseDto = converter.toDto(updatedProduct);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }

@@ -17,30 +17,29 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository repository;
     private final CategoryService categoryService;// пригодится?
 
-    @Override
     public Product addProduct(Product product) {
-        //        Category category = categoryService.findById(product.getCategory().getId());
+//                Category category = categoryService.findById(product.getCategory().getId());
 //        product.setCategory(category);
         log.debug("Adding product: {}", product);
         return repository.save(product);
     }
 
-    @Override
-    public Product updateProduct(Long productId, Product product) {
-        Product existingProduct = repository.findById(productId)
-                .orElseThrow(() -> new ProductNotFoundException("Product with ID " + productId + " not found"));
-        product.setId(productId); // для обновления,надо проверить
+
+
+    public Product updateProduct(Product product) {
+        Product existingProduct = repository.findById(product.getId())
+                .orElseThrow(() -> new ProductNotFoundException("Product with ID " + " not found"));
+        product.setId(product.getId()); // для обновления,надо проверить
         return repository.save(product);
     }
 
     @Override
     public void deleteById(Long productId) {
         Product product = repository.findById(productId)
-                .orElseThrow(() -> new ProductNotFoundException("Product with ID " + productId + " not found"));
+                .orElseThrow(() -> new ProductNotFoundException("Product with ID " + " not found"));
         repository.delete(product);
     }
 
-    @Override
     public List<Product> getAllProduct() {
         log.debug("Fetching all products");
         return repository.findAll();

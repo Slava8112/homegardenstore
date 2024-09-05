@@ -46,7 +46,7 @@ public class Product {
     }
 //    @Column(name = "category_id", nullable = false)
 //    @Column(insertable=false, updatable=false)
-//    private Long categoryId;
+    private Long categoryId;
 //    @ManyToOne(cascade = CascadeType.PERSIST)
 //    @JoinColumn(name = "category_id", referencedColumnName = "id")
 //    @JsonBackReference
