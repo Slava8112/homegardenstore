@@ -29,8 +29,8 @@ public class ProductServiceImpl implements ProductService {
     public Product updateProduct(Product product) {
         Product existingProduct = repository.findById(product.getId())
                 .orElseThrow(() -> new ProductNotFoundException("Product with ID " + " not found"));
-        product.setId(product.getId()); // для обновления,надо проверить
-        return repository.save(product);
+        existingProduct.setId(product.getId()); // для обновления,надо проверить
+        return repository.save(existingProduct);
     }
 
     @Override
