@@ -25,13 +25,23 @@ public class ProductServiceImpl implements ProductService {
     }
 
 
-
-    public Product updateProduct(Product product) {
-        Product existingProduct = repository.findById(product.getId())
-                .orElseThrow(() -> new ProductNotFoundException("Product with ID " + " not found"));
-        existingProduct.setId(product.getId()); // для обновления,надо проверить
-        return repository.save(existingProduct);
-    }
+@Override
+public Product updateProduct(Product product) {
+    if (product.getId() == null) {
+        throw new IllegalArgumentException("Product ID must not be null");
+    }// ?
+    Product existingProduct = repository.findById(product.getId())
+            .orElseThrow(() -> new ProductNotFoundException("Product with ID " + product.getId() + " not found"));
+    existingProduct.setName(product.getName());
+    existingProduct.setDescription(product.getDescription());
+    existingProduct.setPrice(product.getPrice());
+    existingProduct.setDiscountPrice(product.getDiscountPrice());
+    existingProduct.setImage(product.getImage());
+    existingProduct.setCreatedAt(product.getCreatedAt());
+    existingProduct.setUpdatedAt(product.getUpdatedAt());
+//        existingProduct.setId(product.getId()); // для обновления,надо проверить
+    return repository.save(existingProduct);
+}
 
     @Override
     public void deleteById(Long productId) {

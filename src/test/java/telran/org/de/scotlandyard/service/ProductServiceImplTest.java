@@ -12,6 +12,7 @@ import telran.org.de.scotlandyard.exception.CategoryNotFoundException;
 import telran.org.de.scotlandyard.exception.ProductNotFoundException;
 import telran.org.de.scotlandyard.repository.ProductRepository;
 
+import org.mockito.ArgumentCaptor;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -73,21 +74,29 @@ class ProductServiceImplTest {
 
     @Test
     void updateProduct_Test() {
-
         Long id = 1L;
-       Product product1 = new Product();
-        product1.setName("Update Name");
-        Product product = new Product();
-        //when(repository.findById(id)).thenReturn(Optional.of(product));
-        when(repository.save(any(Product.class))).thenReturn(product);
 
-        Product updatedProduct = productService.updateProduct(product1);
-        assertNotNull(updatedProduct);
-        assertEquals("Update Name", updatedProduct.getName());
+        Product existingProduct = new Product();
+        existingProduct.setId(id);
+        existingProduct.setName("Original Name");
 
-        verify(repository).save(product);
-        verify(repository).findById(id);
+        Product updatedProduct = new Product();
+        updatedProduct.setId(id);
+        updatedProduct.setName("Updated Name");
 
+        when(repository.findById(id)).thenReturn(Optional.of(existingProduct));
+
+        when(repository.save(any(Product.class))).thenReturn(updatedProduct);
+
+        Product result = productService.updateProduct(updatedProduct);
+
+        assertNotNull(result);
+        assertEquals("Updated Name", result.getName());
+
+        ArgumentCaptor<Product> productCaptor = ArgumentCaptor.forClass(Product.class);
+        verify(repository).save(productCaptor.capture());
+
+        assertEquals("Updated Name", productCaptor.getValue().getName());
     }
 
     @Test
