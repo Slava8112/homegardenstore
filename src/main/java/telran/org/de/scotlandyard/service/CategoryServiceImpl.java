@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import telran.org.de.scotlandyard.entity.Category;
+import telran.org.de.scotlandyard.exception.CategoryInvalidArgumentException;
 import telran.org.de.scotlandyard.exception.CategoryNotFoundException;
 import telran.org.de.scotlandyard.repository.CategoryRepository;
 
@@ -41,8 +42,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void delete(Long categoryId) {
-        Category unit = findById(categoryId);
-        categoryRepository.delete(unit);
+//        Category unit = findById(categoryId);
+        if (!categoryRepository.existsById(categoryId)){
+            throw new CategoryInvalidArgumentException("The category is absent");
+        }
+        categoryRepository.deleteById(categoryId);
 
     }
     @Override
