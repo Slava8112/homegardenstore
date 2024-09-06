@@ -76,7 +76,6 @@ class OrderServiceTest {
     void testGetAllByCurrentUser() {
         SecurityContext securityContext = mock(SecurityContext.class);
         Authentication authentication = mock(Authentication.class);
-
         when(authentication.getName()).thenReturn("testuser@example.com");
         when(securityContext.getAuthentication()).thenReturn(authentication);
         SecurityContextHolder.setContext(securityContext);
@@ -84,12 +83,13 @@ class OrderServiceTest {
         UserEntity mockUser = new UserEntity();
         when(userService.findByEmail("testuser@example.com")).thenReturn(mockUser);
         List<Order> mockOrders = List.of(new Order(), new Order());
-        when(orderRepository.findAllByUserEntity(any())).thenReturn(mockOrders);
+        when(orderRepository.findAllByUserEntity(mockUser)).thenReturn(mockOrders);
+
 
         List<Order> orders = orderService.getAllByCurrentUser();
 
         assertNotNull(orders);
-        assertEquals(1, orders.size());
+        assertEquals(2, orders.size());
         verify(orderRepository, times(1)).findAllByUserEntity(mockUser);
     }
 }

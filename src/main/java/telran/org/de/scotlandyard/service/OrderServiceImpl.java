@@ -3,6 +3,7 @@ package telran.org.de.scotlandyard.service;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import telran.org.de.scotlandyard.dto.orderdto.OrderDTO;
 import telran.org.de.scotlandyard.entity.Order;
@@ -45,7 +46,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getAllByCurrentUser() {
-        String userEmail = null;
+//        String userEmail = null;
+        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
 
         UserEntity userEntity = userService.findByEmail(userEmail);
         List<Order> orders = orderRepository.findAllByUserEntity(userEntity);
