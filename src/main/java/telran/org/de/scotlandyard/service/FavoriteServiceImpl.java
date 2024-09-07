@@ -4,8 +4,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import telran.org.de.scotlandyard.entity.Favorite;
+import telran.org.de.scotlandyard.entity.Order;
 import telran.org.de.scotlandyard.entity.Product;
 import telran.org.de.scotlandyard.entity.UserEntity;
 import telran.org.de.scotlandyard.exception.FavoriteNotFoundException;
@@ -51,9 +53,12 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     @Override
     public List<Favorite> getFavoritesByCurrentUser() {
-        String userEmail = null;
+        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+
         UserEntity userEntity = userService.findByEmail(userEmail);
-        return List.of();
+        List<Favorite> favorites = favoriteRepository.findAllByUserEntity(userEntity);
+
+        return favorites;
     }
 
 
