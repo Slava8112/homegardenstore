@@ -12,6 +12,9 @@ import telran.org.de.scotlandyard.dto.favoritedto.FavoriteCreateDto;
 import telran.org.de.scotlandyard.dto.favoritedto.FavoriteDto;
 import telran.org.de.scotlandyard.entity.Favorite;
 import telran.org.de.scotlandyard.service.FavoriteService;
+import telran.org.de.scotlandyard.service.ProductService;
+import telran.org.de.scotlandyard.service.ProductServiceImpl;
+import telran.org.de.scotlandyard.service.UserService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +26,7 @@ public class FavoriteController {
 
     private final FavoriteService favoriteService;
     private final FavoriteConverter converter;
+private final UserService userService;
 
     @Operation(summary = "Добавить товар в избранное")
     @ApiResponses(value = {
@@ -30,11 +34,13 @@ public class FavoriteController {
             @ApiResponse(responseCode = "400", description = "Некорректный запрос")
     })
     @PostMapping
-    public ResponseEntity<FavoriteDto> create(@RequestParam Long userEntityId,
-                                              @RequestBody FavoriteCreateDto favoriteCreateDto) {
+    public ResponseEntity<FavoriteDto> create(@RequestBody FavoriteCreateDto favoriteCreateDto) {
+
+        Long userId = userService.getCurrentUser().getId();
+        Favorite favoritenew = favoriteService.createFavorite(userId, favoriteCreateDto.getProductId());
         Favorite favorite = converter.toEntity(favoriteCreateDto);
-        FavoriteDto favoriteNew = converter.toDto(favoriteService.createFavorite(userEntityId, favorite));
-        return ResponseEntity.status(HttpStatus.CREATED).body(favoriteNew);
+        FavoriteDto responseDto = converter.toDto(favoritenew);
+        return new  ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
     @Operation(summary = "Получить избранный товар по ID")
@@ -44,19 +50,19 @@ public class FavoriteController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<FavoriteDto> getById(@PathVariable Long userEntityId) {
-        Favorite favorite = favoriteService.findById(userEntityId);
+        Favorite favorite = (Favorite) favoriteService.getUsersFavoritesByUserId(userEntityId);
         return ResponseEntity.ok(converter.toDto(favorite));
     }
 
-    @Operation(summary = "Получить список всех избранных товаров")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Список избранных товаров успешно получен")
-    })
-    @GetMapping
-    public List<FavoriteDto> getAll() {
-        return favoriteService.getAllFavorites().stream()
-                .map(converter::toDto).collect(Collectors.toList());
-    }
+//    @Operation(summary = "Получить список всех избранных товаров")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Список избранных товаров успешно получен")
+//    })
+//    @GetMapping
+//    public List<FavoriteDto> getAll() {
+//        return favoriteService.getAllFavorites().stream()
+//                .map(converter::toDto).collect(Collectors.toList());
+//    }
 
     @Operation(summary = "Получить список избранных товаров текущего пользователя")
     @ApiResponses(value = {
@@ -70,5 +76,15 @@ public class FavoriteController {
                 .stream().map(converter::toDto).collect(Collectors.toList());
 
         return ResponseEntity.ok(favorites);
+    }
+
+    @Operation(summary = "Remove a product from favorites", description = "Removes a specified product from the current user's favorites.")
+    @ApiResponse(responseCode = "204", description = "Product removed from favorites")
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<Void> removeProductFromFavorites(@PathVariable Long productId) {
+        //log.debug("Removing product {} from favorites for current user", productId);
+        Long userId = userService.getCurrentUser().getId(); // Получаем ID текущего пользователя(,,)
+        favoriteService.delete(userId, productId);
+        return ResponseEntity.noContent().build();
     }
 }

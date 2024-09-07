@@ -33,7 +33,6 @@ public class UserEntity {
     private Role role = Role.ROLE_CLIENT;
 
     @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
-
     @JsonManagedReference
     private Set<Favorite> favorites = new HashSet<>();
 

@@ -3,18 +3,17 @@ package telran.org.de.scotlandyard.service;
 import telran.org.de.scotlandyard.entity.Favorite;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface FavoriteService {
 
-    Favorite createFavorite(Long UserEntity_id, Favorite favorite);
+    Favorite createFavorite(Long UserEntity_id, Long ProductId);
 
-    Favorite UpdateFavorite(Favorite favorite);
+    List<Favorite> getUsersFavoritesByUserId(Long userId);
 
-    Favorite findById(Long id);
-
-    List<Favorite> getAllFavorites();
+    //List<Favorite> getAllFavorites();
 
     List<Favorite> getFavoritesByCurrentUser();
 
-    void delete(Long id);
+    void delete(Long id, Long productId);
 }
