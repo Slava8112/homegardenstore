@@ -81,14 +81,8 @@ class FavoriteServiceImplTest {
 
         assertThat(result).isEqualTo(expectedFavorites);
         verify(favoriteRepository, times(1)).findAllByUserEntityId(userId);
-
     }
 
-//    @Test
-//    void getAllFavorites() {
-//
-//    }
-//
     @Test
     void getFavoritesByCurrentUser() {
         Long userId = userService.getCurrentUser().getId();

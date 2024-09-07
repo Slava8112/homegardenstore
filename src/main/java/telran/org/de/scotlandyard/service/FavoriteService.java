@@ -11,7 +11,7 @@ public interface FavoriteService {
 
     List<Favorite> getUsersFavoritesByUserId(Long userId);
 
-    //List<Favorite> getAllFavorites();
+    List<Favorite> getAllFavorites();
 
     List<Favorite> getFavoritesByCurrentUser();
 

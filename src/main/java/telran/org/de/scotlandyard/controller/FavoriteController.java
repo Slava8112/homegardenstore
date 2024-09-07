@@ -54,15 +54,15 @@ private final UserService userService;
         return ResponseEntity.ok(converter.toDto(favorite));
     }
 
-//    @Operation(summary = "Получить список всех избранных товаров")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "Список избранных товаров успешно получен")
-//    })
-//    @GetMapping
-//    public List<FavoriteDto> getAll() {
-//        return favoriteService.getAllFavorites().stream()
-//                .map(converter::toDto).collect(Collectors.toList());
-//    }
+    @Operation(summary = "Получить список всех избранных товаров")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Список избранных товаров успешно получен")
+    })
+    @GetMapping
+    public List<FavoriteDto> getAll() {
+        return favoriteService.getAllFavorites().stream()
+                .map(converter::toDto).collect(Collectors.toList());
+    }
 
     @Operation(summary = "Получить список избранных товаров текущего пользователя")
     @ApiResponses(value = {

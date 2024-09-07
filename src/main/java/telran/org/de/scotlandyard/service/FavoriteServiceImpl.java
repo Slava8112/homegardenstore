@@ -44,10 +44,10 @@ public class FavoriteServiceImpl implements FavoriteService {
         return favoriteRepository.findAllByUserEntityId(userId);
     }
 
-//    @Override
-//    public List<Favorite> getAllFavorites() {
-//        return favoriteRepository.findAll();
-//    }
+    @Override
+    public List<Favorite> getAllFavorites() {
+        return favoriteRepository.findAll();
+    }
 
     @Override
     public List<Favorite> getFavoritesByCurrentUser() {
