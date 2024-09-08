@@ -11,6 +11,7 @@ import telran.org.de.scotlandyard.converter.OrderConverter;
 import telran.org.de.scotlandyard.dto.orderdto.OrderCreateDto;
 import telran.org.de.scotlandyard.dto.orderdto.OrderDTO;
 import telran.org.de.scotlandyard.entity.Order;
+import telran.org.de.scotlandyard.service.CartService;
 import telran.org.de.scotlandyard.service.OrderService;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class OrderController {
 
     private final OrderService orderService;
     private final OrderConverter orderConverter;
+    private final CartService cartService;
     //private final OrderItemsController orderItemsController;
 
     @Operation(summary = "Получить список всех заказов")
@@ -57,6 +59,9 @@ public class OrderController {
     public ResponseEntity<OrderDTO> create(@RequestBody OrderCreateDto orderCreateDto) {
         Order order = orderConverter.toEntity(orderCreateDto);
         Order createdOrder = orderService.create(order);
+
+        cartService.clearCartForUser();
+
         return ResponseEntity.status(HttpStatus.CREATED).body(orderConverter.toDto(createdOrder));
     }
 
