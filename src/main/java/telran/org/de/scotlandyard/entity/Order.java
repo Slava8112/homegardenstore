@@ -41,4 +41,8 @@ public class Order {
     @JsonBackReference
     @ToString.Exclude
     private UserEntity userEntity;
+
+    public void addOrderItem(OrderItem item) {
+        this.orderItems.add(item);
+    }
 }

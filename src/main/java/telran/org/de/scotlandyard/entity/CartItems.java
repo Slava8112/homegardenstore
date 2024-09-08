@@ -27,4 +27,9 @@ public class CartItems {
     @ToString.Exclude
     private Product product;
 
+    @ManyToOne
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    @JsonBackReference
+    @ToString.Exclude
+    private Cart cart;
 }

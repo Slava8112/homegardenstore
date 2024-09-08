@@ -10,4 +10,8 @@ public interface CartService {
 
     Cart create(Cart cart);
 
+    void clearCartForUser();
+
+    Cart findByUserId(Long userId);
+
 }

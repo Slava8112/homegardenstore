@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import telran.org.de.scotlandyard.entity.Order;
 import telran.org.de.scotlandyard.entity.UserEntity;
 import telran.org.de.scotlandyard.repository.OrderRepository;
+import telran.org.de.scotlandyard.entity.Cart;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +27,9 @@ class OrderServiceTest {
 
     @Mock
     private UserService userService;
+
+    @Mock
+    private CartService cartService;
 
     @InjectMocks
     private OrderServiceImpl orderService;
@@ -63,6 +67,13 @@ class OrderServiceTest {
 
     @Test
     void testCreateOrder() {
+        UserEntity mockUser = new UserEntity();
+        mockUser.setId(1L);
+        when(userService.getCurrentUser()).thenReturn(mockUser);
+
+        Cart mockCart = new Cart();
+        when(cartService.findByUserId(mockUser.getId())).thenReturn(mockCart);
+
         Order mockOrder = new Order();
         when(orderRepository.save(mockOrder)).thenReturn(mockOrder);
 
@@ -70,6 +81,8 @@ class OrderServiceTest {
 
         assertNotNull(order);
         verify(orderRepository, times(1)).save(mockOrder);
+        verify(userService, times(1)).getCurrentUser();
+        verify(cartService, times(1)).findByUserId(mockUser.getId());
     }
 
     @Test
