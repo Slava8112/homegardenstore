@@ -1,5 +1,6 @@
 package telran.org.de.scotlandyard.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,8 +28,12 @@ public class Cart {
     @JoinColumn(name = "userEntity", referencedColumnName = "id")
     private UserEntity userEntity;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_id")
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "cart_id")
+//    private Set<CartItems> cartItems = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
+    @JsonManagedReference
     private Set<CartItems> cartItems = new HashSet<>();
 
 

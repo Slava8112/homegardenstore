@@ -8,6 +8,8 @@ import telran.org.de.scotlandyard.dto.cartdto.CartCreateDto;
 import telran.org.de.scotlandyard.dto.cartdto.CartDto;
 import telran.org.de.scotlandyard.dto.cartitemdto.CartItemCreateDto;
 import telran.org.de.scotlandyard.entity.Cart;
+import telran.org.de.scotlandyard.entity.CartItems;
+import telran.org.de.scotlandyard.entity.Product;
 import telran.org.de.scotlandyard.entity.UserEntity;
 import telran.org.de.scotlandyard.exception.CartNotFoundException;
 import telran.org.de.scotlandyard.exception.UserNotFoundException;
@@ -29,6 +31,7 @@ public class CartServiceImpl implements CartService {
     private final CartItemsRepository cartItemsRepository;
     private final CartRepository cartRepository;
     private final CartConverter cartConverter;
+    private final ProductService productService;
 
     @Override
     public void delete(Long cart_id) {
@@ -76,8 +79,20 @@ public class CartServiceImpl implements CartService {
 }
 
     private void updateLoadedCart(Cart cart, HashSet<CartItemCreateDto> cartItemCreateDtos) {
-        if(cart.getId() == null){
+        if(cart.getId() == null) {
             cartRepository.save(cart);
+        } else {
+            // Добавляем элементы в корзину
+            cartItemCreateDtos.forEach(cartItemCreateDto -> {
+                // Преобразуем CartItemCreateDto в сущность CartItems
+                CartItems newItem = new CartItems();
+                newItem.setQuantity(cartItemCreateDto.quantity());  // Здесь используется метод quantity()
+                Product product = productService.getById(cartItemCreateDto.productId());  // Здесь используется метод productId()
+                newItem.setProduct(product);
+
+                // Добавляем элемент в корзину
+                cart.getCartItems().add(newItem);
+            });
         }
     }
 
@@ -96,4 +111,11 @@ public Cart findByUserId(Long userId) {
     return cartRepository.findByUserEntityId(userId)
             .orElseThrow(() -> new CartNotFoundException("Cart not found for user with id " + userId));
 }
+    @Override
+    public Cart getCurrentUserCart() {
+        Long userId = userService.getCurrentUserId();
+        log.info("Получаем корзину для текущего пользователя с ID: {}", userId);
+        return cartRepository.findByUserEntityId(userId)
+                .orElseThrow(() -> new CartNotFoundException("Корзина не найдена для пользователя с id " + userId));
+    }
 }

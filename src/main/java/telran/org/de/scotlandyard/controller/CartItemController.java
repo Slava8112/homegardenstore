@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import telran.org.de.scotlandyard.dto.cartitemdto.CartItemCreateDto;
 import telran.org.de.scotlandyard.service.CartItemsService;
 import telran.org.de.scotlandyard.service.ProductService;
 import telran.org.de.scotlandyard.entity.CartItems;
@@ -39,9 +40,8 @@ public class CartItemController {
     })
     @PostMapping("/id")
     public CartItems add(@RequestParam Long productsId,
-                         @RequestBody CartItems cartitems) {
-
-        return cartItemsService.add(productsId, cartitems);
+                         @RequestParam int quantity) {
+        return cartItemsService.add(productsId, quantity);
     }
 
     @Operation(summary = "Удалить элемент корзины по ID")

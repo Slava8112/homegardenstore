@@ -8,12 +8,14 @@ public interface CartService {
 
     void delete(Long userEntity);
 
-    //Cart findByUserId();
+//    Cart findByUserId();
 
     CartDto create(CartCreateDto cart);
 
     void clearCartForUser();
 
     Cart findByUserId(Long userId);
+
+    Cart getCurrentUserCart();
 
 }

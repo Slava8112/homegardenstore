@@ -1,5 +1,6 @@
 package telran.org.de.scotlandyard.service;
 
+import telran.org.de.scotlandyard.dto.cartitemdto.CartItemCreateDto;
 import telran.org.de.scotlandyard.entity.CartItems;
 
 import java.util.List;
@@ -8,7 +9,9 @@ public interface CartItemsService {
 
     List<CartItems> getAll();
 
-    CartItems add(Long productsId, CartItems cartitems);
+//    CartItems add(Long productId, CartItemCreateDto cartItemCreateDto);
+
+    CartItems add(Long productId, int quantity);
 
     void deleteById(Long id);
 }

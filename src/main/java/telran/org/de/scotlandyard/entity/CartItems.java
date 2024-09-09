@@ -23,13 +23,13 @@ public class CartItems {
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "productId", referencedColumnName = "id")
-    @JsonBackReference
-    @ToString.Exclude
+//    @JsonBackReference
+//    @ToString.Exclude
     private Product product;
 
     @ManyToOne
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
     @JsonBackReference
-    @ToString.Exclude
+//    @ToString.Exclude
     private Cart cart;
 }
