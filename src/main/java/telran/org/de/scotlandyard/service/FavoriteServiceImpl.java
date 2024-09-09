@@ -26,12 +26,12 @@ public class FavoriteServiceImpl implements FavoriteService {
     private final ProductService productService;
 
     @Override
-    public Favorite createFavorite(Long userEntityId, Long productId) {
+    public Favorite createFavorite(Long userId, Long productId) {
 //        log.debug("Favorite is created {}", favorite);
 
-        UserEntity user = userService.getById(userEntityId);
+        UserEntity user = userService.getById(userId);
         Product product = productService.getById(productId);
-        favoriteRepository.findByUserEntityIdAndProductId(userEntityId, productId).ifPresent(f -> {
+        favoriteRepository.findByUserEntityIdAndProductId(userId, productId).ifPresent(f -> {
             throw new ProductIllegalArgumentException("This product is already in favorites");
         });
         Favorite favorite = new Favorite();

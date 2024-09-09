@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import telran.org.de.scotlandyard.converter.CartConverter;
@@ -12,7 +12,9 @@ import telran.org.de.scotlandyard.dto.cartdto.CartCreateDto;
 import telran.org.de.scotlandyard.dto.cartdto.CartDto;
 import telran.org.de.scotlandyard.entity.Cart;
 import telran.org.de.scotlandyard.service.CartService;
+import telran.org.de.scotlandyard.service.UserService;
 
+@Slf4j
 @RestController
 @RequestMapping("v1/carts")
 @RequiredArgsConstructor
@@ -20,6 +22,7 @@ public class CartController {
 
     private final CartService cartService;
     private final CartConverter converter;
+    private final UserService userService;
 
     @Operation(summary = "Создание новой корзины")
     @ApiResponses(value = {
@@ -41,7 +44,7 @@ public class CartController {
     })
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable long id) {
-                cartService.delete(id);
+        cartService.delete(id);
     }
 
 }

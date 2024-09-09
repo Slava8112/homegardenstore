@@ -36,9 +36,9 @@ private final UserService userService;
     @PostMapping
     public ResponseEntity<FavoriteDto> create(@RequestBody FavoriteCreateDto favoriteCreateDto) {
 
-        Long userId = userService.getCurrentUser().getId();
+        Long userId = userService.getCurrentUserId();
         Favorite favoritenew = favoriteService.createFavorite(userId, favoriteCreateDto.getProductId());
-        Favorite favorite = converter.toEntity(favoriteCreateDto);
+        //Favorite favorite = converter.toEntity(favoriteCreateDto);
         FavoriteDto responseDto = converter.toDto(favoritenew);
         return new  ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
@@ -83,7 +83,7 @@ private final UserService userService;
     @DeleteMapping("/{productId}")
     public ResponseEntity<Void> removeProductFromFavorites(@PathVariable Long productId) {
         //log.debug("Removing product {} from favorites for current user", productId);
-        Long userId = userService.getCurrentUser().getId(); // Получаем ID текущего пользователя(,,)
+        Long userId = userService.getCurrentUserId(); // Получаем ID текущего пользователя(,,)
         favoriteService.delete(userId, productId);
         return ResponseEntity.noContent().build();
     }
