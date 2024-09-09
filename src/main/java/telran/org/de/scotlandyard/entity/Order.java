@@ -31,6 +31,7 @@ public class Order {
     private Status status;
 
     private Date updatedAT = new Date();
+    private double totalPrice;
 
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -42,7 +43,18 @@ public class Order {
     @ToString.Exclude
     private UserEntity userEntity;
 
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAT = new Date();
+    }
     public void addOrderItem(OrderItem item) {
         this.orderItems.add(item);
+        recalculateTotalPrice(); // Пересчитываем общую стоимость после добавления элемента
+    }
+    // Метод для пересчета общей стоимости заказа
+    private void recalculateTotalPrice() {
+        totalPrice = orderItems.stream()
+                .mapToDouble(item -> item.getPricePurshause() * item.getQuantity())
+                .sum();
     }
 }

@@ -11,7 +11,6 @@ import telran.org.de.scotlandyard.converter.CartConverter;
 import telran.org.de.scotlandyard.dto.cartdto.CartCreateDto;
 import telran.org.de.scotlandyard.dto.cartdto.CartDto;
 import telran.org.de.scotlandyard.entity.Cart;
-import telran.org.de.scotlandyard.repository.CartRepository;
 import telran.org.de.scotlandyard.service.CartService;
 
 @RestController
@@ -22,6 +21,19 @@ public class CartController {
     private final CartService cartService;
     private final CartConverter converter;
 
+    @Operation(summary = "Создание новой корзины")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Корзина успешно создана"),
+            @ApiResponse(responseCode = "400", description = "Некорректные данные")
+    })
+    @PostMapping
+    public ResponseEntity<CartDto> createCart(@RequestBody CartCreateDto createDto) {
+        Cart cart = converter.toEntity(createDto);
+        Cart createdCart = cartService.create(cart);
+        CartDto responseDto = converter.toDto(createdCart);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+    }
+
     @Operation(summary = "Удаление корзины по ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Корзина успешно удалена"),
@@ -31,18 +43,5 @@ public class CartController {
     public void deleteById(@PathVariable long id) {
                 cartService.delete(id);
     }
-    @Operation(summary = "Удаление корзины по ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Корзина успешно удалена"),
-            @ApiResponse(responseCode = "404", description = "Корзина не найдена")
-    })
-    @PostMapping
-    public  ResponseEntity<CartDto> createCart(CartCreateDto createDto){
 
-        Cart cart = converter.toEntity(createDto);
-        Cart createdCart = cartService.create(cart);
-        CartDto responseDto = converter.toDto(createdCart);
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
-
-    }
 }
