@@ -41,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
     public Order create(Order order) {
 //        log.debug("Order was sacsessfully added  Order {}", order);
 //        return (Order) orderRepository.save(order);
-        Long userId = userService.getCurrentUser().getId();
+        Long userId = userService.getCurrentUserId();
         Cart cart = cartService.findByUserId(userId);
 
         // Переносим товары из корзины в заказ

@@ -57,8 +57,10 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(userEntity);
     }
 
+
+
     @Override
-    public UserEntity getCurrentUser() {
+    public Long getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new SecurityException("User is not authenticated");
@@ -67,7 +69,7 @@ public class UserServiceImpl implements UserService {
         if (principal instanceof UserDetails) {
             String username = ((UserDetails) principal).getUsername();
             UserEntity user = findByEmail(username);
-            return user;
+            return user.getId();
         } else {
             throw new IllegalArgumentException("The primary authentication object cannot be used to obtain the ID");
         }

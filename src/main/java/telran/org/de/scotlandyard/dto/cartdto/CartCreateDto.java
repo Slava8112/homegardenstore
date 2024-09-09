@@ -1,16 +1,10 @@
 package telran.org.de.scotlandyard.dto.cartdto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import telran.org.de.scotlandyard.dto.cartitemdto.CartItemCreateDto;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class CartCreateDto {
+import java.util.HashSet;
+import java.util.List;
 
-    private Long CartId;
-    private Long UserEntityId;
+public record CartCreateDto (Long userId, HashSet<CartItemCreateDto> cartItems){
+    //
 }

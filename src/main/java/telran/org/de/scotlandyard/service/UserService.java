@@ -14,7 +14,7 @@ public interface UserService {
 
     void deleteByEmail(String email);
 
-    UserEntity getCurrentUser();
+    Long getCurrentUserId();
 
     UserEntity create(UserEntity userEntity);
 }
