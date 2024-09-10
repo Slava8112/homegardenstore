@@ -24,7 +24,7 @@ public class CartItems {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "productId", referencedColumnName = "id")
 //    @JsonBackReference
-//    @ToString.Exclude
+    @ToString.Exclude
     private Product product;
 
     @ManyToOne

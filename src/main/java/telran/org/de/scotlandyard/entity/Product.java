@@ -1,5 +1,6 @@
 package telran.org.de.scotlandyard.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Date;
@@ -34,6 +35,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+//    @JsonBackReference
     @ToString.Exclude
     private Category category;
 
