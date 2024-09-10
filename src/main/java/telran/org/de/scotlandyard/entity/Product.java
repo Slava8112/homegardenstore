@@ -35,7 +35,7 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
-//    @JsonBackReference
+    @JsonBackReference
     @ToString.Exclude
     private Category category;
 
