@@ -6,11 +6,11 @@ import telran.org.de.scotlandyard.entity.Cart;
 
 public interface CartService {
 
-    void delete(Long userEntity);
+    void delete(Long cartId);
 
 //    Cart findByUserId();
 
-    CartDto create(CartCreateDto cart);
+    Cart create(CartCreateDto cartCreateDto);
 
     void clearCartForUser();
 

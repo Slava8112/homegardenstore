@@ -17,4 +17,8 @@ public interface UserService {
     Long getCurrentUserId();
 
     UserEntity create(UserEntity userEntity);
+
+//    UserEntity getCurrentUser();
+
+
 }

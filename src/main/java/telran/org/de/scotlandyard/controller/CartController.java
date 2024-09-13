@@ -12,7 +12,6 @@ import telran.org.de.scotlandyard.dto.cartdto.CartCreateDto;
 import telran.org.de.scotlandyard.dto.cartdto.CartDto;
 import telran.org.de.scotlandyard.entity.Cart;
 import telran.org.de.scotlandyard.service.CartService;
-import telran.org.de.scotlandyard.service.UserService;
 
 @Slf4j
 @RestController
@@ -22,7 +21,6 @@ public class CartController {
 
     private final CartService cartService;
     private final CartConverter converter;
-    private final UserService userService;
 
     @Operation(summary = "Создание новой корзины")
     @ApiResponses(value = {
@@ -31,9 +29,8 @@ public class CartController {
     })
     @PostMapping
     public ResponseEntity<CartDto> createCart(@RequestBody CartCreateDto cartCreateDto){
-//        Long userId = userService.getCurrentUser().getId();
-//       Cart newCart = cartService.create(cartCreateDto);
-        CartDto cartDto = cartService.create(cartCreateDto);
+       Cart newCart = cartService.create(cartCreateDto);
+        CartDto cartDto = converter.toDto(newCart);
         return ResponseEntity.ok(cartDto);
 
     }

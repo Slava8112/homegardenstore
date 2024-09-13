@@ -1,11 +1,10 @@
 package telran.org.de.scotlandyard.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import telran.org.de.scotlandyard.converter.CartConverter;
 import telran.org.de.scotlandyard.dto.cartdto.CartCreateDto;
-import telran.org.de.scotlandyard.dto.cartdto.CartDto;
 import telran.org.de.scotlandyard.dto.cartitemdto.CartItemCreateDto;
 import telran.org.de.scotlandyard.entity.Cart;
 import telran.org.de.scotlandyard.entity.CartItems;
@@ -25,12 +24,10 @@ import java.util.HashSet;
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
 
-    private final CartConverter converter;
     private final UserService userService;
     private final UserRepository userRepository;
     private final CartItemsRepository cartItemsRepository;
     private final CartRepository cartRepository;
-    private final CartConverter cartConverter;
     private final ProductService productService;
 
     @Override
@@ -39,70 +36,50 @@ public class CartServiceImpl implements CartService {
         cartRepository.delete(unit);
     }
 
-//    @Override
-//    public Cart create(Cart cart) {
-//        Long userId = userService.getCurrentUser().getId();
-//        UserEntity user = userRepository.findById(userId)
-//                .orElseThrow(() -> new ProductNotFoundException("User not found with id " + userId));
-//
-//
-//        Cart cart1 = cartRepository.findById(userId).orElseGet(() -> {
-//
-//            Cart newCart = new Cart();
-//            newCart.setUserEntity(user);
-//            return newCart;
-//        });
-//    return cart1;
-//    }
-
     @Override
-    public CartDto create(CartCreateDto cartCreateDto) {
-
-
-        //      .orElseThrow(() -> new CartNotFoundException("User not found with id " + userService.getCurrentUser().getId()));
-
+    public Cart create(CartCreateDto cartCreateDto) {
         Long userId = userService.getCurrentUserId();
+        log.info("Создание корзины для пользователя с ID: {}", userId);
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with id " + userId));
+
         Cart cart = cartRepository.findByUserEntityId(userId).orElseGet(() -> {
+            log.info("Корзина для пользователя с ID: {} не найдена. Создаем новую.", userId);
             Cart newCart = new Cart();
             newCart.setUserEntity(user);
             cartRepository.save(newCart);
+            log.info("Создана новая корзина с ID: {} для пользователя с ID: {}", newCart.getId(), userId);
             return newCart;
         });
 
         updateLoadedCart(cart, cartCreateDto.cartItems());
+        log.info("Корзина с ID: {} успешно обновлена и сохранена.", cart.getId());
 
-        cart = cartRepository.save(cart);
-        return cartConverter.toDto(cart);
-
+        return cartRepository.save(cart);
 }
 
     private void updateLoadedCart(Cart cart, HashSet<CartItemCreateDto> cartItemCreateDtos) {
         if(cart.getId() == null) {
             cartRepository.save(cart);
         } else {
-            // Добавляем элементы в корзину
             cartItemCreateDtos.forEach(cartItemCreateDto -> {
-                // Преобразуем CartItemCreateDto в сущность CartItems
                 CartItems newItem = new CartItems();
-                newItem.setQuantity(cartItemCreateDto.quantity());  // Здесь используется метод quantity()
-                Product product = productService.getById(cartItemCreateDto.productId());  // Здесь используется метод productId()
+                newItem.setQuantity(cartItemCreateDto.quantity());
+                Product product = productService.getById(cartItemCreateDto.productId());
                 newItem.setProduct(product);
 
-                // Добавляем элемент в корзину
                 cart.getCartItems().add(newItem);
             });
         }
     }
 
+    @Transactional
     @Override
 public void clearCartForUser() {
     Long userId = userService.getCurrentUserId();
     Cart cart = cartRepository.findByUserEntityId(userId)
             .orElseThrow(() -> new CartNotFoundException("Cart not found for user with id " + userId));
 
-    // Удаляем все товары в корзине
     cartItemsRepository.deleteAllByCart(cart);
 }
 
@@ -116,6 +93,9 @@ public Cart findByUserId(Long userId) {
         Long userId = userService.getCurrentUserId();
         log.info("Получаем корзину для текущего пользователя с ID: {}", userId);
         return cartRepository.findByUserEntityId(userId)
-                .orElseThrow(() -> new CartNotFoundException("Корзина не найдена для пользователя с id " + userId));
+                .orElseThrow(() -> {
+                    Cart newCart = new Cart();
+                    return new CartNotFoundException("Корзина не найдена для пользователя с id " + userId);
+                });
     }
 }
