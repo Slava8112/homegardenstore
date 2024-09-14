@@ -1,6 +1,7 @@
 package telran.org.de.scotlandyard.service;
 
 import telran.org.de.scotlandyard.entity.Order;
+import telran.org.de.scotlandyard.model.Status;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface OrderService {
     void deleteById(Long id);
 
     List<Order> getAllByCurrentUser();
+
+    void changeStatus(Long orderId, Status status);
 }

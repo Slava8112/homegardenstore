@@ -5,15 +5,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import telran.org.de.scotlandyard.dto.orderdto.OrderDTO;
 import telran.org.de.scotlandyard.entity.CartItems;
 import telran.org.de.scotlandyard.entity.Order;
 import telran.org.de.scotlandyard.entity.OrderItem;
 import telran.org.de.scotlandyard.entity.UserEntity;
+import telran.org.de.scotlandyard.exception.OrderNotFoundException;
+import telran.org.de.scotlandyard.model.Status;
 import telran.org.de.scotlandyard.repository.OrderRepository;
 import telran.org.de.scotlandyard.entity.Cart;
+
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.Set;
 
 @Service
@@ -26,15 +27,14 @@ public class OrderServiceImpl implements OrderService {
     private final CartService cartService;
 
     @Override
-    public List<Order> getAllOrders(){
-     return orderRepository.findAll();
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
     }
 
     @Override
     public Order findById(Long id) {
-             //   .orElseThrow(() -> new OrderNotFoundException("No Order with id " + id));;
-        return orderRepository.findById(id).get();
-
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException("No Order with id " + id));
     }
 
     @Override
@@ -44,7 +44,6 @@ public class OrderServiceImpl implements OrderService {
         Long userId = userService.getCurrentUserId();
         Cart cart = cartService.findByUserId(userId);
 
-        // Переносим товары из корзины в заказ
         Set<CartItems> cartItems = cart.getCartItems();
         for (CartItems item : cartItems) {
             OrderItem orderItem = new OrderItem();
@@ -53,13 +52,8 @@ public class OrderServiceImpl implements OrderService {
             orderItem.setPricePurshause(item.getPricePurshause());
             order.addOrderItem(orderItem);
         }
-
-        // Создаём заказ
         Order createdOrder = orderRepository.save(order);
-
-        // Очищаем корзину после создания заказа
         cartService.clearCartForUser();
-
         return createdOrder;
     }
 
@@ -79,5 +73,10 @@ public class OrderServiceImpl implements OrderService {
         return orders;
     }
 
-
+    @Override
+    public void changeStatus(Long orderId, Status status) {
+        Order order = findById(orderId);
+        order.setStatus(status);
+        orderRepository.save(order);
+    }
 }
