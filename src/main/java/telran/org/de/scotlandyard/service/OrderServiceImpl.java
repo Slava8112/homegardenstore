@@ -1,19 +1,15 @@
 package telran.org.de.scotlandyard.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import telran.org.de.scotlandyard.dto.orderdto.OrderDTO;
-import telran.org.de.scotlandyard.entity.CartItems;
-import telran.org.de.scotlandyard.entity.Order;
-import telran.org.de.scotlandyard.entity.OrderItem;
-import telran.org.de.scotlandyard.entity.UserEntity;
+import telran.org.de.scotlandyard.entity.*;
 import telran.org.de.scotlandyard.repository.OrderRepository;
-import telran.org.de.scotlandyard.entity.Cart;
+
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.Set;
 
 @Service
@@ -26,17 +22,18 @@ public class OrderServiceImpl implements OrderService {
     private final CartService cartService;
 
     @Override
-    public List<Order> getAllOrders(){
-     return orderRepository.findAll();
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
     }
 
     @Override
     public Order findById(Long id) {
-             //   .orElseThrow(() -> new OrderNotFoundException("No Order with id " + id));;
+        //   .orElseThrow(() -> new OrderNotFoundException("No Order with id " + id));;
         return orderRepository.findById(id).get();
 
     }
 
+    @Transactional
     @Override
     public Order create(Order order) {
 //        log.debug("Order was sacsessfully added  Order {}", order);
@@ -54,7 +51,6 @@ public class OrderServiceImpl implements OrderService {
             order.addOrderItem(orderItem);
         }
 
-        // Создаём заказ
         Order createdOrder = orderRepository.save(order);
 
         // Очищаем корзину после создания заказа
@@ -78,6 +74,4 @@ public class OrderServiceImpl implements OrderService {
 
         return orders;
     }
-
-
 }

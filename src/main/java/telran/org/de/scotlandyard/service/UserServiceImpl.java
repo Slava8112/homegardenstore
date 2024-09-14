@@ -57,8 +57,6 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(userEntity);
     }
 
-
-
     @Override
     public Long getCurrentUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -27,19 +27,25 @@ public class ProductServiceImpl implements ProductService {
 
 @Override
 public Product updateProduct(Product product) {
-    if (product.getId() == null) {
-        throw new IllegalArgumentException("Product ID must not be null");
-    }// ?
+    log.debug("Product will apdeted : {}", product);
+//        if (product.getId() == null) {
+//        throw new IllegalArgumentException("Product ID must not be null");
+//    }//
     Product existingProduct = repository.findById(product.getId())
             .orElseThrow(() -> new ProductNotFoundException("Product with ID " + product.getId() + " not found"));
     existingProduct.setName(product.getName());
+
+    log.debug("ID of Product  : {}", product.getId());
+    log.debug("New name of Product : {}", existingProduct.getName());
     existingProduct.setDescription(product.getDescription());
+    log.debug("New description : {}", existingProduct.getDescription());
     existingProduct.setPrice(product.getPrice());
     existingProduct.setDiscountPrice(product.getDiscountPrice());
     existingProduct.setImage(product.getImage());
     existingProduct.setCreatedAt(product.getCreatedAt());
     existingProduct.setUpdatedAt(product.getUpdatedAt());
-//        existingProduct.setId(product.getId()); // для обновления,надо проверить
+    log.debug("Product updated : {}", existingProduct);
+        existingProduct.setId(product.getId()); // для обновления,надо проверить
     return repository.save(existingProduct);
 }
 

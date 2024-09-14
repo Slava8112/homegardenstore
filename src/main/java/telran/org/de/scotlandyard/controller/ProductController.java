@@ -8,12 +8,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import telran.org.de.scotlandyard.exception.ProductNotFoundException;
-import telran.org.de.scotlandyard.service.ProductService;
 import telran.org.de.scotlandyard.converter.ProductConverter;
 import telran.org.de.scotlandyard.dto.productdto.ProductCreateDto;
 import telran.org.de.scotlandyard.dto.productdto.ProductDto;
 import telran.org.de.scotlandyard.entity.Product;
+import telran.org.de.scotlandyard.exception.ProductNotFoundException;
+import telran.org.de.scotlandyard.service.ProductService;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +41,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
     //        Category category = categoryService.findById(Long.valueOf(productDto.getCategory()));
-        // Создание и настройка сущности Product
+    // Создание и настройка сущности Product
 //        Product product = new Product();
 //        product.setName(productDto.getName());
 //        product.setDescription(productDto.getDescription());
@@ -72,13 +73,14 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductCreateDto productDto) {
         Product product = converter.toEntity(productDto);
+        product.setId(id);
         Product updatedProduct = productService.updateProduct(product);
         ProductDto responseDto = converter.toDto(updatedProduct);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
     //        // Получение существующего продукта по ID
 //        Product modifiProduct = productService.getById(id);
-        // Обновление данных продукта на основе входящих данных
+    // Обновление данных продукта на основе входящих данных
 //        modifiProduct.setName(productDto.getName());
 //        modifiProduct.setDescription(productDto.getDescription());
 //        modifiProduct.setPrice(productDto.getPrice());
