@@ -5,12 +5,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import telran.org.de.scotlandyard.dto.cartitemdto.CartItemCreateDto;
-import telran.org.de.scotlandyard.service.CartItemsService;
-import telran.org.de.scotlandyard.service.ProductService;
 import telran.org.de.scotlandyard.entity.CartItems;
 import telran.org.de.scotlandyard.repository.CartItemsRepository;
-import telran.org.de.scotlandyard.service.CartService;
+import telran.org.de.scotlandyard.service.CartItemsService;
 
 import java.util.List;
 
@@ -20,8 +17,7 @@ import java.util.List;
 public class CartItemController {
 
     private final CartItemsService cartItemsService;
-//    private final ProductService productService;
-//    private final CartService cartService;
+
     private final CartItemsRepository cartItemsRepository;
 
     @Operation(summary = "Получить список всех элементов корзины")

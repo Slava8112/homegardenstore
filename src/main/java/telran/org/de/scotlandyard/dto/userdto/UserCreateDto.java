@@ -2,7 +2,6 @@ package telran.org.de.scotlandyard.dto.userdto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import telran.org.de.scotlandyard.model.Role;
 
 @Data
 @NoArgsConstructor

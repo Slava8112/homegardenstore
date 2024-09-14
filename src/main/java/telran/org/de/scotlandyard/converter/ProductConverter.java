@@ -24,7 +24,6 @@ public class ProductConverter implements Converter<Product, ProductDto, ProductC
                 dto.getDescription(),
                 dto.getPrice(),
                 category,
-                //dto.getCategoryId(),
                 dto.getImage()
         );
     }
@@ -37,7 +36,6 @@ public class ProductConverter implements Converter<Product, ProductDto, ProductC
                 product.getDescription(),
                 product.getPrice(),
                 product.getCategory().getId(),
-                //product.getCategoryId()
                 product.getImage(),
                 product.getDiscountPrice()
         );

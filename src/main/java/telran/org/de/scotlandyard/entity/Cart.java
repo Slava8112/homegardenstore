@@ -7,9 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,17 +27,8 @@ public class Cart {
     @JoinColumn(name = "user_entity_id", referencedColumnName = "id")
     private UserEntity userEntity;
 
-//    @OneToOne()
-//    @JoinColumn(name = "userEntity", referencedColumnName = "id")
-//    private UserEntity userEntity;
-
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "cart_id")
-//    private Set<CartItems> cartItems = new HashSet<>();
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
     @JsonManagedReference
     private Set<CartItems> cartItems = new HashSet<>();
-
 
 }

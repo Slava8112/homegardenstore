@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import telran.org.de.scotlandyard.entity.Product;
 import telran.org.de.scotlandyard.exception.ProductNotFoundException;
 import telran.org.de.scotlandyard.repository.ProductRepository;
+
 import java.util.List;
 
 @Service
@@ -18,51 +19,54 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryService categoryService;// пригодится?
 
     public Product addProduct(Product product) {
-//                Category category = categoryService.findById(product.getCategory().getId());
-//        product.setCategory(category);
+
         log.debug("Adding product: {}", product);
         return repository.save(product);
     }
 
+    @Override
+    public Product updateProduct(Product product) {
 
-@Override
-public Product updateProduct(Product product) {
-    if (product.getId() == null) {
-        throw new IllegalArgumentException("Product ID must not be null");
-    }// ?
-    Product existingProduct = repository.findById(product.getId())
-            .orElseThrow(() -> new ProductNotFoundException("Product with ID " + product.getId() + " not found"));
-    existingProduct.setName(product.getName());
-    existingProduct.setDescription(product.getDescription());
-    existingProduct.setPrice(product.getPrice());
-    existingProduct.setDiscountPrice(product.getDiscountPrice());
-    existingProduct.setImage(product.getImage());
-    existingProduct.setCreatedAt(product.getCreatedAt());
-    existingProduct.setUpdatedAt(product.getUpdatedAt());
+        if (product.getId() == null) {
+            throw new IllegalArgumentException("Product ID must not be null");
+        }// ?
+        Product existingProduct = repository.findById(product.getId())
+                .orElseThrow(() -> new ProductNotFoundException("Product with ID " + product.getId() + " not found"));
+        existingProduct.setName(product.getName());
+        existingProduct.setDescription(product.getDescription());
+        existingProduct.setPrice(product.getPrice());
+        existingProduct.setDiscountPrice(product.getDiscountPrice());
+        existingProduct.setImage(product.getImage());
+        existingProduct.setCreatedAt(product.getCreatedAt());
+        existingProduct.setUpdatedAt(product.getUpdatedAt());
 //        existingProduct.setId(product.getId()); // для обновления,надо проверить
-    return repository.save(existingProduct);
-}
+        return repository.save(existingProduct);
+    }
 
     @Override
     public void deleteById(Long productId) {
+
         Product product = repository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException("Product with ID " + " not found"));
         repository.delete(product);
     }
 
     public List<Product> getAllProduct() {
+
         log.debug("Fetching all products");
         return repository.findAll();
     }
 
     @Override
     public Product getById(Long productId) {
+
         return repository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException("Product not found with id " + productId));
     }
 
     @Override
     public List<Product> findByCategoryId(Long categoryId) {
+
         log.debug("Fetching products for category with id {}", categoryId);
         return repository.findAllByCategoryId(categoryId);
     }

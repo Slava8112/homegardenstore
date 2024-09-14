@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import telran.org.de.scotlandyard.entity.Favorite;
-import telran.org.de.scotlandyard.entity.Order;
 import telran.org.de.scotlandyard.entity.Product;
 import telran.org.de.scotlandyard.entity.UserEntity;
 import telran.org.de.scotlandyard.exception.FavoriteNotFoundException;
@@ -27,7 +26,6 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     @Override
     public Favorite createFavorite(Long userId, Long productId) {
-//        log.debug("Favorite is created {}", favorite);
 
         UserEntity user = userService.getById(userId);
         Product product = productService.getById(productId);
@@ -43,16 +41,19 @@ public class FavoriteServiceImpl implements FavoriteService {
 
     @Override
     public List<Favorite> getUsersFavoritesByUserId(Long userId) {
+
         return favoriteRepository.findAllByUserEntityId(userId);
     }
 
     @Override
     public List<Favorite> getAllFavorites() {
+
         return favoriteRepository.findAll();
     }
 
     @Override
     public List<Favorite> getFavoritesByCurrentUser() {
+
         String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
 
         UserEntity userEntity = userService.findByEmail(userEmail);
@@ -65,6 +66,7 @@ public class FavoriteServiceImpl implements FavoriteService {
     @Override
     @Transactional
     public void delete(Long userId, Long productId) {
+
         log.debug("Attempting to remove product with ID: {} from favorites for user with ID: {}", productId, userId);
         boolean exists = favoriteRepository.existsByUserEntityIdAndProductId(userId, productId);
         if (!exists) {

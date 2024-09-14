@@ -7,5 +7,6 @@ import telran.org.de.scotlandyard.entity.CartItems;
 
 @Repository
 public interface CartItemsRepository extends JpaRepository<CartItems, Long> {
+
     void deleteAllByCart(Cart cart);
 }

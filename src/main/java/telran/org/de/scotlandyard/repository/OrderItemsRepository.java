@@ -6,4 +6,5 @@ import telran.org.de.scotlandyard.entity.OrderItem;
 
 @Repository
 public interface OrderItemsRepository extends JpaRepository<OrderItem, Long> {
+    //
 }

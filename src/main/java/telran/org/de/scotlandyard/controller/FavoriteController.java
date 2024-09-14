@@ -12,8 +12,6 @@ import telran.org.de.scotlandyard.dto.favoritedto.FavoriteCreateDto;
 import telran.org.de.scotlandyard.dto.favoritedto.FavoriteDto;
 import telran.org.de.scotlandyard.entity.Favorite;
 import telran.org.de.scotlandyard.service.FavoriteService;
-import telran.org.de.scotlandyard.service.ProductService;
-import telran.org.de.scotlandyard.service.ProductServiceImpl;
 import telran.org.de.scotlandyard.service.UserService;
 
 import java.util.List;
@@ -26,7 +24,7 @@ public class FavoriteController {
 
     private final FavoriteService favoriteService;
     private final FavoriteConverter converter;
-private final UserService userService;
+    private final UserService userService;
 
     @Operation(summary = "Добавить товар в избранное")
     @ApiResponses(value = {
@@ -40,7 +38,7 @@ private final UserService userService;
         Favorite favoritenew = favoriteService.createFavorite(userId, favoriteCreateDto.getProductId());
         //Favorite favorite = converter.toEntity(favoriteCreateDto);
         FavoriteDto responseDto = converter.toDto(favoritenew);
-        return new  ResponseEntity<>(responseDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
     @Operation(summary = "Получить избранный товар по ID")
@@ -70,7 +68,7 @@ private final UserService userService;
             @ApiResponse(responseCode = "401", description = "Неверный логин или пароль")
     })
     @GetMapping("/favorite_by_current_user")
-    public ResponseEntity<List<FavoriteDto>> listFavoritesByCurrentUser(){
+    public ResponseEntity<List<FavoriteDto>> listFavoritesByCurrentUser() {
 
         List<FavoriteDto> favorites = favoriteService.getFavoritesByCurrentUser()
                 .stream().map(converter::toDto).collect(Collectors.toList());

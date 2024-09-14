@@ -33,7 +33,7 @@ public class Order {
     private Date updatedAT = new Date();
     private double totalPrice;
 
-    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<OrderItem> orderItems = new HashSet<>();
 
@@ -47,11 +47,12 @@ public class Order {
     protected void onUpdate() {
         this.updatedAT = new Date();
     }
+
     public void addOrderItem(OrderItem item) {
         this.orderItems.add(item);
-        recalculateTotalPrice(); // Пересчитываем общую стоимость после добавления элемента
+        recalculateTotalPrice();
     }
-    // Метод для пересчета общей стоимости заказа
+
     private void recalculateTotalPrice() {
         totalPrice = orderItems.stream()
                 .mapToDouble(item -> item.getPricePurshause() * item.getQuantity())

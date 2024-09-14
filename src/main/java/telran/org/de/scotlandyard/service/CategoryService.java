@@ -1,7 +1,6 @@
 package telran.org.de.scotlandyard.service;
 
 import telran.org.de.scotlandyard.entity.Category;
-
 import java.util.List;
 
 public interface CategoryService {

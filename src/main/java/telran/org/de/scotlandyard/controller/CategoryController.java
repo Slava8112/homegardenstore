@@ -71,6 +71,6 @@ public class CategoryController {
     public Category updateCategory(@PathVariable Long categoryId, @RequestBody CategoryCreateDto categoryDto) {
         log.debug("Id of modified category: {}", categoryId);
         Category category = converter.toEntity(categoryDto);
-        return categoryService.updateCategory(categoryId,category);
+        return categoryService.updateCategory(categoryId, category);
     }
 }

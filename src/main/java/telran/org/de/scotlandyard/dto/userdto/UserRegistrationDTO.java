@@ -13,7 +13,9 @@ public class UserRegistrationDTO {
     private String password;
     private Role role;
 
-    public UserRegistrationDTO() {}
+    public UserRegistrationDTO() {
+        //
+    }
 
     public UserRegistrationDTO(String name, String email, String phone, String password, Role role) {
         this.name = name;
@@ -22,5 +24,4 @@ public class UserRegistrationDTO {
         this.password = password;
         this.role = role;
     }
-
 }

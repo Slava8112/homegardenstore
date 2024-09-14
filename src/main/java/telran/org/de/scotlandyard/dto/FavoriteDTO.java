@@ -8,7 +8,9 @@ import lombok.Setter;
 public class FavoriteDTO {
     private Long productId;
 
-    public FavoriteDTO() {}
+    public FavoriteDTO() {
+        //
+    }
 
     public FavoriteDTO(Long productId) {
         this.productId = productId;

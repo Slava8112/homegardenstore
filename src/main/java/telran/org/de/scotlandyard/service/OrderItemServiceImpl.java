@@ -7,9 +7,10 @@ import telran.org.de.scotlandyard.entity.Product;
 import telran.org.de.scotlandyard.repository.OrderItemsRepository;
 
 import java.util.List;
+
 @Service
 @RequiredArgsConstructor
-public class OrderItemServiceImpl implements OrderItemService{
+public class OrderItemServiceImpl implements OrderItemService {
 
     private final ProductService productService;
     private final OrderItemsRepository repository;
@@ -24,15 +25,16 @@ public class OrderItemServiceImpl implements OrderItemService{
         return repository.findById(orderItemId)
                 .orElseThrow(() -> new IllegalArgumentException("OrderItem not found with id: " + orderItemId));
     }
+
     @Override
     public OrderItem addOrderItem(Long productsId, OrderItem orderItem) {
-                Product product = productService.getById(productsId);
+        Product product = productService.getById(productsId);
         orderItem.setProduct(product);
         return repository.save(orderItem);
     }
 
     @Override
-    public void  deleteById(Long orderItemId) {
-       repository.deleteById(orderItemId);
+    public void deleteById(Long orderItemId) {
+        repository.deleteById(orderItemId);
     }
 }

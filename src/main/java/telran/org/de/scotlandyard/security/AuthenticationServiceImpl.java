@@ -13,14 +13,14 @@ import telran.org.de.scotlandyard.security.model.SignInRequest;
 
 
 @Service
-public class AuthenticationServiceImpl implements AuthenticationService{
+public class AuthenticationServiceImpl implements AuthenticationService {
     private static final Logger log = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
     @Autowired(required = false)
-    private  AuthenticationManager authenticationManager;
-@Autowired
-    private  UserDetailsService userDetailsService;
-@Autowired
-    private  JwtService jwtService;
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private UserDetailsService userDetailsService;
+    @Autowired
+    private JwtService jwtService;
 
     public AuthenticationServiceImpl(AuthenticationManager authenticationManager, UserDetailsService userDetailsService, JwtService jwtService) {
         this.authenticationManager = authenticationManager;
@@ -34,10 +34,10 @@ public class AuthenticationServiceImpl implements AuthenticationService{
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getLogin(),
                         request.getPassword()));
-log.debug("Authentication secsessful {}", request.getLogin());
+        log.debug("Authentication secsessful {}", request.getLogin());
         UserDetails user = userDetailsService.loadUserByUsername(request.getLogin());
         String token = jwtService.generateToken(user);
         return new JwtAuthenticationResponse(token);
     }
-    }
+}
 
