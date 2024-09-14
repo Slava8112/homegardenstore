@@ -10,8 +10,11 @@ import telran.org.de.scotlandyard.entity.CartItems;
 import telran.org.de.scotlandyard.entity.Order;
 import telran.org.de.scotlandyard.entity.OrderItem;
 import telran.org.de.scotlandyard.entity.UserEntity;
+import telran.org.de.scotlandyard.exception.OrderNotFoundException;
+import telran.org.de.scotlandyard.model.Status;
 import telran.org.de.scotlandyard.repository.OrderRepository;
 import telran.org.de.scotlandyard.entity.Cart;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Set;
@@ -26,15 +29,14 @@ public class OrderServiceImpl implements OrderService {
     private final CartService cartService;
 
     @Override
-    public List<Order> getAllOrders(){
-     return orderRepository.findAll();
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
     }
 
     @Override
     public Order findById(Long id) {
-             //   .orElseThrow(() -> new OrderNotFoundException("No Order with id " + id));;
-        return orderRepository.findById(id).get();
-
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException("No Order with id " + id));
     }
 
     @Override
@@ -79,5 +81,10 @@ public class OrderServiceImpl implements OrderService {
         return orders;
     }
 
-
+    @Override
+    public void changeStatus(Long orderId, Status status) {
+        Order order = findById(orderId);
+        order.setStatus(status);
+        orderRepository.save(order);
+    }
 }
