@@ -67,6 +67,7 @@ public class CartServiceImpl implements CartService {
                 newItem.setQuantity(cartItemCreateDto.quantity());
                 Product product = productService.getById(cartItemCreateDto.productId());
                 newItem.setProduct(product);
+                newItem.setCart(cart);
 
                 cart.getCartItems().add(newItem);
             });
@@ -94,9 +95,20 @@ public class CartServiceImpl implements CartService {
         Long userId = userService.getCurrentUserId();
         log.info("Получаем корзину для текущего пользователя с ID: {}", userId);
         return cartRepository.findByUserEntityId(userId)
-                .orElseThrow(() -> {
+                .orElseGet(() -> {
+                    UserEntity user = userRepository.findById(userId)
+                            .orElseThrow(() -> new UserNotFoundException("User not found with id " + userId));
                     Cart newCart = new Cart();
-                    return new CartNotFoundException("Корзина не найдена для пользователя с id " + userId);
+                    newCart.setUserEntity(user);
+                    cartRepository.save(newCart);
+                    return newCart;
                 });
+//        Long userId = userService.getCurrentUserId();
+//        log.info("Получаем корзину для текущего пользователя с ID: {}", userId);
+//        return cartRepository.findByUserEntityId(userId)
+//                .orElseThrow(() -> {
+//                    Cart newCart = new Cart();
+//                    return new CartNotFoundException("Корзина не найдена для пользователя с id " + userId);
+//                });
     }
 }
