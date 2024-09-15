@@ -13,6 +13,7 @@ import telran.org.de.scotlandyard.dto.orderdto.OrderDTO;
 import telran.org.de.scotlandyard.dto.orderdto.OrderStatusDto;
 import telran.org.de.scotlandyard.entity.Order;
 import telran.org.de.scotlandyard.service.CartService;
+import telran.org.de.scotlandyard.service.HistoryService;
 import telran.org.de.scotlandyard.service.OrderService;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderConverter orderConverter;
     private final CartService cartService;
+    private final HistoryService historyService;
 
     @Operation(summary = "Получить список всех заказов")
     @ApiResponses(value = {
@@ -101,6 +103,19 @@ public class OrderController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(orders);
+    }
+    @Operation(summary = "Получить историю заказов пользователя")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "История заказов успешно получена"),
+            @ApiResponse(responseCode = "404", description = "Заказы не найдены")
+    })
+    @GetMapping("/history/{userId}")
+    public ResponseEntity<?> getUserOrderHistory(@PathVariable Long userId) {
+        List<OrderDTO> orderHistory = historyService.getUserOrderHistory(userId);
+        if (orderHistory.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Заказы не найдены для данного пользователя");
+        }
+        return ResponseEntity.ok(orderHistory);
     }
 
 }
