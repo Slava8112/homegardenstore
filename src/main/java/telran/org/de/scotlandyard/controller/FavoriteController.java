@@ -41,12 +41,12 @@ public class FavoriteController {
         return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Получить избранный товар по ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Избранный товар успешно найден"),
-            @ApiResponse(responseCode = "404", description = "Избранный товар не найден")
-    })
-    @GetMapping("/{id}")
+//    @Operation(summary = "Получить избранный товар по ID")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Избранный товар успешно найден"),
+//            @ApiResponse(responseCode = "404", description = "Избранный товар не найден")
+//    })
+//    @GetMapping("/{id}")
     public ResponseEntity<FavoriteDto> getById(@PathVariable Long userEntityId) {
         Favorite favorite = (Favorite) favoriteService.getUsersFavoritesByUserId(userEntityId);
         return ResponseEntity.ok(converter.toDto(favorite));

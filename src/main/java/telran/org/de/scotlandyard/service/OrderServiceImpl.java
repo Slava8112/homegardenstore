@@ -45,6 +45,7 @@ public class OrderServiceImpl implements OrderService {
 
         // Переносим товары из корзины в заказ
         Set<CartItems> cartItems = cart.getCartItems();
+        cartService.getCurrentUserCart().getId();
         for (CartItems item : cartItems) {
             OrderItem orderItem = new OrderItem();
             orderItem.setProduct(item.getProduct());

@@ -99,12 +99,12 @@ public class ProductController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "Получение продукта по ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Продукт найден"),
-            @ApiResponse(responseCode = "404", description = "Продукт не найден")
-    })
-    @GetMapping("/{id}")
+//    @Operation(summary = "Получение продукта по ID")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Продукт найден"),
+//            @ApiResponse(responseCode = "404", description = "Продукт не найден")
+//    })
+//    @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getById(@PathVariable Long id) {
         Product product = productService.getById(id);
         ProductDto responseDto = converter.toDto(product);

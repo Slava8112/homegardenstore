@@ -84,7 +84,7 @@ public class OrderController {
 
         Order createdOrder = orderService.create(order);
 
-        cartService.clearCartForUser();
+        //cartService.clearCartForUser();
 
         return ResponseEntity.status(HttpStatus.CREATED).body(orderConverter.toDto(createdOrder));
     }

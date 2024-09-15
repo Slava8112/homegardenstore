@@ -31,12 +31,12 @@ public class CartItemController {
         return cartItemsService.getAll();
     }
 
-    @Operation(summary = "Добавить элемент в корзину")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Элемент успешно добавлен в корзину"),
-            @ApiResponse(responseCode = "400", description = "Некорректный запрос")
-    })
-    @PostMapping
+//    @Operation(summary = "Добавить элемент в корзину")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "201", description = "Элемент успешно добавлен в корзину"),
+//            @ApiResponse(responseCode = "400", description = "Некорректный запрос")
+//    })
+//    @PostMapping
     public ResponseEntity<CartItems> add(@RequestParam Long productsId,
                                          @RequestParam int quantity) {
         CartItems cartItem = cartItemsService.add(productsId, quantity);

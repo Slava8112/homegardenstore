@@ -34,12 +34,12 @@ public class CartController {
         return ResponseEntity.ok(cartDto);
     }
 
-    @Operation(summary = "Удаление корзины по ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Корзина успешно удалена"),
-            @ApiResponse(responseCode = "404", description = "Корзина не найдена")
-    })
-    @DeleteMapping("/{id}")
+//    @Operation(summary = "Удаление корзины по ID")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Корзина успешно удалена"),
+//            @ApiResponse(responseCode = "404", description = "Корзина не найдена")
+//    })
+//    @DeleteMapping("/{id}")
     public void deleteById(@PathVariable long id) {
         cartService.delete(id);
     }

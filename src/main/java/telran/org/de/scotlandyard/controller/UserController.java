@@ -37,13 +37,13 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
     private final Converter<UserEntity, UserDto, UserCreateDto> userConverter;
 
-    @Operation(summary = "Получение списка всех пользователей")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Список пользователей успешно получен"),
-            @ApiResponse(responseCode = "403", description = "Доступ запрещен"),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера")
-    })
-    @GetMapping
+//    @Operation(summary = "Получение списка всех пользователей")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Список пользователей успешно получен"),
+//            @ApiResponse(responseCode = "403", description = "Доступ запрещен"),
+//            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера")
+//    })
+//    @GetMapping
 //    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<UserDto>> getAll() {
         log.debug("Получение всех пользователей");
@@ -53,12 +53,12 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    @Operation(summary = "Получение пользователя по ID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Пользователь успешно найден"),
-            @ApiResponse(responseCode = "404", description = "Пользователь не найден")
-    })
-    @GetMapping("/{id}")
+//    @Operation(summary = "Получение пользователя по ID")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Пользователь успешно найден"),
+//            @ApiResponse(responseCode = "404", description = "Пользователь не найден")
+//    })
+//    @GetMapping("/{id}")
     public ResponseEntity<UserDto> getById(@PathVariable Long id) {
         UserEntity userEntity = userService.getById(id);
         return ResponseEntity.ok(userConverter.toDto(userEntity));
@@ -90,12 +90,12 @@ public class UserController {
         return ResponseEntity.ok(userConverter.toDto(updatedUser));
     }
 
-    @Operation(summary = "Поиск пользователя по email")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Пользователь успешно найден"),
-            @ApiResponse(responseCode = "404", description = "Пользователь не найден")
-    })
-    @GetMapping("/search")
+//    @Operation(summary = "Поиск пользователя по email")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Пользователь успешно найден"),
+//            @ApiResponse(responseCode = "404", description = "Пользователь не найден")
+//    })
+//    @GetMapping("/search")
     public ResponseEntity<UserDto> findByEmail(@RequestParam String email) {
         UserEntity userEntity = userService.findByEmail(email);
         return ResponseEntity.ok(userConverter.toDto(userEntity));
