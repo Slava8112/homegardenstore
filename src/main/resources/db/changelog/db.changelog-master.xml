@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="Vyacheslav">
+        <createTable tableName="user_entity">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="phone" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="role" type="VARCHAR(50)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="Vyacheslav">
+        <createTable tableName="categories">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="3" author="Vyacheslav">
+        <createTable tableName="products">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="price" type="DOUBLE"/>
+            <column name="image" type="VARCHAR(255)"/>
+            <column name="discountPrice" type="DOUBLE" defaultValueNumeric="0.0"/>
+            <column name="createdAt" type="DATETIME"/>
+            <column name="updatedAt" type="DATETIME"/>
+            <column name="category_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="products"
+                                 baseColumnNames="category_id"
+                                 constraintName="fk_products_category"
+                                 referencedTableName="categories"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="4" author="Vyacheslav">
+        <createTable tableName="carts">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_entity_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="carts"
+                                 baseColumnNames="user_entity_id"
+                                 constraintName="fk_carts_user_entity"
+                                 referencedTableName="user_entity"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="5" author="Vyacheslav">
+        <createTable tableName="cartitems">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="quantity" type="INT"/>
+            <column name="pricePurshause" type="DOUBLE"/>
+            <column name="productId" type="BIGINT"/>
+            <column name="cart_id" type="BIGINT"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="cartitems"
+                                 baseColumnNames="productId"
+                                 constraintName="fk_cartitems_product"
+                                 referencedTableName="products"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="cartitems"
+                                 baseColumnNames="cart_id"
+                                 constraintName="fk_cartitems_cart"
+                                 referencedTableName="carts"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="6" author="Vyacheslav">
+        <createTable tableName="favorites">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="productId" type="BIGINT"/>
+            <column name="userEntityId" type="BIGINT"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="favorites"
+                                 baseColumnNames="productId"
+                                 constraintName="fk_favorites_product"
+                                 referencedTableName="products"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="favorites"
+                                 baseColumnNames="userEntityId"
+                                 constraintName="fk_favorites_user_entity"
+                                 referencedTableName="user_entity"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="7" author="Vyacheslav">
+        <createTable tableName="orders">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="createdAT" type="DATETIME"/>
+            <column name="DeliveryAddress" type="VARCHAR(255)"/>
+            <column name="ContactPhone" type="VARCHAR(255)"/>
+            <column name="DeliveryMethod" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(50)"/>
+            <column name="updatedAT" type="DATETIME"/>
+            <column name="totalPrice" type="DOUBLE"/>
+            <column name="userEntityId" type="BIGINT"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="orders"
+                                 baseColumnNames="userEntityId"
+                                 constraintName="fk_orders_user_entity"
+                                 referencedTableName="user_entity"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="8" author="Vyacheslav">
+        <createTable tableName="orderitems">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="quantity" type="INT"/>
+            <column name="pricePurshause" type="DOUBLE"/>
+            <column name="orderId" type="BIGINT"/>
+            <column name="productId" type="BIGINT"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="orderitems"
+                                 baseColumnNames="orderId"
+                                 constraintName="fk_orderitems_order"
+                                 referencedTableName="orders"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="orderitems"
+                                 baseColumnNames="productId"
+                                 constraintName="fk_orderitems_product"
+                                 referencedTableName="products"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="9" author="Vyacheslav">
+        <createTable tableName="payments">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="orderId" type="BIGINT"/>
+            <column name="amount" type="DOUBLE"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
