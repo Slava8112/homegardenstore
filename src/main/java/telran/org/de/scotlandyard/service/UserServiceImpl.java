@@ -52,10 +52,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity edit(String email, UserCreateDto userDto) {
 
-        return userRepository.findByEmail(email).map(user -> {
-            user.setName(userDto.getName());
-            user.setPhone(userDto.getPhone());
-            return userRepository.save(user);
+        return userRepository.findByEmail(email).map(userEntity -> {
+            userEntity.setName(userDto.getName());
+            userEntity.setPhone(userDto.getPhone());
+            return userRepository.save(userEntity);
         }).orElseThrow(() -> {
             log.error("User with id {} not found for editing", email);
             return new UserNotFoundException("User with id " + email + " not found");

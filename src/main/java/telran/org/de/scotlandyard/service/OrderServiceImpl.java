@@ -1,3 +1,4 @@
+
 package telran.org.de.scotlandyard.service;
 
 import lombok.RequiredArgsConstructor;
@@ -29,13 +30,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order findById(Long id) {
-        //   .orElseThrow(() -> new OrderNotFoundException("No Order with id " + id));;
-        return orderRepository.findById(id).get();
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException("No Order with id " + id));
     }
 
     @Override
     public Order create(Order order) {
-
         Long userId = userService.getCurrentUserId();
         Cart cart = cartService.findByUserId(userId);
 
@@ -57,12 +57,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderStatusDto getStatus(long id) {
+    public OrderStatusDto getStatus(Long id) {
         return orderRepository.findById(id)
-                .map(order -> new OrderStatusDto(order.getId(),
-                        order.getStatus()))
-                .orElseThrow(() -> new OrderNotFoundException("Order with id "
-                        + id + " not found"));
+                .map(order -> new OrderStatusDto(order.getId(), order.getStatus()))
+                .orElseThrow(() -> new OrderNotFoundException("Order with id " + id + " not found"));
     }
 
     @Override
@@ -72,17 +70,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> getAllByCurrentUser() {
-//        String userEmail = null;
         String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-
         UserEntity userEntity = userService.findByEmail(userEmail);
-        List<Order> orders = orderRepository.findAllByUserEntity(userEntity);
-
-        return orders;
-    }
-
-    @Override
-    public OrderStatusDto getStatus(Long id) {
-        return OrderStatusDto;
+        return orderRepository.findAllByUserEntity(userEntity);
     }
 }

@@ -77,7 +77,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
-    @Operation(summary = "Регистрация нового пользователя")
+    @Operation(summary = "Редактирование профиля пользователя")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Пользователь успешно изменен"),
             @ApiResponse(responseCode = "400", description = "Некорректный запрос"),
@@ -89,7 +89,6 @@ public class UserController {
         UserEntity updatedUser = userService.edit(email, userCreateDto);
         return ResponseEntity.ok(userConverter.toDto(updatedUser));
     }
-
 
     @Operation(summary = "Поиск пользователя по email")
     @ApiResponses(value = {
@@ -105,6 +104,7 @@ public class UserController {
     @Operation(summary = "Удаление пользователя по email")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Пользователь успешно удален"),
+            @ApiResponse(responseCode = "403", description = "Доступ запрещен"),
             @ApiResponse(responseCode = "404", description = "Пользователь не найден")
     })
     @DeleteMapping

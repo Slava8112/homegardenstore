@@ -66,6 +66,11 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Получить статус заказа по ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Статус заказа успешно получен"),
+            @ApiResponse(responseCode = "404", description = "Заказ не найден")
+    })
     public ResponseEntity<OrderStatusDto> getStatus(@PathVariable Long id) {
 
         OrderStatusDto orderStatus = orderService.getStatus(id);
