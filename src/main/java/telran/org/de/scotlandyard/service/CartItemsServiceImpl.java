@@ -8,6 +8,7 @@ import telran.org.de.scotlandyard.dto.cartdto.CartCreateDto;
 import telran.org.de.scotlandyard.entity.Cart;
 import telran.org.de.scotlandyard.entity.CartItems;
 import telran.org.de.scotlandyard.entity.Product;
+import telran.org.de.scotlandyard.exception.EmptyCartException;
 import telran.org.de.scotlandyard.repository.CartItemsRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,14 @@ public class CartItemsServiceImpl implements CartItemsService {
 
     @Override
     public List<CartItems> getAll() {
-        return cartItemsRepository.findAll();
+        Long userId = userService.getCurrentUserId();
+        List<CartItems> cartItems = cartItemsRepository.findAllByCartUserEntityId(userId);
+
+        if (cartItems.isEmpty()) {
+            throw new EmptyCartException("Корзина пуста");
+        }
+
+        return cartItems;
     }
 
     @Override

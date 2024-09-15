@@ -22,7 +22,7 @@ public class CartItemController {
 
     private final CartItemsRepository cartItemsRepository;
 
-    @Operation(summary = "Получить список всех элементов корзины")
+    @Operation(summary = "Получить список всех элементов корзины текущего пользователя")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Успешное получение списка элементов корзины")
     })
