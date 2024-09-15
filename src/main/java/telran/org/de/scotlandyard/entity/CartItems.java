@@ -12,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 public class CartItems {
 
-    @Id()
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -20,16 +20,15 @@ public class CartItems {
 
     private double pricePurshause;
 
-
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "productId", referencedColumnName = "id")
-//    @JsonBackReference
+
     @ToString.Exclude
     private Product product;
 
     @ManyToOne
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
     @JsonBackReference
-//    @ToString.Exclude
+
     private Cart cart;
 }

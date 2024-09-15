@@ -6,4 +6,5 @@ import telran.org.de.scotlandyard.entity.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
+    //
 }

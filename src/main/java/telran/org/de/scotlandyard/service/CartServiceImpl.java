@@ -56,10 +56,10 @@ public class CartServiceImpl implements CartService {
         log.info("Корзина с ID: {} успешно обновлена и сохранена.", cart.getId());
 
         return cartRepository.save(cart);
-}
+    }
 
     private void updateLoadedCart(Cart cart, HashSet<CartItemCreateDto> cartItemCreateDtos) {
-        if(cart.getId() == null) {
+        if (cart.getId() == null) {
             cartRepository.save(cart);
         } else {
             cartItemCreateDtos.forEach(cartItemCreateDto -> {
@@ -75,19 +75,20 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-public void clearCartForUser() {
-    Long userId = userService.getCurrentUserId();
-    Cart cart = cartRepository.findByUserEntityId(userId)
-            .orElseThrow(() -> new CartNotFoundException("Cart not found for user with id " + userId));
+    public void clearCartForUser() {
+        Long userId = userService.getCurrentUserId();
+        Cart cart = cartRepository.findByUserEntityId(userId)
+                .orElseThrow(() -> new CartNotFoundException("Cart not found for user with id " + userId));
 
-    cartItemsRepository.deleteAllByCart(cart);
-}
+        cartItemsRepository.deleteAllByCart(cart);
+    }
 
-@Override
-public Cart findByUserId(Long userId) {
-    return cartRepository.findByUserEntityId(userId)
-            .orElseThrow(() -> new CartNotFoundException("Cart not found for user with id " + userId));
-}
+    @Override
+    public Cart findByUserId(Long userId) {
+        return cartRepository.findByUserEntityId(userId)
+                .orElseThrow(() -> new CartNotFoundException("Cart not found for user with id " + userId));
+    }
+
     @Override
     public Cart getCurrentUserCart() {
         Long userId = userService.getCurrentUserId();

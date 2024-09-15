@@ -13,7 +13,7 @@ import lombok.*;
 @ToString
 public class OrderItem {
 
-    @Id()
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

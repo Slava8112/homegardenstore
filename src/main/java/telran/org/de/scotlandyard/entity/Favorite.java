@@ -12,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 public class Favorite {
 
-    @Id()
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

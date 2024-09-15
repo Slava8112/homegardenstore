@@ -3,7 +3,9 @@ package telran.org.de.scotlandyard.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.util.Date;
+
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -46,10 +48,4 @@ public class Product {
         this.category = category;
         this.image = image;
     }
-//    @Column(name = "category_id", nullable = false)
-//    @Column(insertable=false, updatable=false)
-//    private Long categoryId;
-//    @ManyToOne(cascade = CascadeType.PERSIST)
-//    @JoinColumn(name = "category_id", referencedColumnName = "id")
-//    @JsonBackReference
 }

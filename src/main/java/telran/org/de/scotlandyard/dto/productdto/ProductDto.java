@@ -12,8 +12,8 @@ public record ProductDto(
         String image,
         Double discountPrice
 ) {
-    public ProductDto(String name, String description, double price,Long categoryId, String image) {
-        this(null, name, description, price,categoryId, image, null);
+    public ProductDto(String name, String description, double price, Long categoryId, String image) {
+        this(null, name, description, price, categoryId, image, null);
     }
 }
-        //this.categoryId = categoryId;
+

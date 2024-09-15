@@ -8,8 +8,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import telran.org.de.scotlandyard.dto.userdto.UserCreateDto;
 import telran.org.de.scotlandyard.entity.UserEntity;
 import telran.org.de.scotlandyard.exception.NoUniqueUserEmailException;
+import telran.org.de.scotlandyard.exception.UserNotFoundException;
 import telran.org.de.scotlandyard.repository.UserRepository;
 
 import java.util.List;
@@ -24,6 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserEntity> getAll() {
+
         log.debug("Retrieving all users");
         List<UserEntity> users = userRepository.findAll();
         log.debug("Retrieved {} users", users.size());
@@ -32,13 +35,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity getById(Long id) {
+
         return userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     @Override
     public UserEntity create(UserEntity userEntity) {
-        // Проверка на существование пользователя с таким же email
+
         if (userRepository.findByEmail(userEntity.getEmail()).isPresent()) {
             throw new NoUniqueUserEmailException("Пользователь с таким email уже существует: " + userEntity.getEmail());
         }
@@ -46,21 +50,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserEntity edit(String email, UserCreateDto userDto) {
+
+        return userRepository.findByEmail(email).map(userEntity -> {
+            userEntity.setName(userDto.getName());
+            userEntity.setPhone(userDto.getPhone());
+            return userRepository.save(userEntity);
+        }).orElseThrow(() -> {
+            log.error("User with id {} not found for editing", email);
+            return new UserNotFoundException("User with id " + email + " not found");
+        });
+    }
+
+    @Override
     public UserEntity findByEmail(String email) {
+
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User with email " + email + " not found"));
     }
 
     @Override
     public void deleteByEmail(String email) {
+
         UserEntity userEntity = findByEmail(email);
         userRepository.delete(userEntity);
     }
 
 
-
     @Override
     public Long getCurrentUserId() {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new SecurityException("User is not authenticated");

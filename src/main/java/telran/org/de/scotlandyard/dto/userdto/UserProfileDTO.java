@@ -9,11 +9,11 @@ public class UserProfileDTO {
     private String name;
     private String phone;
 
-    public UserProfileDTO() {}
+    public UserProfileDTO() {
+    }
 
     public UserProfileDTO(String name, String phone) {
         this.name = name;
         this.phone = phone;
     }
-
 }

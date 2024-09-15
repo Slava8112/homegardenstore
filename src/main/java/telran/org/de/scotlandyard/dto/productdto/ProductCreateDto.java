@@ -11,7 +11,7 @@ public class ProductCreateDto {
     private String name;
     private String description;
     private double price;
-    private Long categoryId; // связывания с категорией,надо проверить
+    private Long categoryId;
     private String image;
 
     public ProductCreateDto(String name, String description, double price, String image) {
@@ -22,5 +22,4 @@ public class ProductCreateDto {
     }
 }
 
-//        this.categoryId = categoryId;
 

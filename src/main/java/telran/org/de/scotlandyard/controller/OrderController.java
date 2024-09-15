@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import telran.org.de.scotlandyard.converter.OrderConverter;
 import telran.org.de.scotlandyard.dto.orderdto.OrderCreateDto;
 import telran.org.de.scotlandyard.dto.orderdto.OrderDTO;
+import telran.org.de.scotlandyard.dto.orderdto.OrderStatusDto;
 import telran.org.de.scotlandyard.entity.Order;
 import telran.org.de.scotlandyard.service.CartService;
 import telran.org.de.scotlandyard.service.OrderService;
@@ -25,7 +26,6 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderConverter orderConverter;
     private final CartService cartService;
-    //private final OrderItemsController orderItemsController;
 
     @Operation(summary = "Получить список всех заказов")
     @ApiResponses(value = {
@@ -65,6 +65,18 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(orderConverter.toDto(createdOrder));
     }
 
+    @GetMapping("/{id}")
+    @Operation(summary = "Получить статус заказа по ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Статус заказа успешно получен"),
+            @ApiResponse(responseCode = "404", description = "Заказ не найден")
+    })
+    public ResponseEntity<OrderStatusDto> getStatus(@PathVariable Long id) {
+
+        OrderStatusDto orderStatus = orderService.getStatus(id);
+        return ResponseEntity.ok(orderStatus);
+    }
+
     @Operation(summary = "Удалить заказ по ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Заказ успешно удален"),
@@ -84,7 +96,7 @@ public class OrderController {
     @GetMapping("/order_by_current_user")
     public ResponseEntity<List<OrderDTO>> listByCurrientUser() {
 
-       List<OrderDTO> orders = orderService.getAllByCurrentUser().stream()
+        List<OrderDTO> orders = orderService.getAllByCurrentUser().stream()
                 .map(orderConverter::toDto)
                 .collect(Collectors.toList());
 

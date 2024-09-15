@@ -21,11 +21,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Category createCategory(Category category) {
+
         Category unit = categoryRepository.save(category);
         log.debug("New category was created {}", unit);
         return unit;
     }
-
 
     @Override
     public List<Category> getAll() {
@@ -42,15 +42,17 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void delete(Long categoryId) {
-//        Category unit = findById(categoryId);
-        if (!categoryRepository.existsById(categoryId)){
+
+        if (!categoryRepository.existsById(categoryId)) {
             throw new CategoryInvalidArgumentException("The category is absent");
         }
         categoryRepository.deleteById(categoryId);
 
     }
+
     @Override
     public Category updateCategory(Long categoryId, Category category) {
+
         Category existingCategory = findById(categoryId);
         existingCategory.setName(category.getName());
         Category updatedCategory = categoryRepository.save(existingCategory);

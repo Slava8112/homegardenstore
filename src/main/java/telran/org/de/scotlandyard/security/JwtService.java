@@ -62,6 +62,7 @@ public class JwtService {
                 .setSigningKey(secretSigningKey)
                 .build().parseSignedClaims(token).getPayload();
     }
+
     private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder()
                 .claims()

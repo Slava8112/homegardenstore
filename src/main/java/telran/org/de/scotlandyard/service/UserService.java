@@ -1,5 +1,6 @@
 package telran.org.de.scotlandyard.service;
 
+import telran.org.de.scotlandyard.dto.userdto.UserCreateDto;
 import telran.org.de.scotlandyard.entity.UserEntity;
 
 import java.util.List;
@@ -18,7 +19,5 @@ public interface UserService {
 
     UserEntity create(UserEntity userEntity);
 
-//    UserEntity getCurrentUser();
-
-
+    UserEntity edit(String email, UserCreateDto userDto);
 }

@@ -3,7 +3,6 @@ package telran.org.de.scotlandyard.service;
 import telran.org.de.scotlandyard.entity.Favorite;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface FavoriteService {
 

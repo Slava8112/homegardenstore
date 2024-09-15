@@ -28,11 +28,10 @@ public class CartController {
             @ApiResponse(responseCode = "400", description = "Некорректные данные")
     })
     @PostMapping
-    public ResponseEntity<CartDto> createCart(@RequestBody CartCreateDto cartCreateDto){
-       Cart newCart = cartService.create(cartCreateDto);
+    public ResponseEntity<CartDto> createCart(@RequestBody CartCreateDto cartCreateDto) {
+        Cart newCart = cartService.create(cartCreateDto);
         CartDto cartDto = converter.toDto(newCart);
         return ResponseEntity.ok(cartDto);
-
     }
 
     @Operation(summary = "Удаление корзины по ID")

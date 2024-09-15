@@ -12,9 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderItemsController {
 
-
     private final OrderItemService orderItemService;
-
 
     @GetMapping
     public List<OrderItem> list() {
