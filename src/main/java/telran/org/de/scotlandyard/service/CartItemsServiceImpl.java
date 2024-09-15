@@ -9,6 +9,7 @@ import telran.org.de.scotlandyard.entity.Cart;
 import telran.org.de.scotlandyard.entity.CartItems;
 import telran.org.de.scotlandyard.entity.Product;
 import telran.org.de.scotlandyard.repository.CartItemsRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -29,6 +30,7 @@ public class CartItemsServiceImpl implements CartItemsService {
     }
 
     @Override
+    @Transactional
     public CartItems add(Long productId, int quantity) {
         Product product = productService.getById(productId);
         log.info("Добавление продукта с ID: {} в корзину, количество: {}", productId, quantity);
@@ -39,25 +41,34 @@ public class CartItemsServiceImpl implements CartItemsService {
             log.info("Корзина не найдена для пользователя с ID: {}. Создаем новую корзину.", userId);
             CartCreateDto cartCreateDto = new CartCreateDto(userId, new HashSet<>());
             cart = cartService.create(cartCreateDto);
-
             log.info("Создана новая корзина с ID: {} для пользователя с ID: {}", cart.getId(), userId);
         } else {
             log.info("Корзина с ID: {} найдена для пользователя с ID: {}", cart.getId(), cart.getUserEntity().getId());
         }
 
+        CartItems existingCartItem = cart.getCartItems().stream()
+                .filter(item -> item.getProduct().getId().equals(productId))
+                .findFirst()
+                .orElse(null);
+
+        if (existingCartItem != null) {
+            int newQuantity = existingCartItem.getQuantity() + quantity;
+            existingCartItem.setQuantity(newQuantity);
+            existingCartItem.setPricePurshause(existingCartItem.getProduct().getPrice() * newQuantity);
+            return cartItemsRepository.save(existingCartItem);
+        }
+
         CartItems cartItems = new CartItems();
         cartItems.setProduct(product);
         cartItems.setQuantity(quantity);
-
-        double pricePurshause = product.getPrice() * quantity;
-        cartItems.setPricePurshause(pricePurshause);
-
+        cartItems.setPricePurshause(product.getPrice() * quantity);
         cartItems.setCart(cart);
-
-        log.info("Добавление товара в корзину. Продукт: {}, Количество: {}, Цена: {}", product.getName(), quantity, pricePurshause);
-        return cartItemsRepository.save(cartItems);
+//        double pricePurshause = product.getPrice() * quantity;
+        log.info("Добавление товара в корзину. Продукт: {}, Количество: {}, Цена: {}", product.getName(), quantity, product.getPrice() * quantity);
+        cart.getCartItems().add(cartItems);
+        cartItemsRepository.save(cartItems);
+        return cartItems;
     }
-
     @Override
     public void deleteById(Long cartitemsId) {
         cartItemsRepository.deleteById(cartitemsId);

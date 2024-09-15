@@ -79,9 +79,12 @@ public class CartServiceImpl implements CartService {
     public void clearCartForUser() {
         Long userId = userService.getCurrentUserId();
         Cart cart = cartRepository.findByUserEntityId(userId)
-                .orElseThrow(() -> new CartNotFoundException("Cart not found for user with id " + userId));
+                .orElseThrow(() -> new CartNotFoundException("Корзина не найдена для пользователя с id " + userId));
 
+        cart.getCartItems().clear();
+        cartRepository.save(cart);
         cartItemsRepository.deleteAllByCart(cart);
+        log.info("Корзина с ID: {} очищена.", cart.getId());
     }
 
     @Override
@@ -103,12 +106,5 @@ public class CartServiceImpl implements CartService {
                     cartRepository.save(newCart);
                     return newCart;
                 });
-//        Long userId = userService.getCurrentUserId();
-//        log.info("Получаем корзину для текущего пользователя с ID: {}", userId);
-//        return cartRepository.findByUserEntityId(userId)
-//                .orElseThrow(() -> {
-//                    Cart newCart = new Cart();
-//                    return new CartNotFoundException("Корзина не найдена для пользователя с id " + userId);
-//                });
     }
 }

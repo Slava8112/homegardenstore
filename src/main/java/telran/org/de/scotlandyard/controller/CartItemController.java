@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import telran.org.de.scotlandyard.entity.CartItems;
 import telran.org.de.scotlandyard.repository.CartItemsRepository;
@@ -34,10 +36,11 @@ public class CartItemController {
             @ApiResponse(responseCode = "201", description = "Элемент успешно добавлен в корзину"),
             @ApiResponse(responseCode = "400", description = "Некорректный запрос")
     })
-    @PostMapping("/id")
-    public CartItems add(@RequestParam Long productsId,
-                         @RequestParam int quantity) {
-        return cartItemsService.add(productsId, quantity);
+    @PostMapping
+    public ResponseEntity<CartItems> add(@RequestParam Long productsId,
+                                         @RequestParam int quantity) {
+        CartItems cartItem = cartItemsService.add(productsId, quantity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(cartItem);
     }
 
     @Operation(summary = "Удалить элемент корзины по ID")
