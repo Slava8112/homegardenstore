@@ -12,8 +12,6 @@ import telran.org.de.scotlandyard.entity.UserEntity;
 import telran.org.de.scotlandyard.exception.OrderNotFoundException;
 import telran.org.de.scotlandyard.model.Status;
 import telran.org.de.scotlandyard.dto.orderdto.OrderStatusDto;
-import telran.org.de.scotlandyard.entity.*;
-import telran.org.de.scotlandyard.exception.OrderNotFoundException;
 import telran.org.de.scotlandyard.repository.OrderRepository;
 import telran.org.de.scotlandyard.entity.Cart;
 

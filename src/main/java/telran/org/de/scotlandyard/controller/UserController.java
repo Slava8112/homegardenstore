@@ -83,7 +83,7 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "Некорректный запрос"),
             @ApiResponse(responseCode = "404", description = "Пользователь не найден")
     })
-    @PutMapping("/{id}")
+    @PutMapping("/{email}")
     public ResponseEntity<UserDto> edit(@PathVariable String email, @Valid @RequestBody UserCreateDto userCreateDto) {
         log.debug("Attempting to edit user with ID: {}", email);
         UserEntity updatedUser = userService.edit(email, userCreateDto);
