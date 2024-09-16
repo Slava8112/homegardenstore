@@ -36,9 +36,9 @@
             <column name="description" type="VARCHAR(255)"/>
             <column name="price" type="DOUBLE"/>
             <column name="image" type="VARCHAR(255)"/>
-            <column name="discountPrice" type="DOUBLE" defaultValueNumeric="0.0"/>
-            <column name="createdAt" type="DATETIME"/>
-            <column name="updatedAt" type="DATETIME"/>
+            <column name="discount_price" type="DOUBLE" defaultValueNumeric="0.0"/>
+            <column name="created_at" type="DATETIME"/>
+            <column name="updated_at" type="DATETIME"/>
             <column name="category_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
@@ -72,12 +72,12 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="quantity" type="INT"/>
-            <column name="pricePurshause" type="DOUBLE"/>
-            <column name="productId" type="BIGINT"/>
+            <column name="price_purshause" type="DOUBLE"/>
+            <column name="product_id" type="BIGINT"/>
             <column name="cart_id" type="BIGINT"/>
         </createTable>
         <addForeignKeyConstraint baseTableName="cartitems"
-                                 baseColumnNames="productId"
+                                 baseColumnNames="product_id"
                                  constraintName="fk_cartitems_product"
                                  referencedTableName="products"
                                  referencedColumnNames="id"/>
@@ -93,16 +93,16 @@
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="productId" type="BIGINT"/>
-            <column name="userEntityId" type="BIGINT"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="user_entity_id" type="BIGINT"/>
         </createTable>
         <addForeignKeyConstraint baseTableName="favorites"
-                                 baseColumnNames="productId"
+                                 baseColumnNames="product_id"
                                  constraintName="fk_favorites_product"
                                  referencedTableName="products"
                                  referencedColumnNames="id"/>
         <addForeignKeyConstraint baseTableName="favorites"
-                                 baseColumnNames="userEntityId"
+                                 baseColumnNames="user_entity_id"
                                  constraintName="fk_favorites_user_entity"
                                  referencedTableName="user_entity"
                                  referencedColumnNames="id"/>
@@ -114,9 +114,9 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="createdAT" type="DATETIME"/>
-            <column name="DeliveryAddress" type="VARCHAR(255)"/>
-            <column name="ContactPhone" type="VARCHAR(255)"/>
-            <column name="DeliveryMethod" type="VARCHAR(255)"/>
+            <column name="delivery_address" type="VARCHAR(255)"/>
+            <column name="contact_phone" type="VARCHAR(255)"/>
+            <column name="delivery_method" type="VARCHAR(255)"/>
             <column name="status" type="VARCHAR(50)"/>
             <column name="updatedAT" type="DATETIME"/>
             <column name="totalPrice" type="DOUBLE"/>
@@ -135,17 +135,17 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="quantity" type="INT"/>
-            <column name="pricePurshause" type="DOUBLE"/>
-            <column name="orderId" type="BIGINT"/>
-            <column name="productId" type="BIGINT"/>
+            <column name="price_purshause" type="DOUBLE"/>
+            <column name="order_id" type="BIGINT"/>
+            <column name="product_id" type="BIGINT"/>
         </createTable>
         <addForeignKeyConstraint baseTableName="orderitems"
-                                 baseColumnNames="orderId"
+                                 baseColumnNames="order_id"
                                  constraintName="fk_orderitems_order"
                                  referencedTableName="orders"
                                  referencedColumnNames="id"/>
         <addForeignKeyConstraint baseTableName="orderitems"
-                                 baseColumnNames="productId"
+                                 baseColumnNames="product_id"
                                  constraintName="fk_orderitems_product"
                                  referencedTableName="products"
                                  referencedColumnNames="id"/>
@@ -156,7 +156,7 @@
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="orderId" type="BIGINT"/>
+            <column name="order_id" type="BIGINT"/>
             <column name="amount" type="DOUBLE"/>
         </createTable>
     </changeSet>
